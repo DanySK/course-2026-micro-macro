@@ -1,8 +1,8 @@
 
 +++
 
-title = "Guide for writing markdown slides"
-description = "A Hugo theme for creating Reveal.js presentations"
+title = "MICRO-MACRO COMPUTATIONAL MODELS: THEORY, APPLICATIONS AND EMERGENT PROPERTIES"
+description = "Module 2"
 outputs = ["Reveal"]
 aliases = [
     "/guide/"
@@ -11,7 +11,10 @@ aliases = [
 +++
 
 
-# Short guide to Markdown slides
+# MICRO-MACRO COMPUTATIONAL MODELS: THEORY, APPLICATIONS AND EMERGENT PROPERTIES
+## Module 2
+
+## [Danilo Pianini](mailto:danilo.pianini@unibo.it) - {{% today %}}
 
 ---
 
