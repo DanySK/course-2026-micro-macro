@@ -18,6 +18,71 @@ aliases = [
 
 ---
 
+## Module overview
+* TBD
+
+---
+
+# Part 1: Nature-inspired systems and emergence
+
+---
+
+**Time budget (120’)**
+
+* 10’ Context: large-scale open systems, no central coordinator; link to Module 1 ABM/emergence
+* 15’ Engineering problem: Collective Adaptive Systems (CAS) and why classic centralized techniques fail
+* 15’ Nature inspiration (general): gecko-inspired dry adhesion; Shinkansen nose design (what “bio-inspired” means in engineering)
+* 20’ Nature inspiration for CAS: local rules → macro patterns; feedback loops; robustness/adaptability
+* 15’ Ants maze example: mechanism, what is measured, what emerges
+* 40’ NetLogo hands-on: 2–3 standard models (guided exploration + short “what-if” variations)
+* 5’ Wrap-up: takeaways + what we need simulation for (hook to Lecture 2)
+
+---
+
+### Lecture 2 (2h) — Simulation paradigms and modeling choices
+
+**Time budget (120’)**
+
+* 10’ Why simulation for CAS: testing hypotheses, safety, scalability; recap from Lecture 1
+* 25’ Simulation semantics: discrete vs continuous time; time-driven vs event-driven; synchronous vs asynchronous; stochasticity/reproducibility
+* 15’ Monte Carlo framing: simulation as one run inside an exploration/estimation pipeline (parameter sweeps, uncertainty, confidence)
+* 20’ Alchemist positioning: why it as reference simulator; conceptual model (nodes, environment, reactions, time)
+* 20’ Deploying devices + configuring connections: neighborhoods, network models, dynamics
+* 20’ Environments: obstacles/maps; loading spatial data; effects on connectivity and behavior
+* 10’ Wrap-up: typical modeling pitfalls + what will be built next (hook to Lecture 3)
+
+---
+
+### Lecture 3 (2h) — Bottom-up emergence and its limitations
+
+**Time budget (120’)**
+
+* 10’ Goal and framing: bottom-up emergence as an engineering technique; where it breaks
+* 20’ Coordination as a first-class tool: interaction through shared abstractions vs direct messaging
+* 20’ Tuple spaces / computing in the medium: intuition + compositionality via multiple spaces/centers
+* 25’ Worked example: distributed dodgeball (or equivalent) as a bottom-up emergent system
+* 20’ Distributed information spreading: gradient as a recurring “macro pattern”
+* 15’ Slow-rising problem (Beal): why it happens; bottom-up fixes/patches
+* 10’ Limits: reusability/modularity issues; transition motivation to aggregate computing (hook to Lecture 4)
+
+---
+
+### Lecture 4 (2h) — Engineering emergence with aggregate computing
+
+**Time budget (120’)**
+
+* 10’ Motivation: higher abstraction, modular reuse of collective behavior; contrast with Lecture 3 limits
+* 15’ Core idea: fields over space/time; language-based approach to collective behavior
+* 15’ Core constructs: neighboring, evolution, domain segmentation (what each enables)
+* 10’ Core semantics: exchange vs share (why this matters for reasoning and composition)
+* 10’ Short history: aggregate programming languages (positioning, not a survey)
+* 25’ Collektive model + building blocks: gradient, collection, leader election (concept + how you use them)
+* 20’ Patterns: gradient, channel, network centre, bull’s eye (guided mini-designs / mapping to blocks)
+* 15’ Advanced examples: VMC, Kiel channel, robot coordination; synthesis and closure
+
+
+---
+
 # Headers
 
 # H1
