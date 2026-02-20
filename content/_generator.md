@@ -29,13 +29,267 @@ aliases = [
 
 **Time budget (120’)**
 
-* 10’ Context: large-scale open systems, no central coordinator; link to Module 1 ABM/emergence
+* 10’ Context: large-scale open systems, no central coordinator
 * 15’ Engineering problem: Collective Adaptive Systems (CAS) and why classic centralized techniques fail
 * 15’ Nature inspiration (general): gecko-inspired dry adhesion; Shinkansen nose design (what “bio-inspired” means in engineering)
 * 20’ Nature inspiration for CAS: local rules → macro patterns; feedback loops; robustness/adaptability
 * 15’ Ants maze example: mechanism, what is measured, what emerges
 * 40’ NetLogo hands-on: 2–3 standard models (guided exploration + short “what-if” variations)
 * 5’ Wrap-up: takeaways + what we need simulation for (hook to Lecture 2)
+
+---
+
+{{< slide background-image="img/monza.png" >}}
+
+---
+
+<video width="120%" height="120%" autoplay controls loop><source data-src="https://danysk.github.io/Slides-2019-OYM/video/stampede.mp4" type="video/webm" /></video>
+
+---
+
+## Context: large-scale open systems
+
+Typical setting:
+- Networked systems with many participants
+- Heterogeneous devices (capabilities, energy, sensors/actuators)
+- Partial knowledge, unreliable communication
+- Dynamic topology (mobility, churn)
+- Situatedness: space and time matter
+- No stable coordinator
+
+---
+
+## Engineering problem: Collective Adaptive Systems (CASs)
+
+We want systems that are:
+- Distributed and scalable
+- Adaptive to changes (environment, participants, goals)
+- Robust to failures and uncertainty
+- Maintainable and evolvable over time
+
+Key question:
+> How do we engineer global behavior from local components?
+
+---
+
+## The “obvious” approach: centralize
+
+Pipeline:
+1. Gather data to a central point
+2. Compute decisions centrally
+3. Push actions back to devices
+
+Typical issues:
+- Single point of failure
+- Scalability bottleneck
+- High latency (worse at high density)
+- Privacy and governance concerns
+- Inefficient use of network/computation at the edge
+
+---
+
+## So… decentralize?
+
+{{% multicol %}}
+{{% col %}}
+* No single coordinator
+* Local interactions only
+* No global state
+* No single control loop
+* Local interactions must produce coherent global behavior
+
+> How do we design these systems reliably?
+
+{{% /col %}}
+{{% col %}}
+<video width="50%" height="100%" autoplay controls loop><source data-src="video/mantis-hornet.mp4" type="video/webm" /></video>
+{{% /col %}}
+{{% /multicol %}}
+
+---
+
+## What “no coordinator” implies
+
+Constraints that shape the engineering:
+- No global state
+- No single control loop
+- Local interactions only (limited range, limited bandwidth)
+- Faults are normal (dropouts, delays, partitions)
+- The system must still behave coherently at the macro level
+
+---
+
+## Nature inspiration (general)
+
+Bio-inspired design as engineering transfer:
+- Identify a function that nature performs well
+- Abstract the mechanism (not the biological details)
+- Re-implement under engineering constraints
+- Validate against measurable requirements
+
+---
+
+{{< slide background-image="https://danysk.github.io/Slides-2019-OYM/img/spider-man.jpg" >}}
+
+---
+
+{{< slide background-image="https://upload.wikimedia.org/wikipedia/commons/1/1b/Gecko_leopard.jpg" >}}
+
+
+---
+
+{{< youtube id="uEYcY7WfDTY?start=7">}}
+
+---
+
+{{< youtube id="uhfXbSSrabw" autostart="true">}}
+
+---
+
+## Gecko-inspired dry adhesion
+
+{{% multicol %}}
+{{% col %}}
+![Gecko Pad design](https://danysk.github.io/Slides-2019-OYM/img/geckopad.jpg)
+
+- Function-driven design (adhesion without glue)
+- Mechanism abstraction (micro-/nano-structures to increase contact)
+- Engineering outcome (reusable, scalable dry adhesives)
+{{% /col %}}
+{{% col %}}
+
+![Gecko Pad design](https://danysk.github.io/Slides-2019-OYM/img/biomimicry-gecko-climging-pads.jpg)
+{{% /col %}}
+{{% /multicol %}}
+
+---
+
+{{< slide background-image="https://danysk.github.io/Slides-2019-OYM/img/500nozomi.jpg" >}}
+
+---
+
+## Shinkansen series 500
+
+- Tunnel boom: sonic boom-like noise when exiting tunnels at high speed
+- Caused by buildup and rapid release of pressure waves
+- Constraints: need to maintain high speed and passenger comfort
+
+> What can we learn from nature to solve this?
+
+---
+
+{{< slide background-image="https://upload.wikimedia.org/wikipedia/commons/2/29/Common_kingfisher_in_flight.jpg" >}}
+
+---
+
+{{< youtube id="veQ2ilQrzMU?start=20">}}
+
+---
+
+{{< slide background-image="https://danysk.github.io/Slides-2019-OYM/img/700series.jpg" >}}
+
+---
+
+## Shinkansen series 700
+
+- Solution: geometry inspired by kingfisher beak
+- Outcome: reduced noise, improved aerodynamics
+
+---
+
+{{< slide background-image="img/leaf-background.jpg" >}}
+
+## Nature inspiration for CAS
+
+We look for mechanisms that work under:
+
+* {{< frag c="No leader" >}}
+* {{< frag c="Local sensing + local communication" >}}
+* {{< frag c="Stochasticity and uncertainty" >}}
+* {{< frag c="Need for robustness and adaptation" >}}
+
+Key idea:
+<p>{{< frag c="Local rules + feedback loops → macroscopic patterns" >}}</p>
+
+---
+
+{{< slide background-image="img/leaf-background.jpg" >}}
+
+<div id="div1" style="width: 50%; height: 50%; float: left; overflow: hidden;">
+  <img src="img/ants.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+</div>
+<div class="fragment" id="div2" style="width: 50%; height: 50%; float: left; overflow: hidden;">
+  <img src="img/termites.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+</div>
+<div class="fragment" id="div3" style="width: 50%; height: 50%; float: left; overflow: hidden;">
+  <img src="img/firefly.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+</div>
+<div class="fragment" id="div4" style="width: 50%; height: 50%; float: left; overflow: hidden;">
+  <img src="img/ecosystem.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+</div>
+
+---
+
+{{< slide background-image="img/leaf-background.jpg" >}}
+
+## What we want from engineered emergence
+
+We cannot renounce:
+
+* {{< frag c="Top-down design goals" >}}
+* {{< frag c="Modularity and composability" >}}
+* {{< frag c="Reusability across scenarios" >}}
+* {{< frag c="Scalability and maintainability" >}}
+
+---
+
+{{< slide background-image="img/leaf-background.jpg" >}}
+
+## Ants maze example: mechanism
+
+* {{< frag c="Agents explore with limited local information" >}}
+* {{< frag c="Food discovery triggers pheromone deposition" >}}
+* {{< frag c="Pheromone evaporates (forgetting)" >}}
+* {{< frag c="Other agents bias motion toward stronger trails" >}}
+* {{< frag c="Maze constraints shape paths and competition" >}}
+
+---
+
+{{< slide background-image="img/leaf-background.jpg" >}}
+
+## Ants maze example: what we measure
+
+Examples of observables:
+
+* {{< frag c="Time-to-first-path (discovery)" >}}
+* {{< frag c="Path efficiency (length / optimality)" >}}
+* {{< frag c="Convergence to a dominant trail" >}}
+* {{< frag c="Robustness to perturbations (obstacles, evaporation rate)" >}}
+* {{< frag c="Load balancing vs herding effects" >}}
+
+---
+
+{{< slide background-image="img/leaf-background.jpg" >}}
+
+## Ants maze example: what emerges
+
+From local rules:
+
+* {{< frag c="Trail formation" >}}
+* {{< frag c="Shortest/fastest path selection (under conditions)" >}}
+* {{< frag c="Adaptation when the environment changes" >}}
+* {{< frag c="Trade-off: exploitation vs exploration" >}}
+
+---
+
+{{< slide background-image="img/leaf-background.jpg" >}}
+
+## (Optional) Quick demo hook
+
+<iframe
+src="https://www.netlogoweb.org/launch#https://www.netlogoweb.org/assets/modelslib/Sample%20Models/Biology/Ants.nlogo"
+style="position: relative; top: 0; left: 0; width: 100%; height: 14em;">
+</iframe>
 
 ---
 
