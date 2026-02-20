@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/course-2026-micro-macro/reveal-js/dist/reset.css">
 <link rel="stylesheet" href="/course-2026-micro-macro/reveal-js/dist/reveal.css">
-  <link rel="stylesheet" href="/course-2026-micro-macro/css/custom-theme.min.d6f4b7d62b38ba3b2c6877288aadb741a9771f320d62b44e1ad6bf9b53de025d.css" id="theme"><link rel="stylesheet" href="/course-2026-micro-macro/highlight-js/solarized-dark.min.css">
+  <link rel="stylesheet" href="/course-2026-micro-macro/css/custom-theme.min.1a8949c99ac1f84052540d1d5053257d2704df14e5a5bf72c45074b1777e9aa0.css" id="theme"><link rel="stylesheet" href="/course-2026-micro-macro/highlight-js/solarized-dark.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
@@ -27,7 +27,7 @@
 
     <section><h1 id="micro-macro-computational-models-theory-applications-and-emergent-properties">MICRO-MACRO COMPUTATIONAL MODELS: THEORY, APPLICATIONS AND EMERGENT PROPERTIES</h1>
 <h2 id="module-2">Module 2</h2>
-<h2 id="danilo-pianini---2026-02-19"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini</a> - 2026-02-19</h2>
+<h2 id="danilo-pianini---2026-02-20"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini</a> - 2026-02-20</h2>
 </section><section>
 <h2 id="module-overview">Module overview</h2>
 <ul>
@@ -38,7 +38,7 @@
 </section><section>
 <p><strong>Time budget (120’)</strong></p>
 <ul>
-<li>10’ Context: large-scale open systems, no central coordinator; link to Module 1 ABM/emergence</li>
+<li>10’ Context: large-scale open systems, no central coordinator</li>
 <li>15’ Engineering problem: Collective Adaptive Systems (CAS) and why classic centralized techniques fail</li>
 <li>15’ Nature inspiration (general): gecko-inspired dry adhesion; Shinkansen nose design (what “bio-inspired” means in engineering)</li>
 <li>20’ Nature inspiration for CAS: local rules → macro patterns; feedback loops; robustness/adaptability</li>
@@ -46,6 +46,242 @@
 <li>40’ NetLogo hands-on: 2–3 standard models (guided exploration + short “what-if” variations)</li>
 <li>5’ Wrap-up: takeaways + what we need simulation for (hook to Lecture 2)</li>
 </ul>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/course-2026-micro-macro/img/monza.png">
+  
+</section><section>
+<p><video width="120%" height="120%" autoplay="" controls="" loop=""><source data-src="https://danysk.github.io/Slides-2019-OYM/video/stampede.mp4" type="video/webm"></video></p>
+</section><section>
+<h2 id="context-large-scale-open-systems">Context: large-scale open systems</h2>
+<p>Typical setting:</p>
+<ul>
+<li>Networked systems with many participants</li>
+<li>Heterogeneous devices (capabilities, energy, sensors/actuators)</li>
+<li>Partial knowledge, unreliable communication</li>
+<li>Dynamic topology (mobility, churn)</li>
+<li>Situatedness: space and time matter</li>
+<li>No stable coordinator</li>
+</ul>
+</section><section>
+<h2 id="engineering-problem-collective-adaptive-systems-cass">Engineering problem: Collective Adaptive Systems (CASs)</h2>
+<p>We want systems that are:</p>
+<ul>
+<li>Distributed and scalable</li>
+<li>Adaptive to changes (environment, participants, goals)</li>
+<li>Robust to failures and uncertainty</li>
+<li>Maintainable and evolvable over time</li>
+</ul>
+<p>Key question:</p>
+<blockquote>
+<p>How do we engineer global behavior from local components?</p>
+</blockquote>
+</section><section>
+<h2 id="the-obvious-approach-centralize">The “obvious” approach: centralize</h2>
+<p>Pipeline:</p>
+<ol>
+<li>Gather data to a central point</li>
+<li>Compute decisions centrally</li>
+<li>Push actions back to devices</li>
+</ol>
+<p>Typical issues:</p>
+<ul>
+<li>Single point of failure</li>
+<li>Scalability bottleneck</li>
+<li>High latency (worse at high density)</li>
+<li>Privacy and governance concerns</li>
+<li>Inefficient use of network/computation at the edge</li>
+</ul>
+</section><section>
+<h2 id="so-decentralize">So… decentralize?</h2>
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><ul>
+<li>No single coordinator</li>
+<li>Local interactions only</li>
+<li>No global state</li>
+<li>No single control loop</li>
+<li>Local interactions must produce coherent global behavior</li>
+</ul>
+<blockquote>
+<p>How do we design these systems reliably?</p>
+</blockquote>
+</div>
+<div class="col "><p><video width="50%" height="100%" autoplay="" controls="" loop=""><source data-src="video/mantis-hornet.mp4" type="video/webm"></video></p>
+</div>
+</div>
+</div>
+</section><section>
+<h2 id="what-no-coordinator-implies">What “no coordinator” implies</h2>
+<p>Constraints that shape the engineering:</p>
+<ul>
+<li>No global state</li>
+<li>No single control loop</li>
+<li>Local interactions only (limited range, limited bandwidth)</li>
+<li>Faults are normal (dropouts, delays, partitions)</li>
+<li>The system must still behave coherently at the macro level</li>
+</ul>
+</section><section>
+<h2 id="nature-inspiration-general">Nature inspiration (general)</h2>
+<p>Bio-inspired design as engineering transfer:</p>
+<ul>
+<li>Identify a function that nature performs well</li>
+<li>Abstract the mechanism (not the biological details)</li>
+<li>Re-implement under engineering constraints</li>
+<li>Validate against measurable requirements</li>
+</ul>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/Slides-2019-OYM/img/spider-man.jpg">
+  
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://upload.wikimedia.org/wikipedia/commons/1/1b/Gecko_leopard.jpg">
+  
+</section><section>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/uEYcY7WfDTY?start=7?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"></iframe>
+    </div>
+
+</section><section>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/uhfXbSSrabw?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"></iframe>
+    </div>
+
+</section><section>
+<h2 id="gecko-inspired-dry-adhesion">Gecko-inspired dry adhesion</h2>
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><p><img src="https://danysk.github.io/Slides-2019-OYM/img/geckopad.jpg" alt="Gecko Pad design"></p>
+<ul>
+<li>Function-driven design (adhesion without glue)</li>
+<li>Mechanism abstraction (micro-/nano-structures to increase contact)</li>
+<li>Engineering outcome (reusable, scalable dry adhesives)</li>
+</ul>
+</div>
+<div class="col "><p><img src="https://danysk.github.io/Slides-2019-OYM/img/biomimicry-gecko-climging-pads.jpg" alt="Gecko Pad design"></p>
+</div>
+</div>
+</div>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/Slides-2019-OYM/img/500nozomi.jpg">
+  
+</section><section>
+<h2 id="shinkansen-series-500">Shinkansen series 500</h2>
+<ul>
+<li>Tunnel boom: sonic boom-like noise when exiting tunnels at high speed</li>
+<li>Caused by buildup and rapid release of pressure waves</li>
+<li>Constraints: need to maintain high speed and passenger comfort</li>
+</ul>
+<blockquote>
+<p>What can we learn from nature to solve this?</p>
+</blockquote>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://upload.wikimedia.org/wikipedia/commons/2/29/Common_kingfisher_in_flight.jpg">
+  
+</section><section>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+      <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/veQ2ilQrzMU?start=20?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"></iframe>
+    </div>
+
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/Slides-2019-OYM/img/700series.jpg">
+  
+</section><section>
+<h2 id="shinkansen-series-700">Shinkansen series 700</h2>
+<ul>
+<li>Solution: geometry inspired by kingfisher beak</li>
+<li>Outcome: reduced noise, improved aerodynamics</li>
+</ul>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/course-2026-micro-macro/img/leaf-background.jpg">
+  
+<h2 id="nature-inspiration-for-cas">Nature inspiration for CAS</h2>
+<p>We look for mechanisms that work under:</p>
+<ul>
+<li><span class="fragment ">No leader</span></li>
+<li><span class="fragment ">Local sensing + local communication</span></li>
+<li><span class="fragment ">Stochasticity and uncertainty</span></li>
+<li><span class="fragment ">Need for robustness and adaptation</span></li>
+</ul>
+<p>Key idea:</p>
+<span class="fragment ">Local rules + feedback loops → macroscopic patterns</span>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/course-2026-micro-macro/img/leaf-background.jpg">
+  
+<div id="div1" style="width: 50%; height: 50%; float: left; overflow: hidden;">
+  <img src="img/ants.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;">
+</div>
+<div class="fragment" id="div2" style="width: 50%; height: 50%; float: left; overflow: hidden;">
+  <img src="img/termites.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;">
+</div>
+<div class="fragment" id="div3" style="width: 50%; height: 50%; float: left; overflow: hidden;">
+  <img src="img/firefly.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;">
+</div>
+<div class="fragment" id="div4" style="width: 50%; height: 50%; float: left; overflow: hidden;">
+  <img src="img/ecosystem.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;">
+</div>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/course-2026-micro-macro/img/leaf-background.jpg">
+  
+<h2 id="what-we-want-from-engineered-emergence">What we want from engineered emergence</h2>
+<p>We cannot renounce:</p>
+<ul>
+<li><span class="fragment ">Top-down design goals</span></li>
+<li><span class="fragment ">Modularity and composability</span></li>
+<li><span class="fragment ">Reusability across scenarios</span></li>
+<li><span class="fragment ">Scalability and maintainability</span></li>
+</ul>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/course-2026-micro-macro/img/leaf-background.jpg">
+  
+<h2 id="ants-maze-example-mechanism">Ants maze example: mechanism</h2>
+<ul>
+<li><span class="fragment ">Agents explore with limited local information</span></li>
+<li><span class="fragment ">Food discovery triggers pheromone deposition</span></li>
+<li><span class="fragment ">Pheromone evaporates (forgetting)</span></li>
+<li><span class="fragment ">Other agents bias motion toward stronger trails</span></li>
+<li><span class="fragment ">Maze constraints shape paths and competition</span></li>
+</ul>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/course-2026-micro-macro/img/leaf-background.jpg">
+  
+<h2 id="ants-maze-example-what-we-measure">Ants maze example: what we measure</h2>
+<p>Examples of observables:</p>
+<ul>
+<li><span class="fragment ">Time-to-first-path (discovery)</span></li>
+<li><span class="fragment ">Path efficiency (length / optimality)</span></li>
+<li><span class="fragment ">Convergence to a dominant trail</span></li>
+<li><span class="fragment ">Robustness to perturbations (obstacles, evaporation rate)</span></li>
+<li><span class="fragment ">Load balancing vs herding effects</span></li>
+</ul>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/course-2026-micro-macro/img/leaf-background.jpg">
+  
+<h2 id="ants-maze-example-what-emerges">Ants maze example: what emerges</h2>
+<p>From local rules:</p>
+<ul>
+<li><span class="fragment ">Trail formation</span></li>
+<li><span class="fragment ">Shortest/fastest path selection (under conditions)</span></li>
+<li><span class="fragment ">Adaptation when the environment changes</span></li>
+<li><span class="fragment ">Trade-off: exploitation vs exploration</span></li>
+</ul>
+</section>
+
+<section data-noprocess="" data-shortcode-slide="" data-background-image="https://danysk.github.io/course-2026-micro-macro/img/leaf-background.jpg">
+  
+<h2 id="optional-quick-demo-hook">(Optional) Quick demo hook</h2>
+<iframe src="https://www.netlogoweb.org/launch#https://www.netlogoweb.org/assets/modelslib/Sample%20Models/Biology/Ants.nlogo" style="position: relative; top: 0; left: 0; width: 100%; height: 14em;">
+</iframe>
 </section><section>
 <h3 id="lecture-2-2h--simulation-paradigms-and-modeling-choices">Lecture 2 (2h) — Simulation paradigms and modeling choices</h3>
 <p><strong>Time budget (120’)</strong></p>
@@ -170,12 +406,12 @@ This is something bad</li>
 
 <div style="">
 <div style="width: 100%;height: 300px; display: block;">
-    <canvas id="fead48fdc4cbb81a5f6c4c8dcdc4e2c5"></canvas>
+    <canvas id="dcb48cfd6deffc254b4dea1c45a88ccc"></canvas>
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.js"></script>
 <script type="text/javascript">
-    var ctx = document.getElementById('fead48fdc4cbb81a5f6c4c8dcdc4e2c5').getContext('2d');
+    var ctx = document.getElementById('dcb48cfd6deffc254b4dea1c45a88ccc').getContext('2d');
     var options = 
 {
     type: 'bar',
@@ -377,7 +613,7 @@ joined</p>
 
 </section><section>
 <h1 id="graphs-via-mermaidjs-3">Graphs via mermaid.js 3</h1>
-<div class="mermaid" data-processed="true" pre-rendered="true"><svg aria-roledescription="gitGraph" role="graphics-document document" viewBox="-117.1484375 -18 475.1484375 173.9670867919922" style="max-width: 475.1484375px;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="100%" id="my-svg"><style>#my-svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#my-svg .error-icon{fill:#552222;}#my-svg .error-text{fill:#552222;stroke:#552222;}#my-svg .edge-thickness-normal{stroke-width:1px;}#my-svg .edge-thickness-thick{stroke-width:3.5px;}#my-svg .edge-pattern-solid{stroke-dasharray:0;}#my-svg .edge-thickness-invisible{stroke-width:0;fill:none;}#my-svg .edge-pattern-dashed{stroke-dasharray:3;}#my-svg .edge-pattern-dotted{stroke-dasharray:2;}#my-svg .marker{fill:#333333;stroke:#333333;}#my-svg .marker.cross{stroke:#333333;}#my-svg svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#my-svg p{margin:0;}#my-svg .commit-id,#my-svg .commit-msg,#my-svg .branch-label{fill:lightgrey;color:lightgrey;font-family:'trebuchet ms',verdana,arial,sans-serif;font-family:var(--mermaid-font-family);}#my-svg .branch-label0{fill:#ffffff;}#my-svg .commit0{stroke:hsl(240, 100%, 46.2745098039%);fill:hsl(240, 100%, 46.2745098039%);}#my-svg .commit-highlight0{stroke:hsl(60, 100%, 3.7254901961%);fill:hsl(60, 100%, 3.7254901961%);}#my-svg .label0{fill:hsl(240, 100%, 46.2745098039%);}#my-svg .arrow0{stroke:hsl(240, 100%, 46.2745098039%);}#my-svg .branch-label1{fill:black;}#my-svg .commit1{stroke:hsl(60, 100%, 43.5294117647%);fill:hsl(60, 100%, 43.5294117647%);}#my-svg .commit-highlight1{stroke:rgb(0, 0, 160.5);fill:rgb(0, 0, 160.5);}#my-svg .label1{fill:hsl(60, 100%, 43.5294117647%);}#my-svg .arrow1{stroke:hsl(60, 100%, 43.5294117647%);}#my-svg .branch-label2{fill:black;}#my-svg .commit2{stroke:hsl(80, 100%, 46.2745098039%);fill:hsl(80, 100%, 46.2745098039%);}#my-svg .commit-highlight2{stroke:rgb(48.8333333334, 0, 146.5000000001);fill:rgb(48.8333333334, 0, 146.5000000001);}#my-svg .label2{fill:hsl(80, 100%, 46.2745098039%);}#my-svg .arrow2{stroke:hsl(80, 100%, 46.2745098039%);}#my-svg .branch-label3{fill:#ffffff;}#my-svg .commit3{stroke:hsl(210, 100%, 46.2745098039%);fill:hsl(210, 100%, 46.2745098039%);}#my-svg .commit-highlight3{stroke:rgb(146.5000000001, 73.2500000001, 0);fill:rgb(146.5000000001, 73.2500000001, 0);}#my-svg .label3{fill:hsl(210, 100%, 46.2745098039%);}#my-svg .arrow3{stroke:hsl(210, 100%, 46.2745098039%);}#my-svg .branch-label4{fill:black;}#my-svg .commit4{stroke:hsl(180, 100%, 46.2745098039%);fill:hsl(180, 100%, 46.2745098039%);}#my-svg .commit-highlight4{stroke:rgb(146.5000000001, 0, 0);fill:rgb(146.5000000001, 0, 0);}#my-svg .label4{fill:hsl(180, 100%, 46.2745098039%);}#my-svg .arrow4{stroke:hsl(180, 100%, 46.2745098039%);}#my-svg .branch-label5{fill:black;}#my-svg .commit5{stroke:hsl(150, 100%, 46.2745098039%);fill:hsl(150, 100%, 46.2745098039%);}#my-svg .commit-highlight5{stroke:rgb(146.5000000001, 0, 73.2500000001);fill:rgb(146.5000000001, 0, 73.2500000001);}#my-svg .label5{fill:hsl(150, 100%, 46.2745098039%);}#my-svg .arrow5{stroke:hsl(150, 100%, 46.2745098039%);}#my-svg .branch-label6{fill:black;}#my-svg .commit6{stroke:hsl(300, 100%, 46.2745098039%);fill:hsl(300, 100%, 46.2745098039%);}#my-svg .commit-highlight6{stroke:rgb(0, 146.5000000001, 0);fill:rgb(0, 146.5000000001, 0);}#my-svg .label6{fill:hsl(300, 100%, 46.2745098039%);}#my-svg .arrow6{stroke:hsl(300, 100%, 46.2745098039%);}#my-svg .branch-label7{fill:black;}#my-svg .commit7{stroke:hsl(0, 100%, 46.2745098039%);fill:hsl(0, 100%, 46.2745098039%);}#my-svg .commit-highlight7{stroke:rgb(0, 146.5000000001, 146.5000000001);fill:rgb(0, 146.5000000001, 146.5000000001);}#my-svg .label7{fill:hsl(0, 100%, 46.2745098039%);}#my-svg .arrow7{stroke:hsl(0, 100%, 46.2745098039%);}#my-svg .branch{stroke-width:1;stroke:#333333;stroke-dasharray:2;}#my-svg .commit-label{font-size:10px;fill:#000021;}#my-svg .commit-label-bkg{font-size:10px;fill:#ffffde;opacity:0.5;}#my-svg .tag-label{font-size:10px;fill:#131300;}#my-svg .tag-label-bkg{fill:#ECECFF;stroke:hsl(240, 60%, 86.2745098039%);}#my-svg .tag-hole{fill:#333;}#my-svg .commit-merge{stroke:#ECECFF;fill:#ECECFF;}#my-svg .commit-reverse{stroke:#ECECFF;fill:#ECECFF;stroke-width:3;}#my-svg .commit-highlight-inner{stroke:#ECECFF;fill:#ECECFF;}#my-svg .arrow{stroke-width:8;stroke-linecap:round;fill:none;}#my-svg .gitTitleText{text-anchor:middle;font-size:18px;fill:#333;}#my-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g></g><g class="commit-bullets"></g><g class="commit-labels"></g><g><line class="branch branch0" y2="0" x2="350" y1="0" x1="0"></line><rect transform="translate(-19, -8.5)" height="21" width="52.6875" y="-0.5" x="-68.6875" ry="4" rx="4" class="branchLabelBkg label0"></rect><g class="branchLabel"><g transform="translate(-78.6875, -9.5)" class="label branch-label0"><text><tspan class="row" x="0" dy="1em" xml:space="preserve">main</tspan></text></g></g><line class="branch branch1" y2="90" x2="350" y1="90" x1="0"></line><rect transform="translate(-19, 81.5)" height="21" width="74.1484375" y="-0.5" x="-90.1484375" ry="4" rx="4" class="branchLabelBkg label1"></rect><g class="branchLabel"><g transform="translate(-100.1484375, 80.5)" class="label branch-label1"><text><tspan class="row" x="0" dy="1em" xml:space="preserve">develop</tspan></text></g></g></g><g class="commit-arrows"><path class="arrow arrow0" d="M 10 0 L 60 0"></path><path class="arrow arrow1" d="M 60 0 L 60 70 A 20 20, 0, 0, 0, 80 90 L 110 90"></path><path class="arrow arrow1" d="M 110 90 L 160 90"></path><path class="arrow arrow0" d="M 60 0 L 210 0"></path><path class="arrow arrow1" d="M 160 90 L 190 90 A 20 20, 0, 0, 0, 210 70 L 210 0"></path><path class="arrow arrow0" d="M 210 0 L 260 0"></path><path class="arrow arrow0" d="M 260 0 L 310 0"></path></g><g class="commit-bullets"><circle class="commit Initialize project commit0" r="10" cy="0" cx="10"></circle><circle class="commit Make some changes commit0" r="10" cy="0" cx="60"></circle><circle class="commit 2-5a937bc commit1" r="10" cy="90" cx="110"></circle><circle class="commit 3-ddd2a80 commit1" r="10" cy="90" cx="160"></circle><circle class="commit 4-a9fd8e6 commit0" r="9" cy="0" cx="210"></circle><circle class="commit commit-merge 4-a9fd8e6 commit0" r="6" cy="0" cx="210"></circle><circle class="commit 5-cd0c009 commit0" r="10" cy="0" cx="260"></circle><circle class="commit 6-c870a3f commit0" r="10" cy="0" cx="310"></circle></g><g class="commit-labels"><g transform="translate(-37.5741796875, 33.5084765625) rotate(-45, 0, 0)"><rect height="15" width="73.142578125" y="13.5" x="-26.5712890625" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="-24.5712890625">Initialize project</text></g><g transform="translate(-46.36687499999999, 41.375625) rotate(-45, 50, 0)"><rect height="15" width="96.28125" y="13.5" x="11.859375" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="13.859375">Make some changes</text></g><g transform="translate(-29.2609375, 26.0703125) rotate(-45, 100, 90)"><rect height="15" width="51.265625" y="103.5" x="84.3671875" class="commit-label-bkg"></rect><text class="commit-label" y="115" x="86.3671875">2-5a937bc</text></g><g transform="translate(-29.639082031250002, 26.40865234375) rotate(-45, 150, 90)"><rect height="15" width="52.2607421875" y="103.5" x="133.86962890625" class="commit-label-bkg"></rect><text class="commit-label" y="115" x="135.86962890625">3-ddd2a80</text></g><g transform="translate(-29.212324218750002, 26.02681640625) rotate(-45, 250, 0)"><rect height="15" width="51.1376953125" y="13.5" x="234.43115234375" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="236.43115234375">5-cd0c009</text></g><g transform="translate(-28.285703125, 25.197734375000003) rotate(-45, 300, 0)"><rect height="15" width="48.69921875" y="13.5" x="285.650390625" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="287.650390625">6-c870a3f</text></g></g></svg></div>
+<div class="mermaid" data-processed="true" pre-rendered="true"><svg aria-roledescription="gitGraph" role="graphics-document document" viewBox="-117.1484375 -18 475.1484375 173.9670867919922" style="max-width: 475.1484375px;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="100%" id="my-svg"><style>#my-svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#my-svg .error-icon{fill:#552222;}#my-svg .error-text{fill:#552222;stroke:#552222;}#my-svg .edge-thickness-normal{stroke-width:1px;}#my-svg .edge-thickness-thick{stroke-width:3.5px;}#my-svg .edge-pattern-solid{stroke-dasharray:0;}#my-svg .edge-thickness-invisible{stroke-width:0;fill:none;}#my-svg .edge-pattern-dashed{stroke-dasharray:3;}#my-svg .edge-pattern-dotted{stroke-dasharray:2;}#my-svg .marker{fill:#333333;stroke:#333333;}#my-svg .marker.cross{stroke:#333333;}#my-svg svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#my-svg p{margin:0;}#my-svg .commit-id,#my-svg .commit-msg,#my-svg .branch-label{fill:lightgrey;color:lightgrey;font-family:'trebuchet ms',verdana,arial,sans-serif;font-family:var(--mermaid-font-family);}#my-svg .branch-label0{fill:#ffffff;}#my-svg .commit0{stroke:hsl(240, 100%, 46.2745098039%);fill:hsl(240, 100%, 46.2745098039%);}#my-svg .commit-highlight0{stroke:hsl(60, 100%, 3.7254901961%);fill:hsl(60, 100%, 3.7254901961%);}#my-svg .label0{fill:hsl(240, 100%, 46.2745098039%);}#my-svg .arrow0{stroke:hsl(240, 100%, 46.2745098039%);}#my-svg .branch-label1{fill:black;}#my-svg .commit1{stroke:hsl(60, 100%, 43.5294117647%);fill:hsl(60, 100%, 43.5294117647%);}#my-svg .commit-highlight1{stroke:rgb(0, 0, 160.5);fill:rgb(0, 0, 160.5);}#my-svg .label1{fill:hsl(60, 100%, 43.5294117647%);}#my-svg .arrow1{stroke:hsl(60, 100%, 43.5294117647%);}#my-svg .branch-label2{fill:black;}#my-svg .commit2{stroke:hsl(80, 100%, 46.2745098039%);fill:hsl(80, 100%, 46.2745098039%);}#my-svg .commit-highlight2{stroke:rgb(48.8333333334, 0, 146.5000000001);fill:rgb(48.8333333334, 0, 146.5000000001);}#my-svg .label2{fill:hsl(80, 100%, 46.2745098039%);}#my-svg .arrow2{stroke:hsl(80, 100%, 46.2745098039%);}#my-svg .branch-label3{fill:#ffffff;}#my-svg .commit3{stroke:hsl(210, 100%, 46.2745098039%);fill:hsl(210, 100%, 46.2745098039%);}#my-svg .commit-highlight3{stroke:rgb(146.5000000001, 73.2500000001, 0);fill:rgb(146.5000000001, 73.2500000001, 0);}#my-svg .label3{fill:hsl(210, 100%, 46.2745098039%);}#my-svg .arrow3{stroke:hsl(210, 100%, 46.2745098039%);}#my-svg .branch-label4{fill:black;}#my-svg .commit4{stroke:hsl(180, 100%, 46.2745098039%);fill:hsl(180, 100%, 46.2745098039%);}#my-svg .commit-highlight4{stroke:rgb(146.5000000001, 0, 0);fill:rgb(146.5000000001, 0, 0);}#my-svg .label4{fill:hsl(180, 100%, 46.2745098039%);}#my-svg .arrow4{stroke:hsl(180, 100%, 46.2745098039%);}#my-svg .branch-label5{fill:black;}#my-svg .commit5{stroke:hsl(150, 100%, 46.2745098039%);fill:hsl(150, 100%, 46.2745098039%);}#my-svg .commit-highlight5{stroke:rgb(146.5000000001, 0, 73.2500000001);fill:rgb(146.5000000001, 0, 73.2500000001);}#my-svg .label5{fill:hsl(150, 100%, 46.2745098039%);}#my-svg .arrow5{stroke:hsl(150, 100%, 46.2745098039%);}#my-svg .branch-label6{fill:black;}#my-svg .commit6{stroke:hsl(300, 100%, 46.2745098039%);fill:hsl(300, 100%, 46.2745098039%);}#my-svg .commit-highlight6{stroke:rgb(0, 146.5000000001, 0);fill:rgb(0, 146.5000000001, 0);}#my-svg .label6{fill:hsl(300, 100%, 46.2745098039%);}#my-svg .arrow6{stroke:hsl(300, 100%, 46.2745098039%);}#my-svg .branch-label7{fill:black;}#my-svg .commit7{stroke:hsl(0, 100%, 46.2745098039%);fill:hsl(0, 100%, 46.2745098039%);}#my-svg .commit-highlight7{stroke:rgb(0, 146.5000000001, 146.5000000001);fill:rgb(0, 146.5000000001, 146.5000000001);}#my-svg .label7{fill:hsl(0, 100%, 46.2745098039%);}#my-svg .arrow7{stroke:hsl(0, 100%, 46.2745098039%);}#my-svg .branch{stroke-width:1;stroke:#333333;stroke-dasharray:2;}#my-svg .commit-label{font-size:10px;fill:#000021;}#my-svg .commit-label-bkg{font-size:10px;fill:#ffffde;opacity:0.5;}#my-svg .tag-label{font-size:10px;fill:#131300;}#my-svg .tag-label-bkg{fill:#ECECFF;stroke:hsl(240, 60%, 86.2745098039%);}#my-svg .tag-hole{fill:#333;}#my-svg .commit-merge{stroke:#ECECFF;fill:#ECECFF;}#my-svg .commit-reverse{stroke:#ECECFF;fill:#ECECFF;stroke-width:3;}#my-svg .commit-highlight-inner{stroke:#ECECFF;fill:#ECECFF;}#my-svg .arrow{stroke-width:8;stroke-linecap:round;fill:none;}#my-svg .gitTitleText{text-anchor:middle;font-size:18px;fill:#333;}#my-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g></g><g class="commit-bullets"></g><g class="commit-labels"></g><g><line class="branch branch0" y2="0" x2="350" y1="0" x1="0"></line><rect transform="translate(-19, -8.5)" height="21" width="52.6875" y="-0.5" x="-68.6875" ry="4" rx="4" class="branchLabelBkg label0"></rect><g class="branchLabel"><g transform="translate(-78.6875, -9.5)" class="label branch-label0"><text><tspan class="row" x="0" dy="1em" xml:space="preserve">main</tspan></text></g></g><line class="branch branch1" y2="90" x2="350" y1="90" x1="0"></line><rect transform="translate(-19, 81.5)" height="21" width="74.1484375" y="-0.5" x="-90.1484375" ry="4" rx="4" class="branchLabelBkg label1"></rect><g class="branchLabel"><g transform="translate(-100.1484375, 80.5)" class="label branch-label1"><text><tspan class="row" x="0" dy="1em" xml:space="preserve">develop</tspan></text></g></g></g><g class="commit-arrows"><path class="arrow arrow0" d="M 10 0 L 60 0"></path><path class="arrow arrow1" d="M 60 0 L 60 70 A 20 20, 0, 0, 0, 80 90 L 110 90"></path><path class="arrow arrow1" d="M 110 90 L 160 90"></path><path class="arrow arrow0" d="M 60 0 L 210 0"></path><path class="arrow arrow1" d="M 160 90 L 190 90 A 20 20, 0, 0, 0, 210 70 L 210 0"></path><path class="arrow arrow0" d="M 210 0 L 260 0"></path><path class="arrow arrow0" d="M 260 0 L 310 0"></path></g><g class="commit-bullets"><circle class="commit Initialize project commit0" r="10" cy="0" cx="10"></circle><circle class="commit Make some changes commit0" r="10" cy="0" cx="60"></circle><circle class="commit 2-38beb62 commit1" r="10" cy="90" cx="110"></circle><circle class="commit 3-e6b419b commit1" r="10" cy="90" cx="160"></circle><circle class="commit 4-63dce37 commit0" r="9" cy="0" cx="210"></circle><circle class="commit commit-merge 4-63dce37 commit0" r="6" cy="0" cx="210"></circle><circle class="commit 5-2bb078f commit0" r="10" cy="0" cx="260"></circle><circle class="commit 6-8416234 commit0" r="10" cy="0" cx="310"></circle></g><g class="commit-labels"><g transform="translate(-37.5741796875, 33.5084765625) rotate(-45, 0, 0)"><rect height="15" width="73.142578125" y="13.5" x="-26.5712890625" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="-24.5712890625">Initialize project</text></g><g transform="translate(-46.36687499999999, 41.375625) rotate(-45, 50, 0)"><rect height="15" width="96.28125" y="13.5" x="11.859375" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="13.859375">Make some changes</text></g><g transform="translate(-29.639082031250002, 26.40865234375) rotate(-45, 100, 90)"><rect height="15" width="52.2607421875" y="103.5" x="83.86962890625" class="commit-label-bkg"></rect><text class="commit-label" y="115" x="85.86962890625">2-38beb62</text></g><g transform="translate(-29.639082031250002, 26.40865234375) rotate(-45, 150, 90)"><rect height="15" width="52.2607421875" y="103.5" x="133.86962890625" class="commit-label-bkg"></rect><text class="commit-label" y="115" x="135.86962890625">3-e6b419b</text></g><g transform="translate(-28.49908203125, 25.388652343750003) rotate(-45, 250, 0)"><rect height="15" width="49.2607421875" y="13.5" x="235.36962890625" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="237.36962890625">5-2bb078f</text></g><g transform="translate(-29.639082031250002, 26.40865234375) rotate(-45, 300, 0)"><rect height="15" width="52.2607421875" y="13.5" x="283.86962890625" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="285.86962890625">6-8416234</text></g></g></svg></div>
 
 </section><section>
 <h1 id="keystrokes">Keystrokes</h1>
