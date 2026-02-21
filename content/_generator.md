@@ -18,24 +18,7 @@ aliases = [
 
 ---
 
-## Module overview
-* TBD
-
----
-
 # Part 1: Nature-inspired systems and emergence
-
----
-
-**Time budget (120’)**
-
-* 10’ Context: large-scale open systems, no central coordinator
-* 15’ Engineering problem: Collective Adaptive Systems (CAS) and why classic centralized techniques fail
-* 15’ Nature inspiration (general): gecko-inspired dry adhesion; Shinkansen nose design (what “bio-inspired” means in engineering)
-* 20’ Nature inspiration for CAS: local rules → macro patterns; feedback loops; robustness/adaptability
-* 15’ Ants maze example: mechanism, what is measured, what emerges
-* 40’ NetLogo hands-on: 2–3 standard models (guided exploration + short “what-if” variations)
-* 5’ Wrap-up: takeaways + what we need simulation for (hook to Lecture 2)
 
 ---
 
@@ -197,99 +180,299 @@ Bio-inspired design as engineering transfer:
 
 ---
 
-{{< slide background-image="img/leaf-background.jpg" >}}
+## Back to CAS: what nature can teach
 
-## Nature inspiration for CAS
+For collective adaptive systems we look for:
+- Leaderless coordination
+- Local sensing + local communication
+- Feedback loops and self-regulation
+- Robustness through redundancy and adaptation
 
-We look for mechanisms that work under:
-
-* {{< frag c="No leader" >}}
-* {{< frag c="Local sensing + local communication" >}}
-* {{< frag c="Stochasticity and uncertainty" >}}
-* {{< frag c="Need for robustness and adaptation" >}}
-
-Key idea:
-<p>{{< frag c="Local rules + feedback loops → macroscopic patterns" >}}</p>
+Core idea:
+> Local rules can produce macroscopic structure.
 
 ---
 
-{{< slide background-image="img/leaf-background.jpg" >}}
+## Self-organising systems
 
-<div id="div1" style="width: 50%; height: 50%; float: left; overflow: hidden;">
-  <img src="img/ants.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+One way to tackle these challenges is through systems that *self-organise*.
+
+* *Self-organisation* is a process in which a system spontaneously organizes itself into a structured state without external control.
+* It is a **bottom-up** process in which local interactions among components lead to the **emergence** of global patterns or structures.
+* Self-organisation is often observed in *natural systems*, such as biological organisms, ecosystems, and social systems.
+* It can also be applied to artificial systems, such as robotics, distributed computing, and complex networks.
+
+---
+
+<div id="div1" style="width: 720px; float: left; overflow: hidden;">
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/ants.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
-<div class="fragment" id="div2" style="width: 50%; height: 50%; float: left; overflow: hidden;">
-  <img src="img/termites.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+<div id="div2" style="width: 720px; float: left; overflow: hidden;">
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/termites.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
-<div class="fragment" id="div3" style="width: 50%; height: 50%; float: left; overflow: hidden;">
-  <img src="img/firefly.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+<div id="div3" style="width: 720px; float: left; overflow: hidden;">
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/firefly.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
-<div class="fragment" id="div4" style="width: 50%; height: 50%; float: left; overflow: hidden;">
-  <img src="img/ecosystem.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+<div id="div4" style="width: 720px; float: left; overflow: hidden;">
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/ecosystem.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
 
 ---
 
-{{< slide background-image="img/leaf-background.jpg" >}}
-
-## What we want from engineered emergence
-
-We cannot renounce:
-
-* {{< frag c="Top-down design goals" >}}
-* {{< frag c="Modularity and composability" >}}
-* {{< frag c="Reusability across scenarios" >}}
-* {{< frag c="Scalability and maintainability" >}}
-
----
-
-{{< slide background-image="img/leaf-background.jpg" >}}
-
-## Ants maze example: mechanism
-
-* {{< frag c="Agents explore with limited local information" >}}
-* {{< frag c="Food discovery triggers pheromone deposition" >}}
-* {{< frag c="Pheromone evaporates (forgetting)" >}}
-* {{< frag c="Other agents bias motion toward stronger trails" >}}
-* {{< frag c="Maze constraints shape paths and competition" >}}
+<iframe
+width="1920" height="950"
+src="https://www.youtube.com/embed/ZHpu7ngQxwE?si=YPGltxUIp5QtcOlV"
+autoplay="true"
+title="YouTube video player"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+referrerpolicy="strict-origin-when-cross-origin"
+allowfullscreen>
+</iframe>
 
 ---
-
-{{< slide background-image="img/leaf-background.jpg" >}}
-
-## Ants maze example: what we measure
-
-Examples of observables:
-
-* {{< frag c="Time-to-first-path (discovery)" >}}
-* {{< frag c="Path efficiency (length / optimality)" >}}
-* {{< frag c="Convergence to a dominant trail" >}}
-* {{< frag c="Robustness to perturbations (obstacles, evaporation rate)" >}}
-* {{< frag c="Load balancing vs herding effects" >}}
-
----
-
-{{< slide background-image="img/leaf-background.jpg" >}}
-
-## Ants maze example: what emerges
-
-From local rules:
-
-* {{< frag c="Trail formation" >}}
-* {{< frag c="Shortest/fastest path selection (under conditions)" >}}
-* {{< frag c="Adaptation when the environment changes" >}}
-* {{< frag c="Trade-off: exploitation vs exploration" >}}
-
----
-
-{{< slide background-image="img/leaf-background.jpg" >}}
-
-## (Optional) Quick demo hook
 
 <iframe
 src="https://www.netlogoweb.org/launch#https://www.netlogoweb.org/assets/modelslib/Sample%20Models/Biology/Ants.nlogo"
-style="position: relative; top: 0; left: 0; width: 100%; height: 14em;">
+style="position: relative; top: 0; left: 0; width: 100%; height: 28em;">
 </iframe>
+
+---
+
+# Part 2: Simulation paradigms and modeling choices
+
+---
+
+## Why simulation for *CAS*
+
+Simulation is the practical way to:
+- test hypotheses on *collective behavior* at scale
+- explore *what-if scenarios* safely (no harm, no disruption)
+- study *scalability limits* and *failure modes* before deployment
+- build **repeatable** and comparable experiments
+
+---
+
+## Why simulation for *CAS*
+
+A *model* is a simplified representation of reality:
+- keep what matters for the *question* we are asking
+- abstract away what is irrelevant or infeasible to reproduce
+
+We simulate when the real process:
+- takes too long
+- is hard to replicate in controlled conditions
+- is dangerous to replicate
+- is beyond our technical capacity
+
+---
+
+## Simulation in the engineering loop
+
+For collective systems, simulation is used for:
+- *prototyping* (quick feedback on system-level behavior)
+- *testing* (including regression tests)
+- *debugging* (replaying scenarios across runs)
+- *profiling* (performance and scalability assessment)
+
+---
+
+## Simulation semantics
+
+**Modeling choices affect outcomes.**
+
+Key dimensions:
+- *discrete vs continuous time*
+- *time-driven vs event-driven*
+- *synchronous vs asynchronous scheduling*
+- *deterministic vs stochastic evolution*
+- **reproducibility** and control of randomness
+
+---
+
+## *Time-driven* vs *event-driven*
+
+*Time-driven* (ticks):
+- time advances in fixed steps
+- system state is updated at each tick
+- “simultaneity” is enforced within a tick
+
+*Event-driven* (*discrete-event simulation*):
+- time advances to the next scheduled event
+- events are processed one by one
+- if two events share a timestamp, an execution order still exists (**and may matter**)
+
+---
+
+## *Synchronous* vs *asynchronous* scheduling
+
+*Synchronous*:
+- all agents update together (typical in tick-based ABM tools)
+- easy to reason about, but introduces **artificial simultaneity**
+
+*Asynchronous*:
+- agents update at different times
+- closer to many real distributed settings
+- ordering effects become **part of the model**
+
+---
+
+## *Stochasticity* and **reproducibility**
+
+In computer simulation, **reproducibility requires**:
+- controlling random *seeds* explicitly
+- understanding that parallelism can introduce *non-determinism*
+- making ordering assumptions explicit (especially in *discrete-event simulation*)
+
+Practical rule:
+- every result should specify: *model*, *parameters*, *seeds*, and execution configuration
+
+---
+
+## Monte Carlo framing
+
+Two extremes:
+- *exhaustive exploration* (often infeasible)
+- *sampling-based exploration* (*Monte Carlo*)
+
+*Monte Carlo method*:
+- randomly explore part of the space
+- repeat many times
+- aggregate results into estimates
+
+---
+
+## Simulation as a *Monte Carlo* run
+
+Simulation is often one step in a pipeline:
+
+1. choose parameters (or sample them)
+2. run multiple *seeds* per configuration
+3. compute *summary statistics* (mean/variance/quantiles)
+4. estimate *uncertainty* (confidence intervals)
+5. compare alternatives (*sensitivity* / *ablation* / *robustness*)
+
+---
+
+## Batch thinking
+
+A single run answers: *“what happened once”*  
+A Monte Carlo experiment answers: **“what tends to happen”**
+
+Good practice:
+- separate *model specification* from *experiment design*
+- plan what you *measure* before running batches
+- keep outputs minimal but sufficient for analysis
+
+---
+
+## Why *Alchemist*
+
+Alchemist is a general-purpose simulator for *networked systems*:
+- nodes in an *environment*
+- *neighborhood relations* (possibly dynamic)
+- *reactions* as the unit of behavior
+- supports *situated* scenarios (space matters)
+- supports *maps* and *floor plans* (image-based)
+- used as an *external simulator* for aggregate programming prototyping and debugging
+
+---
+
+## Alchemist (video)
+
+<video loop playsinline autoplay muted style="max-width: 900px; display: inline-block;">
+  <source src="https://alchemistsimulator.github.io/home-animation.mp4" type="video/mp4">
+  If your browser supported the video tag, there would be a nice video.
+</video>
+
+---
+
+## Alchemist conceptual model
+
+Core concepts:
+- *Nodes* (devices / agents / compartments)
+- *Environment* (space + constraints)
+- *Reactions* (what can happen, and when)
+- *Time* (typically *discrete-event*, with customizable time distributions)
+
+Practical implication:
+- changing the *time model* or *scheduling policy* can change **emergent outcomes**
+
+---
+
+## Deploying devices and configuring connections
+
+Deployment answers: *“where are the devices?”*  
+Typical strategies:
+- random placement
+- regular grids and perturbed grids
+- scenario-specific placement (clusters, hotspots)
+- mobility models (moving nodes over time)
+
+---
+
+## Deploying devices and configuring connections
+
+Connectivity answers: *“who can talk to whom?”*  
+Typical ingredients:
+- *neighborhood definition* (e.g., range-based, metric-based, constrained by environment)
+- *network dynamics* (links appear/disappear as nodes move or conditions change)
+- communication assumptions (latency/loss models, if included)
+
+Engineering note:
+- **“neighborhood” is part of the model, not an implementation detail**
+
+---
+
+## Dynamics and timing
+
+Two families of dynamics:
+- state changes triggered by *time-driven* rounds (ticks)
+- state changes triggered by *events* with time distributions
+
+In *discrete-event* settings:
+- events are ordered even at equal timestamps (**ordering can bias outcomes**)
+- non-Markovian events are possible (custom time distributions)
+
+---
+
+## Environments: *obstacles* and *maps*
+
+Environment is **not** just a background:
+- it constrains motion and interaction
+- it shapes connectivity (blocked paths, partitions, funnels)
+- it changes what “distance” means (*Euclidean* vs *walkable routes*)
+
+---
+
+## Obstacles/maps change the network
+
+Effects you must account for:
+- two devices can be close in *Euclidean space* but disconnected in practice
+- barriers can create *communities* and *bottlenecks*
+- routing distance may be a better metric than geometric distance in built environments
+
+---
+
+## Loading spatial data
+
+Common approaches:
+- floor plans / maps as images (*obstacles encoded in pixels*)
+- environment-aware metrics (e.g., *route-based distances*)
+- scenario composition: same program, different environments
+
+Key point:
+- environment selection can **dominate** the observed macro behavior
+
+
+---
+
+## What we build next (hook to Lecture 3)
+
+Next: bottom-up emergence in simulation
+- implement local interaction rules and observe macro patterns
+- build canonical building blocks (e.g., diffusion/gradient-like spreading)
+- study limitations: fragility, tuning sensitivity, reusability and composability issues
 
 ---
 
@@ -297,13 +480,32 @@ style="position: relative; top: 0; left: 0; width: 100%; height: 14em;">
 
 **Time budget (120’)**
 
-* 10’ Why simulation for CAS: testing hypotheses, safety, scalability; recap from Lecture 1
-* 25’ Simulation semantics: discrete vs continuous time; time-driven vs event-driven; synchronous vs asynchronous; stochasticity/reproducibility
-* 15’ Monte Carlo framing: simulation as one run inside an exploration/estimation pipeline (parameter sweeps, uncertainty, confidence)
-* 20’ Alchemist positioning: why it as reference simulator; conceptual model (nodes, environment, reactions, time)
-* 20’ Deploying devices + configuring connections: neighborhoods, network models, dynamics
-* 20’ Environments: obstacles/maps; loading spatial data; effects on connectivity and behavior
-* 10’ Wrap-up: typical modeling pitfalls + what will be built next (hook to Lecture 3)
+* 15’ Why simulation for CAS: testing hypotheses, safety, scalability
+* 30’ Simulation semantics: discrete vs continuous time; time-driven vs event-driven; synchronous vs asynchronous; stochasticity/reproducibility
+* 20’ Monte Carlo framing: simulation as one run inside an exploration/estimation pipeline (parameter sweeps, uncertainty, confidence)
+* 25’ Alchemist positioning: why it as reference simulator; conceptual model (nodes, environment, reactions, time)
+* 25’ Deploying devices + configuring connections: neighborhoods, network models, dynamics
+* 25’ Environments: obstacles/maps; loading spatial data; effects on connectivity and behavior
+* 15’ Wrap-up: typical modeling pitfalls + what will be built next (hook to Lecture 3)
+
+---
+
+## Engineering self-organisation
+
+* Self-organisation is **very hard to engineer**
+* The system properties are built **bottom-up** from **local interactions**
+* Even worse, even when a self-organizing system has been built and verified,
+  it is extremely hard to **reuse** it in a different context
+
+### Where is the *engineering*?
+
+There are properties that we cannot renounce:
+* *Top-down design*
+* *Modularity*
+* *Reusability*
+* *Composability*
+* *Scalability*
+* *Maintainability*
 
 ---
 
