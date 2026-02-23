@@ -1,4 +1,3 @@
-
 +++
 
 title = "MICRO-MACRO COMPUTATIONAL MODELS: THEORY, APPLICATIONS AND EMERGENT PROPERTIES"
@@ -290,6 +289,9 @@ Key dimensions:
 
 ---
 
+{{% multicol %}}
+{{% col %}}
+
 ## *Time-driven* vs *event-driven*
 
 *Time-driven* (ticks):
@@ -302,7 +304,8 @@ Key dimensions:
 - events are processed one by one
 - if two events share a timestamp, an execution order still exists (**and may matter**)
 
----
+{{% /col %}}
+{{% col %}}
 
 ## *Synchronous* vs *asynchronous* scheduling
 
@@ -314,6 +317,8 @@ Key dimensions:
 - agents update at different times
 - closer to many real distributed settings
 - ordering effects become **part of the model**
+{{% /col %}}
+{{% /multicol %}}
 
 ---
 
@@ -326,6 +331,68 @@ In computer simulation, **reproducibility requires**:
 
 Practical rule:
 - every result should specify: *model*, *parameters*, *seeds*, and execution configuration
+
+---
+
+## Monte Carlo
+
+### Exercise: compute the overall area of these shapes:
+
+![shapes](img/shapes.png)
+
+---
+
+## Monte Carlo
+
+### Exercise: compute the overall area of these shapes:
+
+<div style="background:#FFF;color:#fff;padding:0em;display:inline-block;max-width:100%;border:.3em solid #000;box-sizing:border-box;">
+  <img src="img/shapes.png" alt="shapes" style="display:block;max-width:100%;height:auto;" />
+</div>
+
+- *Hint*: we can inscribe them in a rectangle
+
+---
+
+## Monte Carlo
+
+### Exercise: compute the overall area of these shapes:
+
+<div style="background:#FFF;color:#fff;padding:0em;display:inline-block;max-width:100%;border:.3em solid #000;box-sizing:border-box;">
+  <img src="img/shapes.png" alt="shapes" style="display:block;max-width:100%;height:auto;" />
+</div>
+
+- *Hint*: we can inscribe them in a rectangle
+- *Hint*: we can assume we have a method to check whether a coordinate is inside a shape
+
+---
+
+## Monte Carlo
+
+### Exercise: compute the overall area of these shapes:
+
+<div style="background:#FFF;color:#fff;padding:0em;display:inline-block;max-width:100%;border:.3em solid #000;box-sizing:border-box;">
+  <img src="img/shapes.png" alt="shapes" style="display:block;max-width:100%;height:auto;" />
+</div>
+
+- *Hint*: we can inscribe them in a rectangle
+- *Hint*: we can assume we have a method to check whether a coordinate is inside a shape
+- *Hint*: we can generate random coordinates in the rectangle
+
+---
+
+## Monte Carlo
+
+### Exercise: compute the overall area of these shapes:
+
+<div style="background:#FFF;color:#fff;padding:0em;display:inline-block;max-width:100%;border:.3em solid #000;box-sizing:border-box;">
+  <img src="img/shapes.png" alt="shapes" style="display:block;max-width:100%;height:auto;" />
+</div>
+
+**Procedure**:
+1. Generate $N$ random coordinates in the rectangle $w \times h$ rectangle
+2. Let $M$ be the number of random coordinates that are inside the shapes
+3. Estimate the area as $\frac{M}{N}wh$
 
 ---
 
@@ -350,7 +417,6 @@ Simulation is often one step in a pipeline:
 2. run multiple *seeds* per configuration
 3. compute *summary statistics* (mean/variance/quantiles)
 4. estimate *uncertainty* (confidence intervals)
-5. compare alternatives (*sensitivity* / *ablation* / *robustness*)
 
 ---
 
@@ -366,113 +432,251 @@ Good practice:
 
 ---
 
-## Why *Alchemist*
-
-Alchemist is a general-purpose simulator for *networked systems*:
-- nodes in an *environment*
-- *neighborhood relations* (possibly dynamic)
-- *reactions* as the unit of behavior
-- supports *situated* scenarios (space matters)
-- supports *maps* and *floor plans* (image-based)
-- used as an *external simulator* for aggregate programming prototyping and debugging
-
----
-
-## Alchemist (video)
+## Alchemist
 
 <video loop playsinline autoplay muted style="max-width: 900px; display: inline-block;">
   <source src="https://alchemistsimulator.github.io/home-animation.mp4" type="video/mp4">
   If your browser supported the video tag, there would be a nice video.
 </video>
 
+a (meta-)simulator for *pervasive computing*
+- event-driven, discrete-event
+- reproducible runs (explicit seeds, deterministic)
+- batch mode for Monte Carlo experiments
+- open-source, written in Java/Kotlin/Scala
+- https://alchemistsimulator.github.io
+
+---
+
+## Historical origin: stochastic chemistry
+
+Problem setting:
+- a container with a finite number of molecules
+- reactions occur probabilistically
+- we want to predict the system evolution over time
+
+Why classic (continuous) chemistry is insufficient here:
+- concentrations are treated as real numbers
+- accurate mainly at very large molecule counts
+- breaks down when discreteness matters
+
+---
+
+## Kinetic Monte Carlo (Gillespie) — the core idea
+
+Represent chemistry as:
+- *reactions* with *rates*: $r \triangleq A + B\xrightarrow{\mu_r} C$
+- each reaction $r$ is an independent stochastic event whose likelihood (*propensity*)
+  depends on the reactant counts and the rate constant $\mu_r$:
+   - $a_R = \mu[A][B]$
+
+Algorithm sketch:
+1. compute propensities for all reactions $R$ from the current state
+2. sample the next reaction to fire:
+    * $P(next = r) = \frac{a_r}{\sum_{i \in R} a_{i}}$
+3. sample the time increment to the next event
+   * $\Delta t = \frac{-\ln \left(\rho \right)}{\sum_{i \in R} a_{i}}$
+   * where $\lambda = \sum_{i \in R} a_{i}$ and $\rho$ is a uniform random number in $(0,1)$
+4. update the state and repeat
+
+---
+
+## Why simulator design matters (Gillespie as a case study)
+
+Naïve kinetic Monte Carlo is correct, but:
+- recomputing everything at every step is expensive
+- selecting the next event can dominate runtime
+
+Goal:
+> keep exact stochastic semantics while scaling to large reaction sets
+
+---
+
+## Solve the problem: base algorithm (Gillespie / KMC)
+
+Algorithm:
+1. Set simulation time $T = 0$
+2. For each reaction $r \in R$, compute propensity $a_r$
+3. Select next reaction $\mu$ with
+   $$P(r=\mu)=\frac{a_r}{\sum_{j\in R} a_j}$$
+4. Execute $\mu$ (update molecule counts)
+5. Advance time:
+   $$T \leftarrow T_{\text{prev}} + \frac{-\ln(\rho)}{\lambda},\quad \lambda=\sum_{j\in R} a_j,\ \rho\sim U(0,1)$$
+6. Go to 2
+
+---
+
+## Base algorithm: data structure choice (where the cost is)
+
+To sample reaction $\mu$:
+- store reactions + propensities
+- sample $x \sim U\!\left(0, \sum_{j\in R} a_j\right)$
+- scan cumulative sum until it exceeds $x$
+
+Cost:
+- selection is **linear in $|R|$** per event
+- plus recomputing propensities at every step
+
+This is fine for small $|R|$, but it does not scale.
+
+---
+
+## Speed-up 1: dependency graph
+
+Observation:
+- propensities depend on reactants
+- only reactions that share reactants/products are affected by a firing event
+
+Idea:
+- maintain a dependency graph: for each reaction, which propensities must be updated if it fires
+
+Data structure:
+- map: $r \mapsto \{ r_1, r_2, \dots \}$ (affected reactions)
+
+Effect:
+- update only a subset of propensities, often much smaller than $|R|$
+
+---
+
+## Speed-up 1: dependency graph (picture)
+
+![](img/dependencygraph.png)
+
+---
+
+## Speed-up 2: “next reaction” method (time-based selection)
+
+Instead of sampling the next reaction by propensity:
+1. generate a putative firing time $\tau_r$ for each reaction $r$
+2. select the smallest $\tau_r$
+3. when propensities change, update only affected $\tau_r$ (via dependency graph)
+
+Key requirement:
+- we need fast access to the smallest putative time, in $O(1)$ (or near)
+- update-key (reorder) in $O(\log |R|)$
+- update only affected reactions
+
+Best-known structure:
+- binary heap / indexed priority queue
+
+---
+
+![](img/extipq.png)
+
+---
+
+## Speed-up 3: random reuse (memorylessness)
+
+Random generation can dominate in chemical simulators.
+We can reduce RNG calls using exponential memorylessness.
+
+If at time $T$ a reaction had previous putative time $\tau_p$ with propensity $a_p$,
+and after an update its propensity is $a_c$:
+
+$$
+\tau_c = \frac{a_c(\tau_p - T)}{a_p} + T
+$$
+
+Notes:
+- valid because exponential distribution is memoryless
+- applies when updating dependent reactions that did not fire
+
+---
+
+## Beyond heaps: Slepoy’s algorithm (amortized $O(1)$ idea)
+
+{{% multicol %}}
+{{% col %}}
+#### Idea
+- group reactions by propensity ranges
+- sample a group, then a reaction inside the group
+- updates are constant-time if groups are stable
+
+If the number of groups is independent of $|R|$:
+- selection and updates can be $O(1)$
+
+![](img/slepoy.png)
+
+{{% /col %}}
+{{% col %}}
+
+#### Slepoy’s algorithm: why it’s not universal
+
+- assumes propensities are finite and stable (not changing much over time)
+    - often true in “pure chemistry”
+    - not guaranteed in general systems (e.g., mobile/distributed settings)
+{{% /col %}}
+{{% /multicol %}}
+
+---
+
+## Takeaway for simulator design
+
+Correct semantics is not enough:
+- performance depends on the *event selection* strategy
+- data structures shape scalability
+- optimization assumptions may or may not hold outside chemistry
+
+This is the design tension behind “chemical-rooted” DES engines that later generalize.
+
+---
+
+## From chemistry to distributed systems: the generalization step
+
+Observation:
+- many distributed scenarios can be seen as “chemical-like” systems
+
+Mapping intuition:
+- concentrations → data information units
+- molecules → data accessors
+- reactions → local rules / computations / interactions
+- compartments → nodes/devices/places
+
+This preserves locality, stochasticity, and event-driven dynamics
+* However, note that not all events in CASs are distributed as a negative exponential
+* Random reuse optimization may not apply!
+
+### General pattern: no free lunch
+
+> Optimization is based on assumptions about the model and its dynamics.
+> Generalization breaks assumptions, invalidating optimizations.
+
+There exist a **trade-off between generality and performance**
+
+
+
+---
+
+## Why Alchemist was built
+
+Goal:
+- start from a fast stochastic (chemical) DES engine
+- extend it until it can model pervasive / situated / networked systems
+
+Design intent:
+- keep the performance advantages of kinetic Monte Carlo
+- add the abstractions needed for CAS experiments:
+    - space and environments
+    - mobility and dynamic neighborhoods
+    - heterogeneous nodes
+    - pluggable time distributions and scheduling
+
 ---
 
 ## Alchemist conceptual model
 
 Core concepts:
-- *Nodes* (devices / agents / compartments)
 - *Environment* (space + constraints)
-- *Reactions* (what can happen, and when)
-- *Time* (typically *discrete-event*, with customizable time distributions)
-
-Practical implication:
-- changing the *time model* or *scheduling policy* can change **emergent outcomes**
-
----
-
-## Deploying devices and configuring connections
-
-Deployment answers: *“where are the devices?”*  
-Typical strategies:
-- random placement
-- regular grids and perturbed grids
-- scenario-specific placement (clusters, hotspots)
-- mobility models (moving nodes over time)
+- *Neighborhoods* (connectivity)
+- *Nodes* (devices / agents / compartments)
+- *Reactions* (what can happen, and when), composed of:
+    - *Conditions* (guards)
+    - *Time distributions* and *rate equations* (when it happens)
+    - *Actions* (state updates, messages, mobility)
 
 ---
 
-## Deploying devices and configuring connections
-
-Connectivity answers: *“who can talk to whom?”*  
-Typical ingredients:
-- *neighborhood definition* (e.g., range-based, metric-based, constrained by environment)
-- *network dynamics* (links appear/disappear as nodes move or conditions change)
-- communication assumptions (latency/loss models, if included)
-
-Engineering note:
-- **“neighborhood” is part of the model, not an implementation detail**
-
----
-
-## Dynamics and timing
-
-Two families of dynamics:
-- state changes triggered by *time-driven* rounds (ticks)
-- state changes triggered by *events* with time distributions
-
-In *discrete-event* settings:
-- events are ordered even at equal timestamps (**ordering can bias outcomes**)
-- non-Markovian events are possible (custom time distributions)
-
----
-
-## Environments: *obstacles* and *maps*
-
-Environment is **not** just a background:
-- it constrains motion and interaction
-- it shapes connectivity (blocked paths, partitions, funnels)
-- it changes what “distance” means (*Euclidean* vs *walkable routes*)
-
----
-
-## Obstacles/maps change the network
-
-Effects you must account for:
-- two devices can be close in *Euclidean space* but disconnected in practice
-- barriers can create *communities* and *bottlenecks*
-- routing distance may be a better metric than geometric distance in built environments
-
----
-
-## Loading spatial data
-
-Common approaches:
-- floor plans / maps as images (*obstacles encoded in pixels*)
-- environment-aware metrics (e.g., *route-based distances*)
-- scenario composition: same program, different environments
-
-Key point:
-- environment selection can **dominate** the observed macro behavior
-
-
----
-
-## What we build next (hook to Lecture 3)
-
-Next: bottom-up emergence in simulation
-- implement local interaction rules and observe macro patterns
-- build canonical building blocks (e.g., diffusion/gradient-like spreading)
-- study limitations: fragility, tuning sensitivity, reusability and composability issues
+TBD
 
 ---
 
