@@ -27,7 +27,7 @@
 
     <section><h1 id="micro-macro-computational-models-theory-applications-and-emergent-properties">MICRO-MACRO COMPUTATIONAL MODELS: THEORY, APPLICATIONS AND EMERGENT PROPERTIES</h1>
 <h2 id="module-2">Module 2</h2>
-<h2 id="danilo-pianini---2026-02-21"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini</a> - 2026-02-21</h2>
+<h2 id="danilo-pianini---2026-02-23"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini</a> - 2026-02-23</h2>
 </section><section>
 <h1 id="part-1-nature-inspired-systems-and-emergence">Part 1: Nature-inspired systems and emergence</h1>
 </section>
@@ -267,7 +267,9 @@
 <li><strong>reproducibility</strong> and control of randomness</li>
 </ul>
 </section><section>
-<h2 id="time-driven-vs-event-driven"><em>Time-driven</em> vs <em>event-driven</em></h2>
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><h2 id="time-driven-vs-event-driven"><em>Time-driven</em> vs <em>event-driven</em></h2>
 <p><em>Time-driven</em> (ticks):</p>
 <ul>
 <li>time advances in fixed steps</li>
@@ -280,8 +282,8 @@
 <li>events are processed one by one</li>
 <li>if two events share a timestamp, an execution order still exists (<strong>and may matter</strong>)</li>
 </ul>
-</section><section>
-<h2 id="synchronous-vs-asynchronous-scheduling"><em>Synchronous</em> vs <em>asynchronous</em> scheduling</h2>
+</div>
+<div class="col "><h2 id="synchronous-vs-asynchronous-scheduling"><em>Synchronous</em> vs <em>asynchronous</em> scheduling</h2>
 <p><em>Synchronous</em>:</p>
 <ul>
 <li>all agents update together (typical in tick-based ABM tools)</li>
@@ -293,6 +295,9 @@
 <li>closer to many real distributed settings</li>
 <li>ordering effects become <strong>part of the model</strong></li>
 </ul>
+</div>
+</div>
+</div>
 </section><section>
 <h2 id="stochasticity-and-reproducibility"><em>Stochasticity</em> and <strong>reproducibility</strong></h2>
 <p>In computer simulation, <strong>reproducibility requires</strong>:</p>
@@ -305,6 +310,52 @@
 <ul>
 <li>every result should specify: <em>model</em>, <em>parameters</em>, <em>seeds</em>, and execution configuration</li>
 </ul>
+</section><section>
+<h2 id="monte-carlo">Monte Carlo</h2>
+<h3 id="exercise-compute-the-overall-area-of-these-shapes">Exercise: compute the overall area of these shapes:</h3>
+<p><img src="img/shapes.png" alt="shapes"></p>
+</section><section>
+<h2 id="monte-carlo-1">Monte Carlo</h2>
+<h3 id="exercise-compute-the-overall-area-of-these-shapes-1">Exercise: compute the overall area of these shapes:</h3>
+<div style="background:#FFF;color:#fff;padding:0em;display:inline-block;max-width:100%;border:.3em solid #000;box-sizing:border-box;">
+  <img src="img/shapes.png" alt="shapes" style="display:block;max-width:100%;height:auto;">
+</div>
+<ul>
+<li><em>Hint</em>: we can inscribe them in a rectangle</li>
+</ul>
+</section><section>
+<h2 id="monte-carlo-2">Monte Carlo</h2>
+<h3 id="exercise-compute-the-overall-area-of-these-shapes-2">Exercise: compute the overall area of these shapes:</h3>
+<div style="background:#FFF;color:#fff;padding:0em;display:inline-block;max-width:100%;border:.3em solid #000;box-sizing:border-box;">
+  <img src="img/shapes.png" alt="shapes" style="display:block;max-width:100%;height:auto;">
+</div>
+<ul>
+<li><em>Hint</em>: we can inscribe them in a rectangle</li>
+<li><em>Hint</em>: we can assume we have a method to check whether a coordinate is inside a shape</li>
+</ul>
+</section><section>
+<h2 id="monte-carlo-3">Monte Carlo</h2>
+<h3 id="exercise-compute-the-overall-area-of-these-shapes-3">Exercise: compute the overall area of these shapes:</h3>
+<div style="background:#FFF;color:#fff;padding:0em;display:inline-block;max-width:100%;border:.3em solid #000;box-sizing:border-box;">
+  <img src="img/shapes.png" alt="shapes" style="display:block;max-width:100%;height:auto;">
+</div>
+<ul>
+<li><em>Hint</em>: we can inscribe them in a rectangle</li>
+<li><em>Hint</em>: we can assume we have a method to check whether a coordinate is inside a shape</li>
+<li><em>Hint</em>: we can generate random coordinates in the rectangle</li>
+</ul>
+</section><section>
+<h2 id="monte-carlo-4">Monte Carlo</h2>
+<h3 id="exercise-compute-the-overall-area-of-these-shapes-4">Exercise: compute the overall area of these shapes:</h3>
+<div style="background:#FFF;color:#fff;padding:0em;display:inline-block;max-width:100%;border:.3em solid #000;box-sizing:border-box;">
+  <img src="img/shapes.png" alt="shapes" style="display:block;max-width:100%;height:auto;">
+</div>
+<p><strong>Procedure</strong>:</p>
+<ol>
+<li>Generate $N$ random coordinates in the rectangle $w \times h$ rectangle</li>
+<li>Let $M$ be the number of random coordinates that are inside the shapes</li>
+<li>Estimate the area as $\frac{M}{N}wh$</li>
+</ol>
 </section><section>
 <h2 id="monte-carlo-framing">Monte Carlo framing</h2>
 <p>Two extremes:</p>
@@ -326,7 +377,6 @@
 <li>run multiple <em>seeds</em> per configuration</li>
 <li>compute <em>summary statistics</em> (mean/variance/quantiles)</li>
 <li>estimate <em>uncertainty</em> (confidence intervals)</li>
-<li>compare alternatives (<em>sensitivity</em> / <em>ablation</em> / <em>robustness</em>)</li>
 </ol>
 </section><section>
 <h2 id="batch-thinking">Batch thinking</h2>
@@ -339,106 +389,252 @@ A Monte Carlo experiment answers: <strong>“what tends to happen”</strong></p
 <li>keep outputs minimal but sufficient for analysis</li>
 </ul>
 </section><section>
-<h2 id="why-alchemist">Why <em>Alchemist</em></h2>
-<p>Alchemist is a general-purpose simulator for <em>networked systems</em>:</p>
-<ul>
-<li>nodes in an <em>environment</em></li>
-<li><em>neighborhood relations</em> (possibly dynamic)</li>
-<li><em>reactions</em> as the unit of behavior</li>
-<li>supports <em>situated</em> scenarios (space matters)</li>
-<li>supports <em>maps</em> and <em>floor plans</em> (image-based)</li>
-<li>used as an <em>external simulator</em> for aggregate programming prototyping and debugging</li>
-</ul>
-</section><section>
-<h2 id="alchemist-video">Alchemist (video)</h2>
+<h2 id="alchemist">Alchemist</h2>
 <video loop="" playsinline="" autoplay="" muted="" style="max-width: 900px; display: inline-block;">
   <source src="https://alchemistsimulator.github.io/home-animation.mp4" type="video/mp4">
   If your browser supported the video tag, there would be a nice video.
 </video>
+<p>a (meta-)simulator for <em>pervasive computing</em></p>
+<ul>
+<li>event-driven, discrete-event</li>
+<li>reproducible runs (explicit seeds, deterministic)</li>
+<li>batch mode for Monte Carlo experiments</li>
+<li>open-source, written in Java/Kotlin/Scala</li>
+<li><a href="https://alchemistsimulator.github.io">https://alchemistsimulator.github.io</a></li>
+</ul>
+</section><section>
+<h2 id="historical-origin-stochastic-chemistry">Historical origin: stochastic chemistry</h2>
+<p>Problem setting:</p>
+<ul>
+<li>a container with a finite number of molecules</li>
+<li>reactions occur probabilistically</li>
+<li>we want to predict the system evolution over time</li>
+</ul>
+<p>Why classic (continuous) chemistry is insufficient here:</p>
+<ul>
+<li>concentrations are treated as real numbers</li>
+<li>accurate mainly at very large molecule counts</li>
+<li>breaks down when discreteness matters</li>
+</ul>
+</section><section>
+<h2 id="kinetic-monte-carlo-gillespie--the-core-idea">Kinetic Monte Carlo (Gillespie) — the core idea</h2>
+<p>Represent chemistry as:</p>
+<ul>
+<li><em>reactions</em> with <em>rates</em>: $r \triangleq A + B\xrightarrow{\mu_r} C$</li>
+<li>each reaction $r$ is an independent stochastic event whose likelihood (<em>propensity</em>)
+depends on the reactant counts and the rate constant $\mu_r$:
+<ul>
+<li>$a_R = \mu[A][B]$</li>
+</ul>
+</li>
+</ul>
+<p>Algorithm sketch:</p>
+<ol>
+<li>compute propensities for all reactions $R$ from the current state</li>
+<li>sample the next reaction to fire:
+<ul>
+<li>$P(next = r) = \frac{a_r}{\sum_{i \in R} a_{i}}$</li>
+</ul>
+</li>
+<li>sample the time increment to the next event
+<ul>
+<li>$\Delta t = \frac{-\ln \left(\rho \right)}{\sum_{i \in R} a_{i}}$</li>
+<li>where $\lambda = \sum_{i \in R} a_{i}$ and $\rho$ is a uniform random number in $(0,1)$</li>
+</ul>
+</li>
+<li>update the state and repeat</li>
+</ol>
+</section><section>
+<h2 id="why-simulator-design-matters-gillespie-as-a-case-study">Why simulator design matters (Gillespie as a case study)</h2>
+<p>Naïve kinetic Monte Carlo is correct, but:</p>
+<ul>
+<li>recomputing everything at every step is expensive</li>
+<li>selecting the next event can dominate runtime</li>
+</ul>
+<p>Goal:</p>
+<blockquote>
+<p>keep exact stochastic semantics while scaling to large reaction sets</p>
+</blockquote>
+</section><section>
+<h2 id="solve-the-problem-base-algorithm-gillespie--kmc">Solve the problem: base algorithm (Gillespie / KMC)</h2>
+<p>Algorithm:</p>
+<ol>
+<li>Set simulation time $T = 0$</li>
+<li>For each reaction $r \in R$, compute propensity $a_r$</li>
+<li>Select next reaction $\mu$ with
+$$P(r=\mu)=\frac{a_r}{\sum_{j\in R} a_j}$$</li>
+<li>Execute $\mu$ (update molecule counts)</li>
+<li>Advance time:
+$$T \leftarrow T_{\text{prev}} + \frac{-\ln(\rho)}{\lambda},\quad \lambda=\sum_{j\in R} a_j,\ \rho\sim U(0,1)$$</li>
+<li>Go to 2</li>
+</ol>
+</section><section>
+<h2 id="base-algorithm-data-structure-choice-where-the-cost-is">Base algorithm: data structure choice (where the cost is)</h2>
+<p>To sample reaction $\mu$:</p>
+<ul>
+<li>store reactions + propensities</li>
+<li>sample $x \sim U!\left(0, \sum_{j\in R} a_j\right)$</li>
+<li>scan cumulative sum until it exceeds $x$</li>
+</ul>
+<p>Cost:</p>
+<ul>
+<li>selection is <strong>linear in $|R|$</strong> per event</li>
+<li>plus recomputing propensities at every step</li>
+</ul>
+<p>This is fine for small $|R|$, but it does not scale.</p>
+</section><section>
+<h2 id="speed-up-1-dependency-graph">Speed-up 1: dependency graph</h2>
+<p>Observation:</p>
+<ul>
+<li>propensities depend on reactants</li>
+<li>only reactions that share reactants/products are affected by a firing event</li>
+</ul>
+<p>Idea:</p>
+<ul>
+<li>maintain a dependency graph: for each reaction, which propensities must be updated if it fires</li>
+</ul>
+<p>Data structure:</p>
+<ul>
+<li>map: $r \mapsto { r_1, r_2, \dots }$ (affected reactions)</li>
+</ul>
+<p>Effect:</p>
+<ul>
+<li>update only a subset of propensities, often much smaller than $|R|$</li>
+</ul>
+</section><section>
+<h2 id="speed-up-1-dependency-graph-picture">Speed-up 1: dependency graph (picture)</h2>
+<p><img src="img/dependencygraph.png" alt=""></p>
+</section><section>
+<h2 id="speed-up-2-next-reaction-method-time-based-selection">Speed-up 2: “next reaction” method (time-based selection)</h2>
+<p>Instead of sampling the next reaction by propensity:</p>
+<ol>
+<li>generate a putative firing time $\tau_r$ for each reaction $r$</li>
+<li>select the smallest $\tau_r$</li>
+<li>when propensities change, update only affected $\tau_r$ (via dependency graph)</li>
+</ol>
+<p>Key requirement:</p>
+<ul>
+<li>we need fast access to the smallest putative time, in $O(1)$ (or near)</li>
+<li>update-key (reorder) in $O(\log |R|)$</li>
+<li>update only affected reactions</li>
+</ul>
+<p>Best-known structure:</p>
+<ul>
+<li>binary heap / indexed priority queue</li>
+</ul>
+</section><section>
+<p><img src="img/extipq.png" alt=""></p>
+</section><section>
+<h2 id="speed-up-3-random-reuse-memorylessness">Speed-up 3: random reuse (memorylessness)</h2>
+<p>Random generation can dominate in chemical simulators.
+We can reduce RNG calls using exponential memorylessness.</p>
+<p>If at time $T$ a reaction had previous putative time $\tau_p$ with propensity $a_p$,
+and after an update its propensity is $a_c$:</p>
+<p>$$
+\tau_c = \frac{a_c(\tau_p - T)}{a_p} + T
+$$</p>
+<p>Notes:</p>
+<ul>
+<li>valid because exponential distribution is memoryless</li>
+<li>applies when updating dependent reactions that did not fire</li>
+</ul>
+</section><section>
+<h2 id="beyond-heaps-slepoys-algorithm-amortized-o1-idea">Beyond heaps: Slepoy’s algorithm (amortized $O(1)$ idea)</h2>
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><h4 id="idea">Idea</h4>
+<ul>
+<li>group reactions by propensity ranges</li>
+<li>sample a group, then a reaction inside the group</li>
+<li>updates are constant-time if groups are stable</li>
+</ul>
+<p>If the number of groups is independent of $|R|$:</p>
+<ul>
+<li>selection and updates can be $O(1)$</li>
+</ul>
+<p><img src="img/slepoy.png" alt=""></p>
+</div>
+<div class="col "><h4 id="slepoys-algorithm-why-its-not-universal">Slepoy’s algorithm: why it’s not universal</h4>
+<ul>
+<li>assumes propensities are finite and stable (not changing much over time)
+<ul>
+<li>often true in “pure chemistry”</li>
+<li>not guaranteed in general systems (e.g., mobile/distributed settings)</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section><section>
+<h2 id="takeaway-for-simulator-design">Takeaway for simulator design</h2>
+<p>Correct semantics is not enough:</p>
+<ul>
+<li>performance depends on the <em>event selection</em> strategy</li>
+<li>data structures shape scalability</li>
+<li>optimization assumptions may or may not hold outside chemistry</li>
+</ul>
+<p>This is the design tension behind “chemical-rooted” DES engines that later generalize.</p>
+</section><section>
+<h2 id="from-chemistry-to-distributed-systems-the-generalization-step">From chemistry to distributed systems: the generalization step</h2>
+<p>Observation:</p>
+<ul>
+<li>many distributed scenarios can be seen as “chemical-like” systems</li>
+</ul>
+<p>Mapping intuition:</p>
+<ul>
+<li>concentrations → data information units</li>
+<li>molecules → data accessors</li>
+<li>reactions → local rules / computations / interactions</li>
+<li>compartments → nodes/devices/places</li>
+</ul>
+<p>This preserves locality, stochasticity, and event-driven dynamics</p>
+<ul>
+<li>However, note that not all events in CASs are distributed as a negative exponential</li>
+<li>Random reuse optimization may not apply!</li>
+</ul>
+<h3 id="general-pattern-no-free-lunch">General pattern: no free lunch</h3>
+<blockquote>
+<p>Optimization is based on assumptions about the model and its dynamics.
+Generalization breaks assumptions, invalidating optimizations.</p>
+</blockquote>
+<p>There exist a <strong>trade-off between generality and performance</strong></p>
+</section><section>
+<h2 id="why-alchemist-was-built">Why Alchemist was built</h2>
+<p>Goal:</p>
+<ul>
+<li>start from a fast stochastic (chemical) DES engine</li>
+<li>extend it until it can model pervasive / situated / networked systems</li>
+</ul>
+<p>Design intent:</p>
+<ul>
+<li>keep the performance advantages of kinetic Monte Carlo</li>
+<li>add the abstractions needed for CAS experiments:
+<ul>
+<li>space and environments</li>
+<li>mobility and dynamic neighborhoods</li>
+<li>heterogeneous nodes</li>
+<li>pluggable time distributions and scheduling</li>
+</ul>
+</li>
+</ul>
 </section><section>
 <h2 id="alchemist-conceptual-model">Alchemist conceptual model</h2>
 <p>Core concepts:</p>
 <ul>
-<li><em>Nodes</em> (devices / agents / compartments)</li>
 <li><em>Environment</em> (space + constraints)</li>
-<li><em>Reactions</em> (what can happen, and when)</li>
-<li><em>Time</em> (typically <em>discrete-event</em>, with customizable time distributions)</li>
-</ul>
-<p>Practical implication:</p>
+<li><em>Neighborhoods</em> (connectivity)</li>
+<li><em>Nodes</em> (devices / agents / compartments)</li>
+<li><em>Reactions</em> (what can happen, and when), composed of:
 <ul>
-<li>changing the <em>time model</em> or <em>scheduling policy</em> can change <strong>emergent outcomes</strong></li>
+<li><em>Conditions</em> (guards)</li>
+<li><em>Time distributions</em> and <em>rate equations</em> (when it happens)</li>
+<li><em>Actions</em> (state updates, messages, mobility)</li>
+</ul>
+</li>
 </ul>
 </section><section>
-<h2 id="deploying-devices-and-configuring-connections">Deploying devices and configuring connections</h2>
-<p>Deployment answers: <em>“where are the devices?”</em><br>
-Typical strategies:</p>
-<ul>
-<li>random placement</li>
-<li>regular grids and perturbed grids</li>
-<li>scenario-specific placement (clusters, hotspots)</li>
-<li>mobility models (moving nodes over time)</li>
-</ul>
-</section><section>
-<h2 id="deploying-devices-and-configuring-connections-1">Deploying devices and configuring connections</h2>
-<p>Connectivity answers: <em>“who can talk to whom?”</em><br>
-Typical ingredients:</p>
-<ul>
-<li><em>neighborhood definition</em> (e.g., range-based, metric-based, constrained by environment)</li>
-<li><em>network dynamics</em> (links appear/disappear as nodes move or conditions change)</li>
-<li>communication assumptions (latency/loss models, if included)</li>
-</ul>
-<p>Engineering note:</p>
-<ul>
-<li><strong>“neighborhood” is part of the model, not an implementation detail</strong></li>
-</ul>
-</section><section>
-<h2 id="dynamics-and-timing">Dynamics and timing</h2>
-<p>Two families of dynamics:</p>
-<ul>
-<li>state changes triggered by <em>time-driven</em> rounds (ticks)</li>
-<li>state changes triggered by <em>events</em> with time distributions</li>
-</ul>
-<p>In <em>discrete-event</em> settings:</p>
-<ul>
-<li>events are ordered even at equal timestamps (<strong>ordering can bias outcomes</strong>)</li>
-<li>non-Markovian events are possible (custom time distributions)</li>
-</ul>
-</section><section>
-<h2 id="environments-obstacles-and-maps">Environments: <em>obstacles</em> and <em>maps</em></h2>
-<p>Environment is <strong>not</strong> just a background:</p>
-<ul>
-<li>it constrains motion and interaction</li>
-<li>it shapes connectivity (blocked paths, partitions, funnels)</li>
-<li>it changes what “distance” means (<em>Euclidean</em> vs <em>walkable routes</em>)</li>
-</ul>
-</section><section>
-<h2 id="obstaclesmaps-change-the-network">Obstacles/maps change the network</h2>
-<p>Effects you must account for:</p>
-<ul>
-<li>two devices can be close in <em>Euclidean space</em> but disconnected in practice</li>
-<li>barriers can create <em>communities</em> and <em>bottlenecks</em></li>
-<li>routing distance may be a better metric than geometric distance in built environments</li>
-</ul>
-</section><section>
-<h2 id="loading-spatial-data">Loading spatial data</h2>
-<p>Common approaches:</p>
-<ul>
-<li>floor plans / maps as images (<em>obstacles encoded in pixels</em>)</li>
-<li>environment-aware metrics (e.g., <em>route-based distances</em>)</li>
-<li>scenario composition: same program, different environments</li>
-</ul>
-<p>Key point:</p>
-<ul>
-<li>environment selection can <strong>dominate</strong> the observed macro behavior</li>
-</ul>
-</section><section>
-<h2 id="what-we-build-next-hook-to-lecture-3">What we build next (hook to Lecture 3)</h2>
-<p>Next: bottom-up emergence in simulation</p>
-<ul>
-<li>implement local interaction rules and observe macro patterns</li>
-<li>build canonical building blocks (e.g., diffusion/gradient-like spreading)</li>
-<li>study limitations: fragility, tuning sensitivity, reusability and composability issues</li>
-</ul>
+<p>TBD</p>
 </section><section>
 <h3 id="lecture-2-2h--simulation-paradigms-and-modeling-choices">Lecture 2 (2h) — Simulation paradigms and modeling choices</h3>
 <p><strong>Time budget (120’)</strong></p>
@@ -581,12 +777,12 @@ This is something bad</li>
 
 <div style="">
 <div style="width: 100%;height: 300px; display: block;">
-    <canvas id="46bf1c24a8dfed4cdfcbea8cc85dc4c5"></canvas>
+    <canvas id="cacc81f4d884e54dafcfdcdce65cbb42"></canvas>
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.js"></script>
 <script type="text/javascript">
-    var ctx = document.getElementById('46bf1c24a8dfed4cdfcbea8cc85dc4c5').getContext('2d');
+    var ctx = document.getElementById('cacc81f4d884e54dafcfdcdce65cbb42').getContext('2d');
     var options = 
 {
     type: 'bar',
@@ -788,7 +984,7 @@ joined</p>
 
 </section><section>
 <h1 id="graphs-via-mermaidjs-3">Graphs via mermaid.js 3</h1>
-<div class="mermaid" data-processed="true" pre-rendered="true"><svg aria-roledescription="gitGraph" role="graphics-document document" viewBox="-117.1484375 -18 475.1484375 171.73809814453125" style="max-width: 475.1484375px;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="100%" id="my-svg"><style>#my-svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#my-svg .error-icon{fill:#552222;}#my-svg .error-text{fill:#552222;stroke:#552222;}#my-svg .edge-thickness-normal{stroke-width:1px;}#my-svg .edge-thickness-thick{stroke-width:3.5px;}#my-svg .edge-pattern-solid{stroke-dasharray:0;}#my-svg .edge-thickness-invisible{stroke-width:0;fill:none;}#my-svg .edge-pattern-dashed{stroke-dasharray:3;}#my-svg .edge-pattern-dotted{stroke-dasharray:2;}#my-svg .marker{fill:#333333;stroke:#333333;}#my-svg .marker.cross{stroke:#333333;}#my-svg svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#my-svg p{margin:0;}#my-svg .commit-id,#my-svg .commit-msg,#my-svg .branch-label{fill:lightgrey;color:lightgrey;font-family:'trebuchet ms',verdana,arial,sans-serif;font-family:var(--mermaid-font-family);}#my-svg .branch-label0{fill:#ffffff;}#my-svg .commit0{stroke:hsl(240, 100%, 46.2745098039%);fill:hsl(240, 100%, 46.2745098039%);}#my-svg .commit-highlight0{stroke:hsl(60, 100%, 3.7254901961%);fill:hsl(60, 100%, 3.7254901961%);}#my-svg .label0{fill:hsl(240, 100%, 46.2745098039%);}#my-svg .arrow0{stroke:hsl(240, 100%, 46.2745098039%);}#my-svg .branch-label1{fill:black;}#my-svg .commit1{stroke:hsl(60, 100%, 43.5294117647%);fill:hsl(60, 100%, 43.5294117647%);}#my-svg .commit-highlight1{stroke:rgb(0, 0, 160.5);fill:rgb(0, 0, 160.5);}#my-svg .label1{fill:hsl(60, 100%, 43.5294117647%);}#my-svg .arrow1{stroke:hsl(60, 100%, 43.5294117647%);}#my-svg .branch-label2{fill:black;}#my-svg .commit2{stroke:hsl(80, 100%, 46.2745098039%);fill:hsl(80, 100%, 46.2745098039%);}#my-svg .commit-highlight2{stroke:rgb(48.8333333334, 0, 146.5000000001);fill:rgb(48.8333333334, 0, 146.5000000001);}#my-svg .label2{fill:hsl(80, 100%, 46.2745098039%);}#my-svg .arrow2{stroke:hsl(80, 100%, 46.2745098039%);}#my-svg .branch-label3{fill:#ffffff;}#my-svg .commit3{stroke:hsl(210, 100%, 46.2745098039%);fill:hsl(210, 100%, 46.2745098039%);}#my-svg .commit-highlight3{stroke:rgb(146.5000000001, 73.2500000001, 0);fill:rgb(146.5000000001, 73.2500000001, 0);}#my-svg .label3{fill:hsl(210, 100%, 46.2745098039%);}#my-svg .arrow3{stroke:hsl(210, 100%, 46.2745098039%);}#my-svg .branch-label4{fill:black;}#my-svg .commit4{stroke:hsl(180, 100%, 46.2745098039%);fill:hsl(180, 100%, 46.2745098039%);}#my-svg .commit-highlight4{stroke:rgb(146.5000000001, 0, 0);fill:rgb(146.5000000001, 0, 0);}#my-svg .label4{fill:hsl(180, 100%, 46.2745098039%);}#my-svg .arrow4{stroke:hsl(180, 100%, 46.2745098039%);}#my-svg .branch-label5{fill:black;}#my-svg .commit5{stroke:hsl(150, 100%, 46.2745098039%);fill:hsl(150, 100%, 46.2745098039%);}#my-svg .commit-highlight5{stroke:rgb(146.5000000001, 0, 73.2500000001);fill:rgb(146.5000000001, 0, 73.2500000001);}#my-svg .label5{fill:hsl(150, 100%, 46.2745098039%);}#my-svg .arrow5{stroke:hsl(150, 100%, 46.2745098039%);}#my-svg .branch-label6{fill:black;}#my-svg .commit6{stroke:hsl(300, 100%, 46.2745098039%);fill:hsl(300, 100%, 46.2745098039%);}#my-svg .commit-highlight6{stroke:rgb(0, 146.5000000001, 0);fill:rgb(0, 146.5000000001, 0);}#my-svg .label6{fill:hsl(300, 100%, 46.2745098039%);}#my-svg .arrow6{stroke:hsl(300, 100%, 46.2745098039%);}#my-svg .branch-label7{fill:black;}#my-svg .commit7{stroke:hsl(0, 100%, 46.2745098039%);fill:hsl(0, 100%, 46.2745098039%);}#my-svg .commit-highlight7{stroke:rgb(0, 146.5000000001, 146.5000000001);fill:rgb(0, 146.5000000001, 146.5000000001);}#my-svg .label7{fill:hsl(0, 100%, 46.2745098039%);}#my-svg .arrow7{stroke:hsl(0, 100%, 46.2745098039%);}#my-svg .branch{stroke-width:1;stroke:#333333;stroke-dasharray:2;}#my-svg .commit-label{font-size:10px;fill:#000021;}#my-svg .commit-label-bkg{font-size:10px;fill:#ffffde;opacity:0.5;}#my-svg .tag-label{font-size:10px;fill:#131300;}#my-svg .tag-label-bkg{fill:#ECECFF;stroke:hsl(240, 60%, 86.2745098039%);}#my-svg .tag-hole{fill:#333;}#my-svg .commit-merge{stroke:#ECECFF;fill:#ECECFF;}#my-svg .commit-reverse{stroke:#ECECFF;fill:#ECECFF;stroke-width:3;}#my-svg .commit-highlight-inner{stroke:#ECECFF;fill:#ECECFF;}#my-svg .arrow{stroke-width:8;stroke-linecap:round;fill:none;}#my-svg .gitTitleText{text-anchor:middle;font-size:18px;fill:#333;}#my-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g></g><g class="commit-bullets"></g><g class="commit-labels"></g><g><line class="branch branch0" y2="0" x2="350" y1="0" x1="0"></line><rect transform="translate(-19, -8.5)" height="21" width="52.6875" y="-0.5" x="-68.6875" ry="4" rx="4" class="branchLabelBkg label0"></rect><g class="branchLabel"><g transform="translate(-78.6875, -9.5)" class="label branch-label0"><text><tspan class="row" x="0" dy="1em" xml:space="preserve">main</tspan></text></g></g><line class="branch branch1" y2="90" x2="350" y1="90" x1="0"></line><rect transform="translate(-19, 81.5)" height="21" width="74.1484375" y="-0.5" x="-90.1484375" ry="4" rx="4" class="branchLabelBkg label1"></rect><g class="branchLabel"><g transform="translate(-100.1484375, 80.5)" class="label branch-label1"><text><tspan class="row" x="0" dy="1em" xml:space="preserve">develop</tspan></text></g></g></g><g class="commit-arrows"><path class="arrow arrow0" d="M 10 0 L 60 0"></path><path class="arrow arrow1" d="M 60 0 L 60 70 A 20 20, 0, 0, 0, 80 90 L 110 90"></path><path class="arrow arrow1" d="M 110 90 L 160 90"></path><path class="arrow arrow0" d="M 60 0 L 210 0"></path><path class="arrow arrow1" d="M 160 90 L 190 90 A 20 20, 0, 0, 0, 210 70 L 210 0"></path><path class="arrow arrow0" d="M 210 0 L 260 0"></path><path class="arrow arrow0" d="M 260 0 L 310 0"></path></g><g class="commit-bullets"><circle class="commit Initialize project commit0" r="10" cy="0" cx="10"></circle><circle class="commit Make some changes commit0" r="10" cy="0" cx="60"></circle><circle class="commit 2-7b6f0bd commit1" r="10" cy="90" cx="110"></circle><circle class="commit 3-0f82411 commit1" r="10" cy="90" cx="160"></circle><circle class="commit 4-cbcf8ec commit0" r="9" cy="0" cx="210"></circle><circle class="commit commit-merge 4-cbcf8ec commit0" r="6" cy="0" cx="210"></circle><circle class="commit 5-3b584d6 commit0" r="10" cy="0" cx="260"></circle><circle class="commit 6-d47650d commit0" r="10" cy="0" cx="310"></circle></g><g class="commit-labels"><g transform="translate(-37.5741796875, 33.5084765625) rotate(-45, 0, 0)"><rect height="15" width="73.142578125" y="13.5" x="-26.5712890625" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="-24.5712890625">Initialize project</text></g><g transform="translate(-46.36687499999999, 41.375625) rotate(-45, 50, 0)"><rect height="15" width="96.28125" y="13.5" x="11.859375" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="13.859375">Make some changes</text></g><g transform="translate(-28.417812499999997, 25.315937499999997) rotate(-45, 100, 90)"><rect height="15" width="49.046875" y="103.5" x="85.4765625" class="commit-label-bkg"></rect><text class="commit-label" y="115" x="87.4765625">2-7b6f0bd</text></g><g transform="translate(-28.29943359375, 25.210019531249998) rotate(-45, 150, 90)"><rect height="15" width="48.7353515625" y="103.5" x="135.63232421875" class="commit-label-bkg"></rect><text class="commit-label" y="115" x="137.63232421875">3-0f82411</text></g><g transform="translate(-29.639082031250002, 26.40865234375) rotate(-45, 250, 0)"><rect height="15" width="52.2607421875" y="13.5" x="233.86962890625" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="235.86962890625">5-3b584d6</text></g><g transform="translate(-29.474687499999998, 26.2615625) rotate(-45, 300, 0)"><rect height="15" width="51.828125" y="13.5" x="284.0859375" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="286.0859375">6-d47650d</text></g></g></svg></div>
+<div class="mermaid" data-processed="true" pre-rendered="true"><svg aria-roledescription="gitGraph" role="graphics-document document" viewBox="-117.1484375 -18 475.1484375 173.9670867919922" style="max-width: 475.1484375px;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="100%" id="my-svg"><style>#my-svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#my-svg .error-icon{fill:#552222;}#my-svg .error-text{fill:#552222;stroke:#552222;}#my-svg .edge-thickness-normal{stroke-width:1px;}#my-svg .edge-thickness-thick{stroke-width:3.5px;}#my-svg .edge-pattern-solid{stroke-dasharray:0;}#my-svg .edge-thickness-invisible{stroke-width:0;fill:none;}#my-svg .edge-pattern-dashed{stroke-dasharray:3;}#my-svg .edge-pattern-dotted{stroke-dasharray:2;}#my-svg .marker{fill:#333333;stroke:#333333;}#my-svg .marker.cross{stroke:#333333;}#my-svg svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#my-svg p{margin:0;}#my-svg .commit-id,#my-svg .commit-msg,#my-svg .branch-label{fill:lightgrey;color:lightgrey;font-family:'trebuchet ms',verdana,arial,sans-serif;font-family:var(--mermaid-font-family);}#my-svg .branch-label0{fill:#ffffff;}#my-svg .commit0{stroke:hsl(240, 100%, 46.2745098039%);fill:hsl(240, 100%, 46.2745098039%);}#my-svg .commit-highlight0{stroke:hsl(60, 100%, 3.7254901961%);fill:hsl(60, 100%, 3.7254901961%);}#my-svg .label0{fill:hsl(240, 100%, 46.2745098039%);}#my-svg .arrow0{stroke:hsl(240, 100%, 46.2745098039%);}#my-svg .branch-label1{fill:black;}#my-svg .commit1{stroke:hsl(60, 100%, 43.5294117647%);fill:hsl(60, 100%, 43.5294117647%);}#my-svg .commit-highlight1{stroke:rgb(0, 0, 160.5);fill:rgb(0, 0, 160.5);}#my-svg .label1{fill:hsl(60, 100%, 43.5294117647%);}#my-svg .arrow1{stroke:hsl(60, 100%, 43.5294117647%);}#my-svg .branch-label2{fill:black;}#my-svg .commit2{stroke:hsl(80, 100%, 46.2745098039%);fill:hsl(80, 100%, 46.2745098039%);}#my-svg .commit-highlight2{stroke:rgb(48.8333333334, 0, 146.5000000001);fill:rgb(48.8333333334, 0, 146.5000000001);}#my-svg .label2{fill:hsl(80, 100%, 46.2745098039%);}#my-svg .arrow2{stroke:hsl(80, 100%, 46.2745098039%);}#my-svg .branch-label3{fill:#ffffff;}#my-svg .commit3{stroke:hsl(210, 100%, 46.2745098039%);fill:hsl(210, 100%, 46.2745098039%);}#my-svg .commit-highlight3{stroke:rgb(146.5000000001, 73.2500000001, 0);fill:rgb(146.5000000001, 73.2500000001, 0);}#my-svg .label3{fill:hsl(210, 100%, 46.2745098039%);}#my-svg .arrow3{stroke:hsl(210, 100%, 46.2745098039%);}#my-svg .branch-label4{fill:black;}#my-svg .commit4{stroke:hsl(180, 100%, 46.2745098039%);fill:hsl(180, 100%, 46.2745098039%);}#my-svg .commit-highlight4{stroke:rgb(146.5000000001, 0, 0);fill:rgb(146.5000000001, 0, 0);}#my-svg .label4{fill:hsl(180, 100%, 46.2745098039%);}#my-svg .arrow4{stroke:hsl(180, 100%, 46.2745098039%);}#my-svg .branch-label5{fill:black;}#my-svg .commit5{stroke:hsl(150, 100%, 46.2745098039%);fill:hsl(150, 100%, 46.2745098039%);}#my-svg .commit-highlight5{stroke:rgb(146.5000000001, 0, 73.2500000001);fill:rgb(146.5000000001, 0, 73.2500000001);}#my-svg .label5{fill:hsl(150, 100%, 46.2745098039%);}#my-svg .arrow5{stroke:hsl(150, 100%, 46.2745098039%);}#my-svg .branch-label6{fill:black;}#my-svg .commit6{stroke:hsl(300, 100%, 46.2745098039%);fill:hsl(300, 100%, 46.2745098039%);}#my-svg .commit-highlight6{stroke:rgb(0, 146.5000000001, 0);fill:rgb(0, 146.5000000001, 0);}#my-svg .label6{fill:hsl(300, 100%, 46.2745098039%);}#my-svg .arrow6{stroke:hsl(300, 100%, 46.2745098039%);}#my-svg .branch-label7{fill:black;}#my-svg .commit7{stroke:hsl(0, 100%, 46.2745098039%);fill:hsl(0, 100%, 46.2745098039%);}#my-svg .commit-highlight7{stroke:rgb(0, 146.5000000001, 146.5000000001);fill:rgb(0, 146.5000000001, 146.5000000001);}#my-svg .label7{fill:hsl(0, 100%, 46.2745098039%);}#my-svg .arrow7{stroke:hsl(0, 100%, 46.2745098039%);}#my-svg .branch{stroke-width:1;stroke:#333333;stroke-dasharray:2;}#my-svg .commit-label{font-size:10px;fill:#000021;}#my-svg .commit-label-bkg{font-size:10px;fill:#ffffde;opacity:0.5;}#my-svg .tag-label{font-size:10px;fill:#131300;}#my-svg .tag-label-bkg{fill:#ECECFF;stroke:hsl(240, 60%, 86.2745098039%);}#my-svg .tag-hole{fill:#333;}#my-svg .commit-merge{stroke:#ECECFF;fill:#ECECFF;}#my-svg .commit-reverse{stroke:#ECECFF;fill:#ECECFF;stroke-width:3;}#my-svg .commit-highlight-inner{stroke:#ECECFF;fill:#ECECFF;}#my-svg .arrow{stroke-width:8;stroke-linecap:round;fill:none;}#my-svg .gitTitleText{text-anchor:middle;font-size:18px;fill:#333;}#my-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g></g><g class="commit-bullets"></g><g class="commit-labels"></g><g><line class="branch branch0" y2="0" x2="350" y1="0" x1="0"></line><rect transform="translate(-19, -8.5)" height="21" width="52.6875" y="-0.5" x="-68.6875" ry="4" rx="4" class="branchLabelBkg label0"></rect><g class="branchLabel"><g transform="translate(-78.6875, -9.5)" class="label branch-label0"><text><tspan class="row" x="0" dy="1em" xml:space="preserve">main</tspan></text></g></g><line class="branch branch1" y2="90" x2="350" y1="90" x1="0"></line><rect transform="translate(-19, 81.5)" height="21" width="74.1484375" y="-0.5" x="-90.1484375" ry="4" rx="4" class="branchLabelBkg label1"></rect><g class="branchLabel"><g transform="translate(-100.1484375, 80.5)" class="label branch-label1"><text><tspan class="row" x="0" dy="1em" xml:space="preserve">develop</tspan></text></g></g></g><g class="commit-arrows"><path class="arrow arrow0" d="M 10 0 L 60 0"></path><path class="arrow arrow1" d="M 60 0 L 60 70 A 20 20, 0, 0, 0, 80 90 L 110 90"></path><path class="arrow arrow1" d="M 110 90 L 160 90"></path><path class="arrow arrow0" d="M 60 0 L 210 0"></path><path class="arrow arrow1" d="M 160 90 L 190 90 A 20 20, 0, 0, 0, 210 70 L 210 0"></path><path class="arrow arrow0" d="M 210 0 L 260 0"></path><path class="arrow arrow0" d="M 260 0 L 310 0"></path></g><g class="commit-bullets"><circle class="commit Initialize project commit0" r="10" cy="0" cx="10"></circle><circle class="commit Make some changes commit0" r="10" cy="0" cx="60"></circle><circle class="commit 2-7b6c146 commit1" r="10" cy="90" cx="110"></circle><circle class="commit 3-02b2033 commit1" r="10" cy="90" cx="160"></circle><circle class="commit 4-9dd83dc commit0" r="9" cy="0" cx="210"></circle><circle class="commit commit-merge 4-9dd83dc commit0" r="6" cy="0" cx="210"></circle><circle class="commit 5-1ed7552 commit0" r="10" cy="0" cx="260"></circle><circle class="commit 6-2c4a0d9 commit0" r="10" cy="0" cx="310"></circle></g><g class="commit-labels"><g transform="translate(-37.5741796875, 33.5084765625) rotate(-45, 0, 0)"><rect height="15" width="73.142578125" y="13.5" x="-26.5712890625" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="-24.5712890625">Initialize project</text></g><g transform="translate(-46.36687499999999, 41.375625) rotate(-45, 50, 0)"><rect height="15" width="96.28125" y="13.5" x="11.859375" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="13.859375">Make some changes</text></g><g transform="translate(-29.425703125000002, 26.217734375) rotate(-45, 100, 90)"><rect height="15" width="51.69921875" y="103.5" x="84.150390625" class="commit-label-bkg"></rect><text class="commit-label" y="115" x="86.150390625">2-7b6c146</text></g><g transform="translate(-29.639082031250002, 26.40865234375) rotate(-45, 150, 90)"><rect height="15" width="52.2607421875" y="103.5" x="133.86962890625" class="commit-label-bkg"></rect><text class="commit-label" y="115" x="135.86962890625">3-02b2033</text></g><g transform="translate(-29.639082031250002, 26.40865234375) rotate(-45, 250, 0)"><rect height="15" width="52.2607421875" y="13.5" x="233.86962890625" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="235.86962890625">5-1ed7552</text></g><g transform="translate(-29.425703125000002, 26.217734375) rotate(-45, 300, 0)"><rect height="15" width="51.69921875" y="13.5" x="284.150390625" class="commit-label-bkg"></rect><text class="commit-label" y="25" x="286.150390625">6-2c4a0d9</text></g></g></svg></div>
 
 </section><section>
 <h1 id="keystrokes">Keystrokes</h1>
