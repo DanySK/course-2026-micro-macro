@@ -90,17 +90,6 @@ Typical issues:
 
 ---
 
-## What “no coordinator” implies
-
-Constraints that shape the engineering:
-- No global state
-- No single control loop
-- Local interactions only (limited range, limited bandwidth)
-- Faults are normal (dropouts, delays, partitions)
-- The system must still behave coherently at the macro level
-
----
-
 ## Nature inspiration (general)
 
 **Bio-inspired design** as engineering transfer:
