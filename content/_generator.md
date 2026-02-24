@@ -74,11 +74,11 @@ Typical issues:
 
 {{% multicol %}}
 {{% col %}}
-* No single coordinator
-* Local interactions only
-* No global state
-* No single control loop
-* Local interactions must produce coherent global behavior
+- **No single coordinator**
+- **Local interactions only**
+- **No global state**
+- **No single control loop**
+- Local interactions must produce coherent global behavior
 
 > How do we design these systems reliably?
 
@@ -103,7 +103,7 @@ Constraints that shape the engineering:
 
 ## Nature inspiration (general)
 
-Bio-inspired design as engineering transfer:
+**Bio-inspired design** as engineering transfer:
 - Identify a function that nature performs well
 - Abstract the mechanism (not the biological details)
 - Re-implement under engineering constraints
@@ -194,7 +194,7 @@ Core idea:
 
 ## Self-organising systems
 
-One way to tackle these challenges is through systems that *self-organise*.
+One way to tackle these challenges is through systems that **self-organise**.
 
 * *Self-organisation* is a process in which a system spontaneously organizes itself into a structured state without external control.
 * It is a **bottom-up** process in which local interactions among components lead to the **emergence** of global patterns or structures.
@@ -204,16 +204,16 @@ One way to tackle these challenges is through systems that *self-organise*.
 ---
 
 <div id="div1" style="width: 720px; float: left; overflow: hidden;">
-  <img src="https://danysk.github.io/Slides-2019-OYM/img/ants.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/ants.jpg" alt="Ant colony — collective foraging" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
 <div id="div2" style="width: 720px; float: left; overflow: hidden;">
-  <img src="https://danysk.github.io/Slides-2019-OYM/img/termites.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/termites.jpg" alt="Termite mound building" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
 <div id="div3" style="width: 720px; float: left; overflow: hidden;">
-  <img src="https://danysk.github.io/Slides-2019-OYM/img/firefly.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/firefly.jpg" alt="Fireflies — synchronization" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
 <div id="div4" style="width: 720px; float: left; overflow: hidden;">
-  <img src="https://danysk.github.io/Slides-2019-OYM/img/ecosystem.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/ecosystem.jpg" alt="Ecosystem interactions" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
 
 ---
@@ -283,9 +283,7 @@ For collective systems, simulation is used for:
 Key dimensions:
 - *discrete vs continuous time*
 - *time-driven vs event-driven*
-- *synchronous vs asynchronous scheduling*
 - *deterministic vs stochastic evolution*
-- **reproducibility** and control of randomness
 
 ---
 
@@ -413,10 +411,10 @@ Two extremes:
 
 Simulation is often one step in a pipeline:
 
-1. choose parameters (or sample them)
-2. run multiple *seeds* per configuration
-3. compute *summary statistics* (mean/variance/quantiles)
-4. estimate *uncertainty* (confidence intervals)
+1. **choose parameters** (or sample them)
+2. **run multiple seeds** per configuration
+3. **compute summary statistics** (mean/variance/quantiles)
+4. **estimate uncertainty** (confidence intervals)
 
 ---
 
@@ -440,10 +438,10 @@ Good practice:
 </video>
 
 a (meta-)simulator for *pervasive computing*
-- event-driven, discrete-event
-- reproducible runs (explicit seeds, deterministic)
-- batch mode for Monte Carlo experiments
-- open-source, written in Java/Kotlin/Scala
+- **event-driven**, discrete-event
+- **reproducible runs** (explicit seeds, deterministic)
+- **batch mode** for Monte Carlo experiments
+- **open-source**, written in Java/Kotlin/Scala
 - https://alchemistsimulator.github.io
 
 ---
@@ -551,7 +549,7 @@ Instead of sampling the next reaction by propensity:
 2. select the smallest $\tau_r$
 3. when propensities change, update only affected $\tau_r$ (via dependency graph)
 
-Key requirement:
+**Key requirement:**
 - we need fast access to the smallest putative time, in $O(1)$ (or near)
 - update-key (reorder) in $O(\log |R|)$
 - update only affected reactions
@@ -610,48 +608,9 @@ If the number of groups is independent of $|R|$:
 
 ---
 
-## Takeaway for simulator design
-
-Correct semantics is not enough:
-- performance depends on the *event selection* strategy
-- data structures shape scalability
-- optimization assumptions may or may not hold outside chemistry
-
-This is the design tension behind “chemical-rooted” DES engines that later generalize.
-
----
-
-## From chemistry to distributed systems: the generalization step
-
-Observation:
-- many distributed scenarios can be seen as “chemical-like” systems
-
-Mapping intuition:
-- concentrations → data information units
-- molecules → data accessors
-- reactions → local rules / computations / interactions
-- compartments → nodes/devices/places
-
-This preserves locality, stochasticity, and event-driven dynamics
-* However, note that not all events in CASs are distributed as a negative exponential
-* Random reuse optimization may not apply!
-
-### General pattern: no free lunch
-
-> Optimization is based on assumptions about the model and its dynamics.
-> Generalization breaks assumptions, invalidating optimizations.
-
-There exist a **trade-off between generality and performance**
-
-
-
----
-
 ## Why Alchemist was built
 
-Goal:
-- start from a fast stochastic (chemical) DES engine
-- extend it until it can model pervasive / situated / networked systems
+**Goal:** *start from a fast stochastic (chemical) DES engine and extend it to model pervasive/situated/networked systems.*
 
 Design intent:
 - keep the performance advantages of kinetic Monte Carlo
@@ -661,24 +620,137 @@ Design intent:
     - heterogeneous nodes
     - pluggable time distributions and scheduling
 
+### General pattern: no free lunch
+
+> Optimization is based on assumptions about the model and its dynamics.
+> Generalization breaks assumptions, invalidating optimizations.
+
+There exist a **trade-off between generality and performance**
+
+---
+
+## From chemistry to pervasive computing
+
+### Requirements
+- Multiple compartments (from now on: **nodes**)
+- Molecules can be different data types
+- Node mobility
+- Non-Markovian events
+- More flexible concept of reaction
+- ...wil retaining high performance
+
+### Idea
+Instead of using a classic Agent-Based Simulator (ABS) and optimizing at the simulation level:  
+can we start from **kinetic Monte Carlo** and extend it until it supports all the abstractions we need?
+
+---
+
+## Multiple compartments
+
+### Extension
+- So far: a **single container** with molecules
+- Next: **multiple intercommunicating containers** (nodes)
+
+### Changes
+- Introduce **neighborhoods**: which compartments can communicate with each compartment
+- Introduce **molecule transfer** between compartments
+- Possibly **different reaction sets** per compartment
+
+### Challenges
+- Who decides whether two compartments are communicating?
+- How to model a molecule moving toward a new node?
+- How does the dependency graph change?
+
+---
+
+## Spatial dependency graph
+
+- There are more reactions: each node has its “copy”
+- A reaction may affect propensities:
+  - locally
+  - in the neighborhood
+  - globally
+- The fewer bindings between reactions, the more efficient the dependency graph
+- We want to detect the *context* of reactions and filter dependencies accordingly
+
+### Possible solution (concept)
+- Define three contextual levels: *local*, *neighborhood*, *global*
+- Assign each reaction:
+  - an **input context**: which parts of the environment it reads to compute its propensity
+  - an **output context**: which part of the environment it modifies when it fires
+- A reaction `r1` may influence a reaction `r2` if at least one holds:
+  - `r1` and `r2` belong to the **same compartment**
+  - `r1`’s output context is *global*
+  - `r2`’s input context is *global*
+  - `r1`’s output context is *neighborhood* and `r2` belongs to `r1`’s neighborhood
+  - `r2`’s input context is *neighborhood* and `r1` belongs to `r2`’s neighborhood
+  - both `r1`’s output context and `r2`’s input context are *neighborhood*, and there exists a compartment shared by the two neighborhoods
+
+### Evolution (still under active research)
+
+React to changes in the environment (make the dependency graph *implicit*): **Reactive DES**
+
+---
+
+## Non-Markovian events
+
+### Example
+Every second, an external device injects some quantity of molecules within a compartment.
+- the event happens precisely every second: **not a Poisson process**
+- its time distribution is a **$\delta$-Dirac comb**
+
+### Algorithms
+- Basic Gillespie is *hard to adapt*: selection is propensity-based, tied to the Markovian model
+- “Next reaction” uses **putative times**:
+  - can simulate events with arbitrary time distributions (if we can estimate next occurrence time)
+  - **random reuse is NOT allowed** for non-exponential events
+- Slepoy’s algorithm is *not applicable* because it relies on finite stable propensities
+
 ---
 
 ## Alchemist conceptual model
 
 Core concepts:
-- *Environment* (space + constraints)
-- *Neighborhoods* (connectivity)
-- *Nodes* (devices / agents / compartments)
-- *Reactions* (what can happen, and when), composed of:
-    - *Conditions* (guards)
-    - *Time distributions* and *rate equations* (when it happens)
-    - *Actions* (state updates, messages, mobility)
+- **Environment** (*space + constraints*)
+- **Neighborhoods** (*connectivity*)
+- **Nodes** (*devices / agents / compartments*)
+- **Reactions** (*what can happen, and when*)
+- **Concentrations** (*data units*)
+- **Molecules** (*data accessors*)
 
 ---
 
-TBD
+## Alchemist meta-model
+
+![](https://alchemistsimulator.github.io/images/simulator/model.svg)
 
 ---
+
+## Alchemist meta-model
+
+![](https://alchemistsimulator.github.io/images/simulator/reaction.svg)
+
+---
+
+## Alchemist architecture, and *meta-simulator* design
+
+![](img/architecture.png)
+
+* Alchemist *does not* prescribe a specific modeling language or API
+* It provides a set of *core abstractions* that can be used to build different simulators on top of it
+* A realization of the meta-model is called an **incarnation** in the simulator jargon
+* Existing incarnations: Biochemistry, SAPERE, Scafi, Protelis, JaKtA (external), Collektive (external)...
+
+---
+
+<!--
+
+
+
+
+
+
+
 
 ### Lecture 2 (2h) — Simulation paradigms and modeling choices
 
@@ -1047,103 +1119,6 @@ raw Markdown line up prettily. You can also use inline Markdown.
 
 ---
 
-# Graphs via Gravizo
-
-{{< gravizo "Example Gravizo graph" >}}
-  digraph G {
-    aize ="4,4";
-    main [shape=box];
-    main -> parse [weight=8];
-    parse -> execute;
-    main -> init [style=dotted];
-    main -> cleanup;
-    execute -> { make_string; printf}
-    init -> make_string;
-    edge [color=red];
-    main -> printf [style=bold,label="100 times"];
-    make_string [label="make a string"];
-    node [shape=box,style=filled,color=".7 .3 1.0"];
-    execute -> compare;
-  }
-{{< /gravizo >}}
-
----
-
-# Graphs via mermaid.js
-
-```mermaid
-classDiagram
-  Class01 <|-- AveryLongClass : Coosssl
-  Class03 *-- Class04
-  Class05 o-- Class06
-  Class07 .. Class08
-  Class09 --> C2 : Where am i?
-  Class09 --* C3
-  Class09 --|> Class07
-  Class07 : equals()
-  Class07 : Object[] elementData
-  Class01 : size()
-  Class01 : int chimp
-  Class01 : int gorillasaaaaaaaaaaaaaaaaaaaaaa
-  Class08 <--> C2: Cool label
-```
-
----
-
-
-# Graphs via mermaid.js with options
-
-```mermaid
-%%{init: {'theme':'default', 'themeVariables': { 'fontSize': '.34em', 'fontFamily': 'verdana' }}}%%
-classDiagram
-  Class01 <|-- AveryLongClass : Coosssl
-  Class03 *-- Class04
-  Class05 o-- Class06
-  Class07 .. Class08
-  Class09 --> C2 : Where am i?
-  Class09 --* C3
-  Class09 --|> Class07
-  Class07 : equals()
-  Class07 : Object[] elementData
-  Class01 : size()
-  Class01 : int chimp
-  Class01 : int gorillasaaaaaaaaaaaaaaaaaaaaaa
-  Class08 <--> C2: Cool label
-```
-
-
----
-# Graphs via mermaid.js 2
-
-```mermaid
-graph TD
-  SL([fa:fa-user second level]) --> L[solution]
-  L -- solution email --> db[(mysql)]
-  db --> X[automatic]
-  X --> CM([fa:fa-users first level])
-  db -- Email --> c([customer support]);
-```
-
----
-
-# Graphs via mermaid.js 3
-
-```mermaid
-gitGraph
-  commit id: "Initialize project"
-  commit id: "Make some changes"
-  branch develop
-  checkout develop
-  commit
-  commit
-  checkout main
-  merge develop
-  commit
-  commit
-```
-
----
-
 # Keystrokes
 
 <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Del</kbd>
@@ -1156,7 +1131,5 @@ gitGraph
 
 ---
 
-# Import shared slides
+-->
 
-<!-- write-here "shared-slides/devops/devops-intro.md" -->
-<!-- end-write -->
