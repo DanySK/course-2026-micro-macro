@@ -1321,50 +1321,126 @@ Purpose in the tutorial:
 
 ---
 
-Part 3: Engineering self-organisation with aggregate programming
+# Part 3: Engineering self-organisation with aggregate programming
 
 ---
 
-## Engineering self-organisation
+## Programming languages and paradigms
 
-* Self-organisation is **very hard to engineer**
-* The system properties are built **bottom-up** from **local interactions**
-* Even worse, even when a self-organizing system has been built and verified,
-  it is extremely hard to **reuse** it in a different context
+A **programming paradigm** is a *set of abstractions* for thinking about computation.
 
-### Where is the *engineering*?
+A **programming language** is a concrete *reification* of one or more paradigms:
+- it decides which abstractions are **primitive**
+- it decides what can be **composed**
+- it decides what is **easy / hard / impossible** to express
 
-There are properties that we cannot renounce:
-* *Top-down design*
-* *Modularity*
-* *Reusability*
-* *Composability*
-* *Scalability*
-* *Maintainability*
+*highlight*: good abstractions let you describe the *problem* instead of the *machine*.
 
----
+### Paradigms shift “what you control”
 
-## Aggregate programming, the idea
+Examples of “what becomes a primitive”:
 
-We have a tool that is *natively modular* and *natively composable*:
-### **functional programming languages**.
+- **Imperative**: variables, assignment, control flow (you control *state updates*)
+- **Object-oriented**: objects + messages (you control *encapsulation / interactions*)
+- **Functional**: functions + algebraic types (you control *composition*)
+- **Actor / message passing**: isolated agents + asynchronous messages (you control *concurrency boundaries*)
 
-What if we find a set of abstractions compatible with *functional programming*
-that allow us to build self-organising systems?
-
-### Aggregate programming, originally:
-
-* The computational machine is the entire system
-* Data items are *fields*
-  * A map from *devices* to *values*
-* Basic operations:
-  * evolution in time: `rep`
-  * perception of the surroundings (neighboring field): `nbr`
-  * distributed branching (domain segmentation): `if`
+> abstraction hides a low-level mechanism, enabling scale and reuse.
 
 ---
 
-# A brief history of aggregate programming languages
+## CAS needs a paradigm-level tool
+
+In **Collective Adaptive Systems**:
+- computation is **distributed**
+- interactions are **local**
+- the system is **open** and **dynamic**
+- the desired behavior is **global**
+
+If you program “device by device”, you repeatedly re-implement:
+- coordination
+- diffusion / aggregation
+- symmetry breaking
+- fault tolerance / adaptation
+
+*highlight*: this is exactly the kind of repetition paradigms are meant to eliminate.
+
+---
+
+## Programming by fields
+
+{{% multicol %}}
+{{% col %}}
+
+### **Computational field**
+A value defined over a network of devices:
+- each device holds a local value
+- together, these values form a **field** in space-time
+
+Formally (intuition):
+- a field is a mapping: **Device → Value**
+
+*highlight*: the “computational machine” is the **ensemble**, not the single node.
+
+{{% /col %}}
+{{% col %}}
+
+### Why fields fit CAS engineering
+
+Field abstraction gives you, by construction:
+- **composability**: build complex behaviors by composing functions
+- **modularity**: encapsulate coordination patterns into reusable blocks
+- **scale independence**: same code works for 10 or 10,000 devices
+- **robustness hooks**: self-organization + self-stabilization patterns
+- **platform separation**: networking/sensors/actuators stay “under the hood”
+
+{{% /col %}}
+{{% /multicol %}}
+
+Practical effect:
+> you write *what global behavior you want*, not *who talks to whom*.
+
+---
+
+## How fields connect to the core primitives
+
+To compute on fields you need:
+- **time evolution**: keep state across rounds (`rep`)
+- **neighbor observation**: access neighbor values (`nbr`)
+- **domain segmentation**: branches that preserve alignment (`if`)
+- plus: ordinary **function application** (composition)
+
+Next slides introduce these primitives one by one.
+
+### Programming by fields
+
+Stub: fields as abstractions, a variation of FP
+
+Stub: Why is practical for cas
+
+---
+
+## Evolve in time: `rep` (aka `repeat`, aka `evolve`)
+
+![](https://danysk.github.io/Slides-2019-OYM/img/ing-rep.pdf.png)
+
+---
+
+## Observe space: `nbr` (aka `neighboring`)
+
+![](https://danysk.github.io/Slides-2019-OYM/img/ing-nbr.pdf.png)
+
+---
+
+## Domain segmentation: `if` (aka `branch`)
+
+![](https://danysk.github.io/Slides-2019-OYM/img/ing-if2.pdf.png)
+
+---
+
+## Function application
+
+![](https://danysk.github.io/Slides-2019-OYM/img/ing-mix5.pdf.png)
 
 ---
 
