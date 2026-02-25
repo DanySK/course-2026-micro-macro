@@ -14,8 +14,7 @@
 <link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/gh/DanySK/css-blur-animation/blur.css" rel="stylesheet" crossorigin="anonymous">
-
-<script src="https://kit.fontawesome.com/81ac037be0.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/04afe70845.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 
   </head>
@@ -27,7 +26,7 @@
 
     <section><h1 id="micro-macro-computational-models-theory-applications-and-emergent-properties">MICRO-MACRO COMPUTATIONAL MODELS: THEORY, APPLICATIONS AND EMERGENT PROPERTIES</h1>
 <h2 id="module-2">Module 2</h2>
-<h2 id="danilo-pianini---2026-02-24"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini</a> - 2026-02-24</h2>
+<h2 id="danilo-pianini---2026-02-25"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini</a> - 2026-02-25</h2>
 </section><section>
 <h1 id="part-1-nature-inspired-systems-and-emergence">Part 1: Nature-inspired systems and emergence</h1>
 </section>
@@ -689,14 +688,1334 @@ can we start from <strong>kinetic Monte Carlo</strong> and extend it until it su
 <li>A realization of the meta-model is called an <strong>incarnation</strong> in the simulator jargon</li>
 <li>Existing incarnations: Biochemistry, SAPERE, Scafi, Protelis, JaKtA (external), Collektive (external)…</li>
 </ul>
+</section><section>
+<h2 id="sapere-in-one-slide">SAPERE in one slide</h2>
+<p><img src="https://cordis.europa.eu/docs/projects/cnect/3/256873/080/publishing/logo1/sapere.jpg" alt=""></p>
+<p>SAPERE is a research project (CORDIS <strong>256873</strong>) proposing a <em>chemical-style</em> coordination model for <strong>collective adaptive systems</strong>: <a href="https://cordis.europa.eu/project/id/256873">https://cordis.europa.eu/project/id/256873</a></p>
+<p>Core concepts:</p>
+<ul>
+<li><strong>LSA (Live Semantic Annotation)</strong>: a structured tuple describing <em>what</em> a component/service is and <em>what it currently knows/advertises</em> (data + semantic tags + context).</li>
+<li><strong>LSA Space</strong>: an associative space hosting a multiset of <strong>LSAs</strong>, supporting <em>pattern matching</em> and <em>contextual retrieval</em>.</li>
+<li><strong>Eco-laws</strong>: chemical-like <strong>rewrite rules</strong> that <em>match</em> LSAs in the space and <em>produce/update/remove</em> LSAs, enabling self-organization.</li>
+</ul>
+</section><section>
+<h2 id="operating-alchemist">Operating Alchemist</h2>
+<p>Checkout: <a href="https://github.com/AlchemistSimulator/SAPERE-incarnation-tutorial">https://github.com/AlchemistSimulator/SAPERE-incarnation-tutorial</a></p>
+<p>In <code>SAPERE-incarnation-tutorial</code>:</p>
+<ul>
+<li>Simulations are YAML files in <code>src/main/yaml/</code></li>
+<li>A file <code>SIMNAME.yml</code> becomes a Gradle task:
+<ul>
+<li><code>./gradlew SIMNAME</code></li>
+</ul>
+</li>
+<li>If <code>CI=true</code>, the UI is not launched (<em>headless execution</em>)</li>
+</ul>
+<p><em>highlight</em>: “simulation = code + experiment” lives in a single YAML spec.</p>
+</section><section>
+<h2 id="yaml-in-90-seconds-only-what-we-need">YAML in 90 seconds (only what we need)</h2>
+<p>(for more, <a href="https://learnxinyminutes.com/docs/yaml/">YAML in Y minutes</a>)</p>
+<p><strong>Maps</strong> and <strong>lists</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">key</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">value</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">list</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#000">item1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#000">item2</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Multiline strings (<code>&gt;</code> = fold newlines into spaces):</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">  {token} --&gt; {firing}</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Anchors and references (<em>write once, reuse</em>):</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">_send</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;send</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"{token} --&gt; {firing}"</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"{firing} --&gt; +{token}"</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">programs</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#8f5902;font-style:italic">*send</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div></section><section>
+<h2 id="minimal-sapere-simulation-file">Minimal SAPERE simulation file</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 00-minimal.yml</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">incarnation</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">sapere</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Meaning:</p>
+<ul>
+<li>selects the <strong>SAPERE incarnation</strong> (how contents + reactions are interpreted)</li>
+<li>produces a default environment (an empty, infinite 2D Euclidean space)</li>
+</ul>
+</section><section>
+<h2 id="add-nodes--ensure-connectivity">Add nodes + ensure connectivity</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 01-nodes.yml</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">incarnation</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">sapere</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">network-model</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">ConnectWithinDistance</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">deployments</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Point</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Point</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Key takeaways:</p>
+<ul>
+<li><strong>deployments</strong> = where nodes are placed</li>
+<li><strong>network-model</strong> = who is in the neighborhood (<strong>model choice</strong>)</li>
+</ul>
+</section><section>
+<h2 id="yaml-type--parameters-alchemist-class-loader">YAML: <code>type</code> + <code>parameters</code> (Alchemist class loader)</h2>
+<p>Alchemist can load <strong>arbitrary classes</strong> as long as they implement the expected interface/trait :contentReference[oaicite:0]{index=0}.</p>
+<p>Canonical syntax:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">something</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">ConnectWithinDistance</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0.5</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Rules:</p>
+<ul>
+<li>
+<p><code>type</code> can be <strong>fully-qualified</strong> or a <strong>simple name</strong></p>
+<ul>
+<li>if it contains a <code>.</code>, it is treated as fully-qualified</li>
+<li>otherwise it is resolved in the <em>default packages</em> for that interface</li>
+</ul>
+</li>
+<li>
+<p><code>parameters</code> can be a <strong>List</strong> or a <strong>Map</strong></p>
+<ul>
+<li>List → passed positionally to a compatible constructor</li>
+<li>Map → passed as <em>named arguments</em> (requires Kotlin + reflection)</li>
+</ul>
+</li>
+<li>
+<p>The loader injects <strong>contextual parameters automatically</strong> (e.g., Environment, Node, Reaction, TimeDistribution…), so you should not specify them manually</p>
+</li>
+</ul>
+<p>Reference: <a href="https://alchemistsimulator.github.io/reference/yaml/index.html">https://alchemistsimulator.github.io/reference/yaml/index.html</a></p>
+</section><section>
+<h2 id="where-to-find-loadable-components-classes-to-put-in-type">Where to find “loadable components” (classes to put in <code>type:</code>)</h2>
+<p>Look up the expected interface (e.g., <code>LinkingRule</code>, <code>Deployment</code>, <code>Action</code>, <code>Environment</code>) in the API docs, then browse:</p>
+<ul>
+<li>implementations in the default packages (for simple names)</li>
+<li>constructors + required parameters (<code>parameters:</code>)</li>
+</ul>
+<p>Links:</p>
+<ul>
+<li>
+<p><strong>Dokka / KDoc API docs (website):</strong></p>
+<ul>
+<li><a href="https://alchemistsimulator.github.io/reference/kdoc/">https://alchemistsimulator.github.io/reference/kdoc/</a></li>
+<li><a href="https://alchemistsimulator.github.io/reference/kdoc-modules/">https://alchemistsimulator.github.io/reference/kdoc-modules/</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Javadoc.io (always points to published artifacts):</strong> <a href="https://www.javadoc.io/doc/it.unibo.alchemist/alchemist">https://www.javadoc.io/doc/it.unibo.alchemist/alchemist</a></p>
+</li>
+<li>
+<p>YAML reference (syntax + expectations per section): <a href="https://alchemistsimulator.github.io/reference/yaml/index.html">https://alchemistsimulator.github.io/reference/yaml/index.html</a></p>
+</li>
+</ul>
+</section><section>
+<h2 id="scale-up-many-nodes-in-a-circle">Scale up: many nodes in a circle</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 02-manynodes.yml</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">incarnation</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">sapere</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">network-model</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">ConnectWithinDistance</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0.5</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">deployments</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Circle</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">10000</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">10</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p><em>highlight</em>: changing density / radius / range changes the graph, hence the dynamics.</p>
+</section><section>
+<h2 id="regular-grid-vs-perturbed-grid">Regular grid vs perturbed grid</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 03-grid.yml</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">deployments</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Grid</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span>-<span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span>-<span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.25</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.25</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 04-perturb-grid.yml</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">deployments</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Grid</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span>-<span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span>-<span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.25</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.25</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.1</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Grid parameters:</p>
+<ul>
+<li>bounds: minX, minY, maxX, maxY</li>
+<li>spacing: stepX, stepY</li>
+<li>perturbation: dx, dy</li>
+</ul>
+</section><section>
+<h2 id="insert-lsas-contents-in-selected-areas">Insert LSAs (contents) in selected areas</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 05-content.yml</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">deployments</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Grid</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span>-<span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span>-<span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.25</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.25</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.1</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">contents</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span>- <span style="color:#204a87;font-weight:bold">molecule</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">hello</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span>- <span style="color:#204a87;font-weight:bold">in</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">        </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Rectangle</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">        </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span>-<span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span>-<span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">2</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">2</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">      </span><span style="color:#204a87;font-weight:bold">molecule</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">token</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Interpretation (SAPERE):</p>
+<ul>
+<li><code>molecule:</code> strings are parsed as <strong>LSAs</strong> (tuples), e.g., <code>{token}</code></li>
+</ul>
+</section><section>
+<h2 id="dodgeball-first-sapere-program--operator">“Dodgeball”: first SAPERE program (<code>+</code> operator)</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 06-send.yml (core excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">programs</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>-<span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">      </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">        {token} --&gt; {firing}</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span>- <span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"{firing} --&gt; +{token}"</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Semantics:</p>
+<ul>
+<li>first eco-law: transforms <code>{token}</code> into <code>{firing}</code> at <strong>rate 1</strong></li>
+<li>second eco-law: when <code>{firing}</code> exists, send <code>{token}</code> to <strong>a neighbor</strong> (<code>+</code>)</li>
+</ul>
+<p><em>highlight</em>: if <code>time-distribution</code> is omitted, SAPERE assumes <strong>ASAP</strong> scheduling.</p>
+</section><section>
+<h2 id="yaml-reuse-anchors-and-references">YAML reuse: anchors and references</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 07-yaml-vars.yml (core excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">_send</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;send</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">      {token} --&gt; {firing}</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"{firing} --&gt; +{token}"</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">deployments</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#000">...</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">programs</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span>- <span style="color:#8f5902;font-style:italic">*send</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Use case:</p>
+<ul>
+<li>keep programs <strong>DRY</strong> (write once, reuse many times)</li>
+</ul>
+</section><section>
+<h2 id="counting-passes-inside-the-lsa">Counting passes inside the LSA</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 08-send-count.yml (core excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">_send</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;send</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">      {token, N} --&gt; {firing, N}</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"{firing, N} --&gt; +{token, N+1}"</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">contents</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">in</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span>{<span style="color:#f8f8f8"> </span><span style="color:#204a87;font-weight:bold">type: Rectangle, parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span>-<span style="color:#0000cf;font-weight:bold">0.5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span>-<span style="color:#0000cf;font-weight:bold">0.5</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8"> </span>}<span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">molecule</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">token, 1</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Notes:</p>
+<ul>
+<li>LSAs can carry <strong>structured state</strong> (<code>N</code>)</li>
+<li>expressions like <code>N+1</code> are evaluated during rewriting</li>
+</ul>
+</section><section>
+<h2 id="diffusion-to-all-neighbors---stabilization">Diffusion to <em>all</em> neighbors (<code>*</code>) + stabilization</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 09-diffuse.yml (core excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">_send</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;send</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">      {token} --&gt; {token} *{token}</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">      {token}{token} --&gt; {token}</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Reading:</p>
+<ul>
+<li>first eco-law: replicate <code>{token}</code> to <strong>all</strong> neighbors (<code>*</code>)</li>
+<li>second eco-law: remove duplicates (cleanup rule)</li>
+</ul>
+<p><em>highlight</em>: diffusion patterns often need <strong>propagation + cleanup</strong>.</p>
+</section><section>
+<h2 id="best-value-selection-via-guards">Best-value selection via guards</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 10-math.yml (core excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">_send</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;grad</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"{token, N} --&gt; {token, N} *{token, N+1}"</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">      {token, N}{token, def: N2&gt;=N} --&gt; {token, N}</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Meaning:</p>
+<ul>
+<li>propagate an increasing counter</li>
+<li>keep only the <strong>minimum</strong> <code>N</code> among duplicates using a guard (<code>def:</code>)</li>
+</ul>
+</section><section>
+<h2 id="monotonic-dynamics">Monotonic dynamics</h2>
+<p>In the previous example, each node keeps the <strong>minimum</strong> value it ever sees:</p>
+<ul>
+<li>propagation generates candidates (<code>N+1</code>)</li>
+<li>selection keeps the best (<code>min</code> via guard)</li>
+</ul>
+<p>Problem under topology changes:</p>
+<ul>
+<li>if a node previously had a <em>good</em> (small) <code>N</code>,
+and later the source becomes farther (or unreachable),
+the node has <strong>no mechanism to increase</strong> its value</li>
+<li>the system can only “improve” monotonically toward <strong>lower</strong> values</li>
+</ul>
+<p>Result:</p>
+<blockquote>
+<p>after a topology change, the configuration can become illegitimate and stay illegitimate forever.</p>
+</blockquote>
+<p>If the topology changes and some nodes keep an outdated <strong>too-small</strong> value:</p>
+<ul>
+<li>how can we force the system to <strong>forget</strong> stale information?</li>
+<li><span class="fragment ">Answer 1: <em>progressive raising</em> (periodically increase values so stale minima eventually disappear)</span></li>
+<li>how can we make it converge again to a correct gradient?</li>
+<li><span class="fragment ">Answer 2: <em>discard over a threshold</em> (delete values that grow too large, useful when a component has no source)</span></li>
+</ul>
+</section><section>
+<h2 id="fix-pattern-1-progressive-raising">Fix pattern 1: progressive raising</h2>
+<p>Add an eco-law that periodically <em>increases</em> the stored value:</p>
+<ul>
+<li>if information is fresh and supported by neighbors, min-selection keeps it low</li>
+<li>if information becomes stale (e.g., source moved away), raising pushes it upward</li>
+<li>eventually, a better-supported value replaces it, or it becomes “too old”</li>
+</ul>
+<p><em>highlight</em>: raising breaks the “only decrease” trap, enabling recovery.</p>
+<h2 id="fix-pattern-2-discard-over-a-threshold">Fix pattern 2: discard over a threshold</h2>
+<p>Add an eco-law that deletes values exceeding a threshold:</p>
+<ul>
+<li>in a connected component <strong>with a source</strong>, values remain bounded</li>
+<li>in a component <strong>without a source</strong>, values keep rising and eventually get deleted</li>
+<li>the system converges to “no gradient here” rather than a wrong finite distance</li>
+</ul>
+<p><em>highlight</em>: deletion restores legitimacy for <em>segmented networks with no source</em>.</p>
+</section><section>
+<h2 id="gradient-with-pure-eco-laws">Gradient with pure eco-laws</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 11-math-grad.yml (core excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">_send</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;grad</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"{source} --&gt; {source} {gradient, 0}"</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"{gradient, N} --&gt; {gradient, N} *{gradient, N+#D}"</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">      {gradient, N}{gradient, def: N2&gt;=N} --&gt; {gradient, N}</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">      {gradient, N} --&gt; {gradient, N + 1}</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">      {gradient, def: N &gt; 30} --&gt;</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Key SAPERE primitives used:</p>
+<ul>
+<li><code>#D</code> = distance-to-neighbor (from the simulator environment)</li>
+<li>guard-based min selection</li>
+<li>aging + deletion threshold</li>
+</ul>
+</section><section>
+<h2 id="slow-value-raising-aka-the-rising-value-problem">Slow value raising (a.k.a. the “rising value problem”)</h2>
+<p>This self-stabilizing gradient has an inherent asymmetry:</p>
+<ul>
+<li><strong>repairs fast</strong> when values must go <strong>down</strong></li>
+<li><strong>repairs slow</strong> when values must go <strong>up</strong></li>
+</ul>
+<p>This phenomenon is widely discussed in the self-stabilization / aggregate computing literature (e.g., Beal et al.).</p>
+<h3 id="why-the-asymmetry-exists">Why the asymmetry exists</h3>
+<p>The core update rule is effectively:</p>
+<ul>
+<li>propose candidate distances from neighbors: <code>N + #D</code></li>
+<li>keep the <strong>minimum</strong> candidate (guard-based selection)</li>
+<li>add <strong>progressive raising</strong> to forget stale minima</li>
+</ul>
+<p>Fast direction (<strong>decrease</strong>):</p>
+<ul>
+<li>as soon as any neighbor advertises a smaller value, everyone can adopt it immediately</li>
+</ul>
+<p>Slow direction (<strong>increase</strong>):</p>
+<ul>
+<li>stale values are <em>already minima</em></li>
+<li>the only way out is to <strong>age</strong> them upward step by step</li>
+</ul>
+</section><section>
+<h2 id="toy-scenario-topology-change-that-increases-distance">Toy scenario: topology change that increases distance</h2>
+<p>Assume a node currently holds a correct value <code>5</code>.</p>
+<p>Topology changes (e.g., a link/path breaks), and the correct value becomes <code>15</code>.</p>
+<p>What happens next?</p>
+<ul>
+<li>the node still holds <code>5</code> (a very good minimum)</li>
+<li>neighbors also hold low values due to the previous configuration</li>
+<li>the <strong>min rule keeps selecting the stale low values</strong></li>
+<li>only the aging eco-law can push them upward</li>
+</ul>
+<span class="fragment ">So: you do not get an instantaneous jump 5 → 15.</span>
+</section><section>
+<h2 id="why-it-becomes-slow-propagation-of-bad-news">Why it becomes <em>slow</em> (propagation of “bad news”)</h2>
+<p>Aging is local and bounded:</p>
+<ul>
+<li>each node increments its value periodically (here: <code>N := N + 1</code> at a given rate)</li>
+</ul>
+<p>But the node’s value is also constrained by neighbors:</p>
+<ul>
+<li>if any neighbor still advertises a slightly smaller stale value,
+the min-selection will keep pulling the value back down</li>
+</ul>
+<p>Net effect:</p>
+<ul>
+<li>“good news” (smaller distance) propagates as a fast wave</li>
+<li>“bad news” (larger distance) propagates as a <strong>slow wave</strong> limited by the aging rate</li>
+</ul>
+</section><section>
+<h2 id="consequence-for-collective-algorithms">Consequence for collective algorithms</h2>
+<p>During slow raising, gradients can be wrong for a long time:</p>
+<ul>
+<li>routing may keep following a path that no longer exists</li>
+<li>channels/regions derived from gradients may remain inconsistent</li>
+<li>any behavior that assumes “distance is up-to-date” can lag behind reality</li>
+</ul>
+<p><em>highlight</em>: the system is still converging, but the convergence time can be dominated by slow raising.</p>
+</section><section>
+<h2 id="what-controls-the-time-scale-intuition">What controls the time scale (intuition)</h2>
+<p>Two knobs dominate:</p>
+<ol>
+<li>
+<p><strong>Aging frequency / step size</strong></p>
+<ul>
+<li>how quickly values can increase locally</li>
+</ul>
+</li>
+<li>
+<p><strong>How far the value must rise</strong></p>
+<ul>
+<li>e.g., from 5 to 15 means at least 10 “raising steps”</li>
+<li>plus extra delay due to neighbor interactions keeping values artificially low</li>
+</ul>
+</li>
+</ol>
+<p>Rule of thumb:</p>
+<blockquote>
+<p>the farther the “upward correction”, the longer the transient—often much longer than the “downward” repair.</p>
+</blockquote>
+</section><section>
+<h2 id="setslists-inside-lsas-carry-a-trace">Sets/lists inside LSAs: “carry a trace”</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 12-sets.yml (core excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">_send</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;grad</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"{token, N, L} --&gt; {token, N, L} *{token, N+#D, L add [#NODE;]}"</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">      {token, N, L}{token, def: N2&gt;=N, L2} --&gt; {token, N, L}</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">contents</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">molecule</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">token, 0, []</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Notes:</p>
+<ul>
+<li><code>L</code> is a list; <code>add [#NODE;]</code> appends the current node id</li>
+<li>this enables <em>path-/trace-like</em> information flows</li>
+</ul>
+</section><section>
+<h2 id="custom-time-distributions-diraccomb">Custom time distributions (DiracComb)</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 13-timedistribution.yml (core excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">_send</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;grad</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">      </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">DiracComb</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">      </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0.5</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#4e9a06">"{token, N, L} --&gt; {token, N, L} *{token, N+#D, L add [#NODE;]}"</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">program</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">&gt;</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">      {token, N, L}{token, def: N2&gt;=N, L2} --&gt; {token, N, L}</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p><em>highlight</em>: eco-laws can be scheduled by <strong>non-Markovian</strong> distributions.</p>
+</section><section>
+<h2 id="variables-system-sweeps--formulas--reuse">Variables system: sweeps + formulas + reuse</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 14-yaml-vars.yml (core excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">variables</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">rate</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;rate</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">GeometricVariable</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">2</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">10</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">9</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">size</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;size</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">min</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">max</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">10</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">step</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">default</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">mSize</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;mSize</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">formula</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span>-<span style="color:#000">size</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">sourceStart</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;sourceStart</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">formula</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">mSize / 10</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">sourceSize</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;sourceSize</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">formula</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">size / 5</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Use in deployments:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">deployments</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Grid</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#8f5902;font-style:italic">*mSize,</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">*mSize,</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">*size,</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">*size,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.25</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.25</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.1</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.1</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">contents</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">in</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span>{<span style="color:#f8f8f8"> </span><span style="color:#204a87;font-weight:bold">type: Rectangle, parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#8f5902;font-style:italic">*sourceStart,</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">*sourceStart,</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">*sourceSize,</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">*sourceSize]</span><span style="color:#f8f8f8"> </span>}<span style="color:#f8f8f8">
+</span></span></span></code></pre></div></section><section>
+<h2 id="mobility-combine-sapere-programs--movement-events">Mobility: combine SAPERE programs + movement events</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 15-move.yml (core excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">_move</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#8f5902;font-style:italic">&amp;move</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span>- <span style="color:#204a87;font-weight:bold">time-distribution</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#0000cf;font-weight:bold">0.5</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">Event</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span><span style="color:#204a87;font-weight:bold">actions</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">      </span>- <span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">BrownianMove</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">        </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">0.1</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">deployments</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#000">...</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">programs</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span>- <span style="color:#8f5902;font-style:italic">*grad</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">    </span>- <span style="color:#8f5902;font-style:italic">*move</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Interpretation:</p>
+<ul>
+<li>SAPERE eco-laws handle <strong>coordination</strong></li>
+<li>Events handle <strong>physical dynamics</strong> (mobility)</li>
+</ul>
+<p><em>highlight</em>: moving nodes ⇒ changing neighborhoods ⇒ different propagation paths.</p>
+</section><section>
+<h2 id="maps-scenario-visualization-only-note">Maps scenario (visualization-only note)</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 16-maps.yml (environment + neighborhood excerpt)</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">environment</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">OSMEnvironment</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">"maps/London.osm.pbf"</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8"> </span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">network-model</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000">LinkNodesWithinRoutingRange</span><span style="color:#f8f8f8">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8">  </span><span style="color:#204a87;font-weight:bold">parameters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8"> </span><span style="color:#000;font-weight:bold">[</span><span style="color:#0000cf;font-weight:bold">400</span><span style="color:#000;font-weight:bold">]</span><span style="color:#f8f8f8">
+</span></span></span></code></pre></div><p>Purpose in the tutorial:</p>
+<ul>
+<li>show that Alchemist supports <strong>complex environments</strong> (OSM maps) and <strong>routing-aware neighborhoods</strong></li>
+<li>the SAPERE concepts remain the same (LSAs + spaces + eco-laws)</li>
+</ul>
+<p>(<em>No additional SAPERE primitives are introduced here; it is mainly a richer visualization setting.</em>)</p>
+</section><section>
+<p>Part 3: Engineering self-organisation with aggregate programming</p>
+</section><section>
+<h2 id="engineering-self-organisation">Engineering self-organisation</h2>
+<ul>
+<li>Self-organisation is <strong>very hard to engineer</strong></li>
+<li>The system properties are built <strong>bottom-up</strong> from <strong>local interactions</strong></li>
+<li>Even worse, even when a self-organizing system has been built and verified,
+it is extremely hard to <strong>reuse</strong> it in a different context</li>
+</ul>
+<h3 id="where-is-the-engineering">Where is the <em>engineering</em>?</h3>
+<p>There are properties that we cannot renounce:</p>
+<ul>
+<li><em>Top-down design</em></li>
+<li><em>Modularity</em></li>
+<li><em>Reusability</em></li>
+<li><em>Composability</em></li>
+<li><em>Scalability</em></li>
+<li><em>Maintainability</em></li>
+</ul>
+</section><section>
+<h2 id="aggregate-programming-the-idea">Aggregate programming, the idea</h2>
+<p>We have a tool that is <em>natively modular</em> and <em>natively composable</em>:</p>
+<h3 id="functional-programming-languages"><strong>functional programming languages</strong>.</h3>
+<p>What if we find a set of abstractions compatible with <em>functional programming</em>
+that allow us to build self-organising systems?</p>
+<h3 id="aggregate-programming-originally">Aggregate programming, originally:</h3>
+<ul>
+<li>The computational machine is the entire system</li>
+<li>Data items are <em>fields</em>
+<ul>
+<li>A map from <em>devices</em> to <em>values</em></li>
+</ul>
+</li>
+<li>Basic operations:
+<ul>
+<li>evolution in time: <code>rep</code></li>
+<li>perception of the surroundings (neighboring field): <code>nbr</code></li>
+<li>distributed branching (domain segmentation): <code>if</code></li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h1 id="a-brief-history-of-aggregate-programming-languages">A brief history of aggregate programming languages</h1>
+</section><section>
+<h2 id="mit-proto-2006">MIT Proto, 2006</h2>
+<p><img src="https://raw.githubusercontent.com/jakebeal/MIT-Proto/refs/heads/master/webproto/figures/protorunning.png" alt="MIT Proto"></p>
+<p>The precursor of aggregate programming,
+based on the idea of <em>amorphous computing</em>.</p>
+<ul>
+<li>Originally developed at the MIT by Jonathan Bachrach and Jake Beal</li>
+<li>C++ with built-in OpenGL visualisation</li>
+<li>LISP-like syntax</li>
+<li>Re-implemented in Javascript as WebProto</li>
+<li>Discontinued in 2016 in favour of Protelis</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">def</span> <span style="color:#000">gradient</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">src</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#000;font-weight:bold">(</span><span style="color:#000">letfed</span> <span style="color:#000;font-weight:bold">((</span><span style="color:#000">n</span> <span style="color:#000">infinity</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">mux</span> <span style="color:#000">src</span> <span style="color:#0000cf;font-weight:bold">0</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">min-hood</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">+</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">nbr</span> <span style="color:#000">n</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">nbr-range</span><span style="color:#000;font-weight:bold">))))))</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#000">n</span><span style="color:#000;font-weight:bold">))</span>
+</span></span></code></pre></div></section><section>
+<h2 id="protelis-2015"><a href="https://protelis.github.io/">Protelis, 2015</a></h2>
+<p><video width="1080" height="450" autoplay="" controls="" loop=""><source data-src="https://protelis.github.io/images/mapehd-small-h264.mp4" type="video/webm"></video></p>
+<p>The first higher-order aggregate programming language.</p>
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">def</span> <span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">share</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">distance</span> <span style="color:#ce5c00;font-weight:bold">&lt;-</span> <span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">mux</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#0000cf;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#000">foldMin</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">distance</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#3465a4">self</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">nbrRange</span><span style="color:#000;font-weight:bold">())</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></div>
+<div class="col "><ul>
+<li>Originally developed at BBN Technologies and the University of Bologna primarily by Danilo Pianini
+<ul>
+<li>with support from Jake Beal and Mirko Viroli</li>
+</ul>
+</li>
+<li>Stand-alone, JVM-based, Java-interoperable domain-specific language
+<ul>
+<li>Based on <a href="https://eclipse.dev/Xtext/">Xtext</a></li>
+<li><em>weakly typed</em></li>
+</ul>
+</li>
+<li>Introduces the higher-order field calculus</li>
+<li>Actively maintained, but feature-frozen</li>
+</ul>
+</div></div>
+</div>
+</section><section>
+<h2 id="scafi-scala-fields-2016"><a href="https://scafi.github.io/">ScaFi (Scala Fields), 2016</a></h2>
+<p>The first <em>internal DSL</em> implementing aggregate programming.</p>
+<img src="https://user-images.githubusercontent.com/23448811/224012411-fbef5948-c546-49fa-b411-f5662831ef1b.gif" width="500px">
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">def</span> <span style="color:#000">distanceTo</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#204a87;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">Boolean</span><span style="color:#ce5c00;font-weight:bold">)</span><span style="color:#204a87;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">Double</span> <span style="color:#ce5c00;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">rep</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">PositiveInfinity</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">d</span> <span style="color:#204a87;font-weight:bold">=&gt;</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">mux</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">{</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#000">foldHoodPlus</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">PositiveInfinity</span><span style="color:#ce5c00;font-weight:bold">)(</span><span style="color:#000">Math</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">min</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">nbr</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">d</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#000">nbrRange</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ce5c00;font-weight:bold">})</span>
+</span></span></code></pre></div></div>
+<div class="col "><ul>
+<li>Originally developed at the University of Bologna by Mirko Viroli and Roberto Casadei</li>
+<li>Internal DSL written in Scala 2</li>
+<li>Strongly typed, uses the Scala 2 type system natively</li>
+<li>JVM and JS versions</li>
+<li>Different semantics: <em>partial alignment</em>, <em>non-reified fields</em></li>
+<li>Actively maintained, but feature-frozen (Scafi 3 based on Scala 3 is under development)</li>
+</ul>
+</div></div>
+</div>
+</section><section>
+<h2 id="fcpp-2019"><a href="https://scafi.github.io/">FCPP, 2019</a></h2>
+<img src="https://fcpp.github.io/assets/static/screenshot.png" width="500px">
+<p>The first <em>native</em> (C++14) implementation of aggregate programming.</p>
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">DEF</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#204a87;font-weight:bold">double</span> <span style="color:#000">abf</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">ARGS</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">CODE</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">nbr</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">CALL</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">INF</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">field</span><span style="color:#ce5c00;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">double</span><span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#000">d</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">double</span> <span style="color:#000">v</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">source</span> <span style="color:#ce5c00;font-weight:bold">?</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">INF</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">min_hood</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">CALL</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">d</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#000">node</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">nbr_dist</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#000">v</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">});</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></div>
+<div class="col "><ul>
+<li>Originally developed at the University of Turin by Giorgio Audrito</li>
+<li>Very high performance</li>
+<li>C++14 library</li>
+<li><em>Manually aligned</em> via macros</li>
+<li>Can work on resource-restricted devices</li>
+</ul>
+</div></div>
+</div>
+</section><section>
+<h2 id="what-is-missing">What is missing?</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Properties</th>
+          <th>Protelis</th>
+          <th>ScaFi</th>
+          <th>FCPP</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>JVM compatibility</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Android compatibility</td>
+          <td>~</td>
+          <td>~</td>
+          <td>~</td>
+      </tr>
+      <tr>
+          <td>JS compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Native compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td>~</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>iOS compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Strictly typed</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Transparent alignment</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Complete alignment</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Exchange support</td>
+          <td>~</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Reified fields</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+  </tbody>
+</table>
+</section><section>
+<h2 id="a-matter-of-trade-offs">A matter of trade-offs</h2>
+<p><em>Internal</em> DSLs have several desirable features:</p>
+<ul>
+<li>They are <em>easier to maintain</em>, as the syntax, compiler, and tooling are shared with the host language</li>
+<li>They are more <em>familiar</em> to mainstream programmers
+<ul>
+<li>no need to learn an entire new language, it is just a library</li>
+</ul>
+</li>
+<li>They can use types from the host language</li>
+</ul>
+<p>but they also have some critical issues:</p>
+<ul>
+<li>Their <em>syntax is restricted</em> to valid fragments in the host language</li>
+<li>Language-level mechanisms, such as <strong>alignment</strong>, may “boil” up to the surface, making the language unpleasant
+<ul>
+<li>and <em>violating information hiding</em></li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="alignment-in-short">Alignment, in short</h2>
+<p><img src="align.svg" alt=""></p>
+<p>structurally-equal programs <em>can communicate</em></p>
+</section><section>
+<h2 id="alignment-in-short-1">Alignment, in short</h2>
+<p><img src="dealign.svg" alt=""></p>
+<p>branching must break alignment</p>
+</section><section>
+<h2 id="alignment-when-programming">Alignment when programming</h2>
+<ul>
+<li>Alignment is a <strong>low-level mechanism</strong> and as such should be <strong>hidden</strong> when writing aggregate code
+<ul>
+<li>Just as memory references are abstracted away when programming in Kotlin or Java</li>
+</ul>
+</li>
+<li>Implementing alignment requires maintaining your own stack, so that when a communication act happens
+the information can be associated to the stack frame</li>
+</ul>
+<p>Different frameworks make different choices:</p>
+<ul>
+<li><strong>Protelis</strong> hides alignment under the hood
+<ul>
+<li>It can do so because it is an <em>external</em> DSL whose interpreter has been realized from zero</li>
+</ul>
+</li>
+<li><strong>Scafi</strong> makes several compromises to align
+<ul>
+<li>Fields are <em>not reified</em>, namely, operations of fields can be executed in dedicated contexts (<code>foldHood</code>)
+but there is no way to have a <code>Field</code>-typed object</li>
+<li>Similar programs that should not align may align in Scafi (<em>weak alignment</em>)</li>
+<li>Functions are aligned via a stack lookup (<code>aggregate</code> function), exposing a low-level mechanism and compromising performance</li>
+</ul>
+</li>
+<li><strong>FCPP</strong> relies on <em>C macros</em> to align
+<ul>
+<li>Alignment is <em>not transparent</em></li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="why-collektive">Why Collektive</h2>
+<img src="https://github.com/Collektive/collektive/raw/master/site/static/img/collektive-logo-white-background-round.svg" width="300px">
+<p>Collektive answers the question:</p>
+<blockquote>
+<p>what if we modify the host language compiler to align code strongly and transparently?</p>
+</blockquote>
+<p>Collektive used Kotlin to do so as:</p>
+<ol>
+<li>Kotlin is becoming a reference language for mobile programming (Android is Kotlin-first)</li>
+<li>Kotlin is modern and supports nice-looking DSLs</li>
+<li>The Kotlin compiler can be enriched via <em>plugins</em></li>
+<li>Kotlin is multiplatform, generating bindings for the JVM, native (incl. iOS), JS, and WASM</li>
+</ol>
+</section><section>
+<h2 id="collektive-goals">Collektive goals</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Properties</th>
+          <th>Protelis</th>
+          <th>ScaFi</th>
+          <th>FCPP</th>
+          <th>Collektive</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>JVM compatibility</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Android compatibility</td>
+          <td>~</td>
+          <td>~</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>JS compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Native compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>iOS compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Strictly typed</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Transparent alignment</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Complete alignment</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Exchange support</td>
+          <td>~</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Reified fields</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+  </tbody>
+</table>
+</section><section>
+<h1 id="collektive-how-it-feels">Collektive: how it feels</h1>
+</section><section>
+<h2 id="a-few-algorithms-you-have-seen-in-previous-classes">A few algorithms you have seen in previous classes</h2>
+<h3 id="adaptive-bellman-ford-hop-count">Adaptive Bellman-Ford (hop count)</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">distances</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">distances</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">minValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">when</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">source</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#0000cf;font-weight:bold">0.0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">throughNeighbor</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><ul>
+<li>what happens if we move <code>throughNeighbor</code> inside the <code>when</code>?</li>
+<li>what happens if we use <code>Int</code>s or <code>Long</code>s instead of <code>Double</code>s?</li>
+</ul>
+<h3 id="adaptive-bellman-ford-with-custom-metric">Adaptive Bellman-Ford (with custom metric)</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">distances</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">distances</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">minValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">when</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">source</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#0000cf;font-weight:bold">0.0</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">throughNeighbor</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h3 id="adaptive-channel">Adaptive Channel</h3>
+<h4 id="broadcast">Broadcast</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Utility class, we can use Kotlin data types freely
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">data</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">T</span><span style="color:#000;font-weight:bold">&gt;(</span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">distance</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">value</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">T</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Comparable</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">T</span><span style="color:#000;font-weight:bold">&gt;&gt;</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">operator</span> <span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">plus</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">distance</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">T</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">this</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">distance</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">distance</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">override</span> <span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">compareTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">other</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">T</span><span style="color:#000;font-weight:bold">&gt;):</span> <span style="color:#000">Int</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">distance</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">compareTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">other</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">distance</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">override</span> <span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">toString</span><span style="color:#000;font-weight:bold">():</span> <span style="color:#000">String</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">"</span><span style="color:#4e9a06">$value</span><span style="color:#4e9a06">@</span><span style="color:#4e9a06">$distance</span><span style="color:#4e9a06">"</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Simple broadcast implementation
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">inline</span> <span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">reified</span> <span style="color:#000">T</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">broadcast</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">T</span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">T</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">top</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">infinity</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">myDistanceValue</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">top</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">distancesToValues</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">closest</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">distancesToValues</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">minValue</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">?:</span> <span style="color:#000">top</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">0.0</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000">closest</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">1.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">myDistanceValue</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">value</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h4 id="distance-between-two-sources">Distance between two sources</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distance</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">destination</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">broadcast</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">destination</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">))</span>
+</span></span></code></pre></div><h4 id="channel">Channel</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">channel</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">destination</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">width</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;):</span> <span style="color:#000">Boolean</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">destination</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#000">distance</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">destination</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">width</span>
+</span></span></code></pre></div><h4 id="channel-around-obstacles">Channel around obstacles</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Short-circuiting boolean operations work as branches!
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">channelAroundObstacles</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">isObstacle</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">destination</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">width</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;):</span> <span style="color:#000">Boolean</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">!is</span><span style="color:#000">Obstacle</span> <span style="color:#ce5c00;font-weight:bold">&amp;&amp;</span> <span style="color:#000">channel</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">destination</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">width</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div></section><section>
+<h1 id="collektive-under-the-hood">Collektive: under the hood</h1>
+</section><section>
+<h2 id="general-structure">General structure</h2>
+<ul>
+<li><strong>Domain-Specific Language</strong>
+<ul>
+<li><em>Base abstractions</em>
+<ul>
+<li><code>Field</code></li>
+<li><code>Aggregate</code></li>
+<li><code>PurelyLocal</code></li>
+<li><code>project(Field)</code></li>
+</ul>
+</li>
+<li><em>Core Machinery</em>
+<ul>
+<li>Interpreter implementation</li>
+<li>Network stub</li>
+</ul>
+</li>
+<li>Compiled with the <strong>Compiler Plugin</strong> using the <strong>Gradle Plugin</strong></li>
+</ul>
+</li>
+<li><strong>Compiler Plugin</strong>
+<ul>
+<li>Requires the <em>Base Abstractions</em></li>
+</ul>
+</li>
+<li><strong>Gradle Plugin</strong>
+<ul>
+<li>Applies the <strong>Compiler plugin</strong> to any project</li>
+</ul>
+</li>
+<li><strong>Collektivize</strong>
+<ul>
+<li>A Gradle plugin that generates “fielded” methods automatically</li>
+</ul>
+</li>
+<li><strong>Standard Library</strong>
+<ul>
+<li>Compiled with the <strong>Compiler Plugin</strong> using the <strong>Gradle Plugin</strong>
+<ul>
+<li>Functions for common operations</li>
+<li>Uses <strong>Collektivize</strong> to “field” the Kotlin standard library</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="domain-specific-language">Domain-specific language</h2>
+<p>Collektive introduces the following important abstractions:</p>
+<ul>
+<li><code>Field</code>: a view of a value, enclosing is local value and the neighboring values
+<ul>
+<li>fields can be manipulated using <code>map</code> and combined with <code>alignedMap</code></li>
+<li>fields can be converted into Kotlin <code>Map</code>s, using <code>toMap</code> or <code>excludeSelf</code></li>
+<li>fields can be converted to “scalar” values using <code>fold</code> and <code>reduce</code> operations</li>
+</ul>
+</li>
+<li><code>Aggregate</code>: the context of aggregate operations. Provides (internally or through extension functions)
+<ul>
+<li>(<em>Core operation</em>) <code>alignedOn(pivot: Any?, () -&gt; Result): Result</code>
+<ul>
+<li>aligns the code on the given pivot and runs the provided operation</li>
+</ul>
+</li>
+<li>(<em>Core operation</em>) <code>exchanging(initial: Shared, body: YieldingScope&lt;Field&lt;ID, Shared&gt;, Returned&gt;): Field&lt;ID, Shared&gt;</code>
+<ul>
+<li>generalized form of <code>exchange</code> that shares a value and can return arbitrary values</li>
+<li>all other operators except <code>alignedOn</code> could be rewritten in terms of <code>exchanging</code>, but it would be inefficient</li>
+</ul>
+</li>
+<li><code>exchange(initial: Shared, body: (Field&lt;ID, Shared&gt;) -&gt; Field&lt;ID, Shared&gt;): Field&lt;ID, Shared&gt;</code>
+<ul>
+<li><code>exchange</code> shares a value, computes over the neighborhood view of such value,
+and returns a <code>Field</code> whose contents are sent back to every neighbor</li>
+</ul>
+</li>
+<li>(<em>Core operation</em>) <code>neighboring(local: Shared): Field&lt;ID, Shared&gt;</code>
+<ul>
+<li>Provided a value, builds the neighboring view of such value</li>
+</ul>
+</li>
+<li><code>mapNeighborhood(local: (ID) -&gt; T): Field&lt;ID, T&gt;</code>
+<ul>
+<li>Maps every surrounding device, provided its identifier, to a value</li>
+</ul>
+</li>
+<li><code>share(initial: Shared, body: (Field&lt;ID, Shared&gt;) -&gt; Shared): Shared</code>
+<ul>
+<li>simplified version of <code>exchange</code> that sends the same value to all neighbors</li>
+</ul>
+</li>
+<li><code>sharing(initial: Shared, body: YieldingScope&lt;Field&lt;ID, Shared&gt;, Returned&gt;) -&gt; YieldingResult&lt;Shared, Returned&gt;): Returned</code>
+<ul>
+<li>generalized version of <code>share</code> that can return arbitrary values</li>
+</ul>
+</li>
+<li><code>evolve(initial: Stored, transform: (Stored) -&gt; Stored): Stored</code>
+<ul>
+<li>evolves a value in time, starting from <code>initial</code> and computing <code>transform</code> at each round</li>
+</ul>
+</li>
+<li>(<em>Core operation</em>) <code>evolving(initial: Stored, transform: YieldingScope&lt;Stored, Returned&gt;): Returned</code>
+<ul>
+<li>generalized version of <code>evolve</code>, returning a <code>Result</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="domain-specific-language-1">Domain-specific language</h2>
+<p>Collektive is designed for the aggregate code to meld into Kotlin natively.
+Names have been selected favoring a Kotlin-friendly syntax instead of the literature terms.</p>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Literature</strong></th>
+          <th><strong>Collektive</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>rep</code></td>
+          <td><code>evolve</code></td>
+      </tr>
+      <tr>
+          <td><code>nbr</code></td>
+          <td><code>neighboring</code></td>
+      </tr>
+      <tr>
+          <td><code>share</code></td>
+          <td><code>share</code></td>
+      </tr>
+      <tr>
+          <td><code>exchange</code></td>
+          <td><code>exchange</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>All computations use Kotlin’s native types.</p>
+<ul>
+<li>With one caveat: types used in aggregate operations must be <code>@Serializable</code>
+<ul>
+<li>Under the hood, Collektive uses <code>kotlinx.serialization</code> to serialize the data</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="domain-specific-language-2">Domain-specific language</h2>
+<h3 id="aggregate-branching">Aggregate branching</h3>
+<p>There is a missing item in the previous table:</p>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Literature</strong></th>
+          <th><strong>Collektive</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>rep</code></td>
+          <td><code>evolve</code></td>
+      </tr>
+      <tr>
+          <td><code>nbr</code></td>
+          <td><code>neighboring</code></td>
+      </tr>
+      <tr>
+          <td><code>share</code></td>
+          <td><code>share</code></td>
+      </tr>
+      <tr>
+          <td><code>exchange</code></td>
+          <td><code>exchange</code></td>
+      </tr>
+      <tr>
+          <td><code>if</code></td>
+          <td>????</td>
+      </tr>
+  </tbody>
+</table>
+<p>Branching in aggregate programming is <em>domain segmentation</em>: operations inside a branch are <em>aligned</em>
+only with the devices that are in the same branch.</p>
+<ul>
+<li>Special problem: fields created <em>outside</em> of the branch need <strong>projection</strong>!</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Device with ID 0
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Int</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">myAlignmentTest</span><span style="color:#000;font-weight:bold">():</span> <span style="color:#000">Unit</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">myField</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">mapNeighborhood</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#0000cf;font-weight:bold">1</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myField</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// φ(localId = 0, localValue = 1), neighbors = { 1 -&gt; 1, 2 -&gt; 1, 3 -&gt; 1 }
+</span></span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">when</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">localId</span> <span style="color:#000;font-weight:bold">%</span> <span style="color:#0000cf;font-weight:bold">2</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0000cf;font-weight:bold">1</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myField</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// Branch not taken
+</span></span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">mapNeighborhood</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#0000cf;font-weight:bold">2</span> <span style="color:#000;font-weight:bold">})</span> <span style="color:#8f5902;font-style:italic">// φ(localId = 0, localValue = 2), neighbors = { 2 -&gt; 2 }
+</span></span></span><span style="display:flex;"><span>            <span style="color:#000">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myField</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// φ(localId = 0, localValue = 1), neighbors = { 2 -&gt; 1 }
+</span></span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h2 id="domain-specific-language-3">Domain-specific language</h2>
+<h3 id="the-problem-with-a-plain-dsl">The problem with a “plain” DSL</h3>
+<p>If we were okay with dealing with alignment manually, we could have used a “plain” DSL.</p>
+<p>This is what a Bellman-Ford gradient would have looked like:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">alignedOn</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"Aggregate.distanceTo(Boolean)"</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#8f5902;font-style:italic">// We need to manually align to avoid clashing with other functions with a similar structure
+</span></span></span><span style="display:flex;"><span>        <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">distances</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">alignedOn</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"share(Boolean)"</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#8f5902;font-style:italic">// We need to manually align again
+</span></span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">actualMetrics</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">project</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">metric</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// The field comes from another context, hence needs projection
+</span></span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">distances</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">alignedMapValues</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">actualMetrics</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#ce5c00;font-weight:bold">::</span><span style="color:#000">plus</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">when</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#000">source</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">alignedOn</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">alignedOn</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">}</span> <span style="color:#8f5902;font-style:italic">// We cannot run the computation here or the source will never send data!
+</span></span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>Manually handling alignment and projection is akin to manual memory management in pure C:
+exposes a <em>low-level mechanism</em> and is <em>very error-prone</em>.</p>
+<ul>
+<li><strong>Alternative</strong>: never reify fields, create contexts in which operations are aligned (Scafi2)</li>
+<li><strong>Observation</strong>: alignment and projections can be <em>automatically inferred</em> from the code structure!</li>
+</ul>
+</section><section>
+<h2 id="reducing-boilerplate-through-a-compiler-plugin">Reducing boilerplate through a compiler plugin</h2>
+<h3 id="kotlin-compiler-plugins">Kotlin: compiler plugins</h3>
+<p>The Kotlin compiler is designed to be extended via <em>compiler plugins</em>.</p>
+<ul>
+<li>Compiler plugins are written in Kotlin and can be used to manipulate the Abstract Syntax Tree (AST) of a program.</li>
+<li>Changes to the AST can alter the behavior or generate code at compile time.</li>
+<li>The compiler supports <em>frontend</em> plugins for error and warning detection and <em>backend</em> plugins for code generation.</li>
+<li>Rough process:
+<ul>
+<li>Kotlin code $\Rightarrow$ compiler frontend
+$\Rightarrow$ Intermediate Representation (IR)
+$\Rightarrow$ compiler backend
+$\Rightarrow$ Modified IR
+$\Rightarrow$ Lowering
+$\Rightarrow$ Bytecode, JavaScript, Klib, LLVM IR</li>
+</ul>
+</li>
+</ul>
+<h4 id="notable-examples">Notable examples:</h4>
+<ul>
+<li><strong>KotlinX serialization</strong>
+<ul>
+<li>KotlinX serialization is a library for serializing and deserializing Kotlin objects.</li>
+<li>Annotating a class with <code>@Serializable</code> generates a serializer for that class under the hood.</li>
+<li>Methods <code>serialize</code> and <code>deserialize</code> are generated at compile time, and appear in the IDE</li>
+<li>Collektive uses this library and plugin to deal with serialization!</li>
+</ul>
+</li>
+<li><strong>Power assert</strong>
+<ul>
+<li>Power assert is a library for generating detailed error messages for assertions.</li>
+<li>In case of failure, show with detail what went wrong and where, printing the values of all variables involved in the assertion.</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="reducing-boilerplate-through-a-compiler-plugin-1">Reducing boilerplate through a compiler plugin</h2>
+<p>The compiler plugin automatically injects calls to the alignment and projection functions where needed,
+so that the designer can write in “normal Kotlin”, letting the magic happen in the background:</p>
+<h3 id="complete-and-transparent-alignment-via-compiler-plugin">Complete and transparent alignment via compiler plugin</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">distances</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">distances</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">alignedMapValues</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">metric</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#ce5c00;font-weight:bold">::</span><span style="color:#000">plus</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000">throughNeighbor</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h2 id="reducing-boilerplate-through-a-compiler-plugin-2">Reducing boilerplate through a compiler plugin</h2>
+<h3 id="bonus-static-analyzer-via-frontend-compiler-plugin">Bonus: static analyzer via frontend compiler plugin</h3>
+<p>We can write our compiler plugin to
+<em>statically analyze</em> the code and    provide hints. For instance, consider:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">evolve</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">it</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">minValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">base</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000">throughNeighbor</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><ul>
+<li>It is a valid but <em>inefficient</em> implementation of Bellman-Ford (can you tell why?)</li>
+<li>The compiler plugin can <em>detect the suboptimal pattern</em> and provide hints:</li>
+</ul>
+<p><img src="idea-pre-warning.png" alt=""></p>
+<p><img src="idea-warning.png" alt=""></p>
+</section><section>
+<h2 id="applying-the-compiler-plugin">Applying the compiler plugin</h2>
+<p>Kotlin is typically compiled with <a href="https://gradle.org/">Gradle</a>, a build system that supports Kotlin natively.</p>
+<p>The Collektive Kotlin compiler plugin needs to be applied to the Kotlin compilation process for aggregate code to be generated.</p>
+<p>The standard way is to build a Gradle plugin that under the hood applies the Kotlin compiler plugin.</p>
+<p>Declaring the plugin in the <code>plugins</code> block applies Collektive to the project:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">plugins</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">kotlin</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"jvm"</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// Or kotlin("multiplatform")
+</span></span></span><span style="display:flex;"><span>    <span style="color:#000">id</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive.collektive-plugin"</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">version</span> <span style="color:#4e9a06">"&lt;collektive version&gt;"</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h2 id="importing-the-dsl">Importing the DSL</h2>
+<p>Once the plugin is applied, we need to import the Collektive DSL to write aggregate code.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">dependencies</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-dsl:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>In multiplatform projects:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">kotlin</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">sourceSets</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">commonMain</span> <span style="color:#204a87;font-weight:bold">by</span> <span style="color:#000">getting</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">dependencies</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-dsl:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>You are ready! Code using Aggregate contexts will get aligned and projected automatically by the compiler plugin.</p>
+</section><section>
+<h2 id="standard-library">Standard library</h2>
+<p>The DSL module contains the bare minimum to write aggregate code.</p>
+<p>When creating richer applications, a standard library is needed to provide common operations.</p>
+<p>The standard library in collektive is built on top of the DSL module and provides:</p>
+<ul>
+<li>functions to reduce fields to values</li>
+<li>functions to combine fields with other fields or scalars</li>
+<li>functions to propagate information</li>
+<li>functions to accumulate information</li>
+<li>functions to break the network symmetry (e.g., performing leader election)</li>
+</ul>
+<p>The standard library can be imported in the same way as the DSL module:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">dependencies</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-dsl:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-stdlib:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>In multiplatform projects:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">kotlin</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">sourceSets</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">commonMain</span> <span style="color:#204a87;font-weight:bold">by</span> <span style="color:#000">getting</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">dependencies</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-dsl:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-stdlib:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h2 id="collektivize">Collektivize</h2>
+<img src="https://github.com/Collektive/collektive/raw/master/site/static/img/collektivize-logo.svg" width="300px">
+<p>Collektivize (logo is temporary) is a Gradle plugin that <em>generates “fielded” methods</em> automatically.</p>
+<p>When using aggregate programming,
+we would like to manipulate fields and other data structures as if they were “scalars”.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">x</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;*,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">TODO</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">y</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;*,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">TODO</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">alignedMapValues</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">a</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">b</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">a</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">b</span> <span style="color:#000;font-weight:bold">}</span> <span style="color:#8f5902;font-style:italic">// Verbose!
+</span></span></span><span style="display:flex;"><span><span style="color:#000">x</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">y</span> <span style="color:#8f5902;font-style:italic">// Shorter and more readable!
+</span></span></span><span style="display:flex;"><span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">mapValues</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#204a87;font-weight:bold">it</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#0000cf;font-weight:bold">3</span> <span style="color:#000;font-weight:bold">}</span> <span style="color:#8f5902;font-style:italic">// Verbose!
+</span></span></span><span style="display:flex;"><span><span style="color:#000">x</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#0000cf;font-weight:bold">3</span> <span style="color:#8f5902;font-style:italic">// Shorter and more readable!
+</span></span></span><span style="display:flex;"><span><span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">File</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">TODO</span><span style="color:#000;font-weight:bold">()).</span><span style="color:#000">readText</span><span style="color:#000;font-weight:bold">()).</span><span style="color:#000">map</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#204a87;font-weight:bold">it</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">lines</span><span style="color:#000;font-weight:bold">().</span><span style="color:#000">first</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">}</span> <span style="color:#8f5902;font-style:italic">// Verbose!
+</span></span></span><span style="display:flex;"><span><span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">File</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">TODO</span><span style="color:#000;font-weight:bold">()).</span><span style="color:#000">readText</span><span style="color:#000;font-weight:bold">()).</span><span style="color:#000">first</span><span style="color:#000;font-weight:bold">()</span>
+</span></span></code></pre></div><p>Collektivize runs through existing Kotlin code and generates the “fielded” methods automatically.
+The project is still experimental, but we currently use it to generate fielded methods for primitives.</p>
 </section>
 <!--
-
-
-
-
-
-
 
 
 ### Lecture 2 (2h) — Simulation paradigms and modeling choices
@@ -866,12 +2185,12 @@ Autoresize specifying
 
 <div style="">
 <div style="width: 100%;height: 300px; display: block;">
-    <canvas id="c2d6d4cbacefddfcbf85c845144cca8e"></canvas>
+    <canvas id="f84c484bd6cdc1d5c2bcfaa4edecf8c5"></canvas>
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.js"></script>
 <script type="text/javascript">
-    var ctx = document.getElementById('c2d6d4cbacefddfcbf85c845144cca8e').getContext('2d');
+    var ctx = document.getElementById('f84c484bd6cdc1d5c2bcfaa4edecf8c5').getContext('2d');
     var options = 
 {
     type: 'bar',
