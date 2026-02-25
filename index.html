@@ -1167,49 +1167,102 @@ the min-selection will keep pulling the value back down</li>
 </ul>
 <p>(<em>No additional SAPERE primitives are introduced here; it is mainly a richer visualization setting.</em>)</p>
 </section><section>
-<p>Part 3: Engineering self-organisation with aggregate programming</p>
+<h1 id="part-3-engineering-self-organisation-with-aggregate-programming">Part 3: Engineering self-organisation with aggregate programming</h1>
 </section><section>
-<h2 id="engineering-self-organisation">Engineering self-organisation</h2>
+<h2 id="programming-languages-and-paradigms">Programming languages and paradigms</h2>
+<p>A <strong>programming paradigm</strong> is a <em>set of abstractions</em> for thinking about computation.</p>
+<p>A <strong>programming language</strong> is a concrete <em>reification</em> of one or more paradigms:</p>
 <ul>
-<li>Self-organisation is <strong>very hard to engineer</strong></li>
-<li>The system properties are built <strong>bottom-up</strong> from <strong>local interactions</strong></li>
-<li>Even worse, even when a self-organizing system has been built and verified,
-it is extremely hard to <strong>reuse</strong> it in a different context</li>
+<li>it decides which abstractions are <strong>primitive</strong></li>
+<li>it decides what can be <strong>composed</strong></li>
+<li>it decides what is <strong>easy / hard / impossible</strong> to express</li>
 </ul>
-<h3 id="where-is-the-engineering">Where is the <em>engineering</em>?</h3>
-<p>There are properties that we cannot renounce:</p>
+<p><em>highlight</em>: good abstractions let you describe the <em>problem</em> instead of the <em>machine</em>.</p>
+<h3 id="paradigms-shift-what-you-control">Paradigms shift “what you control”</h3>
+<p>Examples of “what becomes a primitive”:</p>
 <ul>
-<li><em>Top-down design</em></li>
-<li><em>Modularity</em></li>
-<li><em>Reusability</em></li>
-<li><em>Composability</em></li>
-<li><em>Scalability</em></li>
-<li><em>Maintainability</em></li>
+<li><strong>Imperative</strong>: variables, assignment, control flow (you control <em>state updates</em>)</li>
+<li><strong>Object-oriented</strong>: objects + messages (you control <em>encapsulation / interactions</em>)</li>
+<li><strong>Functional</strong>: functions + algebraic types (you control <em>composition</em>)</li>
+<li><strong>Actor / message passing</strong>: isolated agents + asynchronous messages (you control <em>concurrency boundaries</em>)</li>
 </ul>
+<blockquote>
+<p>abstraction hides a low-level mechanism, enabling scale and reuse.</p>
+</blockquote>
 </section><section>
-<h2 id="aggregate-programming-the-idea">Aggregate programming, the idea</h2>
-<p>We have a tool that is <em>natively modular</em> and <em>natively composable</em>:</p>
-<h3 id="functional-programming-languages"><strong>functional programming languages</strong>.</h3>
-<p>What if we find a set of abstractions compatible with <em>functional programming</em>
-that allow us to build self-organising systems?</p>
-<h3 id="aggregate-programming-originally">Aggregate programming, originally:</h3>
+<h2 id="cas-needs-a-paradigm-level-tool">CAS needs a paradigm-level tool</h2>
+<p>In <strong>Collective Adaptive Systems</strong>:</p>
 <ul>
-<li>The computational machine is the entire system</li>
-<li>Data items are <em>fields</em>
+<li>computation is <strong>distributed</strong></li>
+<li>interactions are <strong>local</strong></li>
+<li>the system is <strong>open</strong> and <strong>dynamic</strong></li>
+<li>the desired behavior is <strong>global</strong></li>
+</ul>
+<p>If you program “device by device”, you repeatedly re-implement:</p>
 <ul>
-<li>A map from <em>devices</em> to <em>values</em></li>
+<li>coordination</li>
+<li>diffusion / aggregation</li>
+<li>symmetry breaking</li>
+<li>fault tolerance / adaptation</li>
 </ul>
-</li>
-<li>Basic operations:
-<ul>
-<li>evolution in time: <code>rep</code></li>
-<li>perception of the surroundings (neighboring field): <code>nbr</code></li>
-<li>distributed branching (domain segmentation): <code>if</code></li>
-</ul>
-</li>
-</ul>
+<p><em>highlight</em>: this is exactly the kind of repetition paradigms are meant to eliminate.</p>
 </section><section>
-<h1 id="a-brief-history-of-aggregate-programming-languages">A brief history of aggregate programming languages</h1>
+<h2 id="programming-by-fields">Programming by fields</h2>
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><h3 id="computational-field"><strong>Computational field</strong></h3>
+<p>A value defined over a network of devices:</p>
+<ul>
+<li>each device holds a local value</li>
+<li>together, these values form a <strong>field</strong> in space-time</li>
+</ul>
+<p>Formally (intuition):</p>
+<ul>
+<li>a field is a mapping: <strong>Device → Value</strong></li>
+</ul>
+<p><em>highlight</em>: the “computational machine” is the <strong>ensemble</strong>, not the single node.</p>
+</div>
+<div class="col "><h3 id="why-fields-fit-cas-engineering">Why fields fit CAS engineering</h3>
+<p>Field abstraction gives you, by construction:</p>
+<ul>
+<li><strong>composability</strong>: build complex behaviors by composing functions</li>
+<li><strong>modularity</strong>: encapsulate coordination patterns into reusable blocks</li>
+<li><strong>scale independence</strong>: same code works for 10 or 10,000 devices</li>
+<li><strong>robustness hooks</strong>: self-organization + self-stabilization patterns</li>
+<li><strong>platform separation</strong>: networking/sensors/actuators stay “under the hood”</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Practical effect:</p>
+<blockquote>
+<p>you write <em>what global behavior you want</em>, not <em>who talks to whom</em>.</p>
+</blockquote>
+</section><section>
+<h2 id="how-fields-connect-to-the-core-primitives">How fields connect to the core primitives</h2>
+<p>To compute on fields you need:</p>
+<ul>
+<li><strong>time evolution</strong>: keep state across rounds (<code>rep</code>)</li>
+<li><strong>neighbor observation</strong>: access neighbor values (<code>nbr</code>)</li>
+<li><strong>domain segmentation</strong>: branches that preserve alignment (<code>if</code>)</li>
+<li>plus: ordinary <strong>function application</strong> (composition)</li>
+</ul>
+<p>Next slides introduce these primitives one by one.</p>
+<h3 id="programming-by-fields-1">Programming by fields</h3>
+<p>Stub: fields as abstractions, a variation of FP</p>
+<p>Stub: Why is practical for cas</p>
+</section><section>
+<h2 id="evolve-in-time-rep-aka-repeat-aka-evolve">Evolve in time: <code>rep</code> (aka <code>repeat</code>, aka <code>evolve</code>)</h2>
+<p><img src="https://danysk.github.io/Slides-2019-OYM/img/ing-rep.pdf.png" alt=""></p>
+</section><section>
+<h2 id="observe-space-nbr-aka-neighboring">Observe space: <code>nbr</code> (aka <code>neighboring</code>)</h2>
+<p><img src="https://danysk.github.io/Slides-2019-OYM/img/ing-nbr.pdf.png" alt=""></p>
+</section><section>
+<h2 id="domain-segmentation-if-aka-branch">Domain segmentation: <code>if</code> (aka <code>branch</code>)</h2>
+<p><img src="https://danysk.github.io/Slides-2019-OYM/img/ing-if2.pdf.png" alt=""></p>
+</section><section>
+<h2 id="function-application">Function application</h2>
+<p><img src="https://danysk.github.io/Slides-2019-OYM/img/ing-mix5.pdf.png" alt=""></p>
 </section><section>
 <h2 id="mit-proto-2006">MIT Proto, 2006</h2>
 <p><img src="https://raw.githubusercontent.com/jakebeal/MIT-Proto/refs/heads/master/webproto/figures/protorunning.png" alt="MIT Proto"></p>
@@ -2185,12 +2238,12 @@ Autoresize specifying
 
 <div style="">
 <div style="width: 100%;height: 300px; display: block;">
-    <canvas id="f84c484bd6cdc1d5c2bcfaa4edecf8c5"></canvas>
+    <canvas id="f8dfc46c81ccedc2ca45f58ebc4db4ad"></canvas>
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.js"></script>
 <script type="text/javascript">
-    var ctx = document.getElementById('f84c484bd6cdc1d5c2bcfaa4edecf8c5').getContext('2d');
+    var ctx = document.getElementById('f8dfc46c81ccedc2ca45f58ebc4db4ad').getContext('2d');
     var options = 
 {
     type: 'bar',
