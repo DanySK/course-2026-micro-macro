@@ -26,7 +26,7 @@
 
     <section><h1 id="micro-macro-computational-models-theory-applications-and-emergent-properties">MICRO-MACRO COMPUTATIONAL MODELS: THEORY, APPLICATIONS AND EMERGENT PROPERTIES</h1>
 <h2 id="module-2">Module 2</h2>
-<h2 id="danilo-pianini---2026-02-25"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini</a> - 2026-02-25</h2>
+<h2 id="danilo-pianini---2026-02-26"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini</a> - 2026-02-26</h2>
 </section><section>
 <h1 id="part-1-nature-inspired-systems-and-emergence">Part 1: Nature-inspired systems and emergence</h1>
 </section>
@@ -1227,8 +1227,8 @@ the min-selection will keep pulling the value back down</li>
 <ul>
 <li><strong>composability</strong>: build complex behaviors by composing functions</li>
 <li><strong>modularity</strong>: encapsulate coordination patterns into reusable blocks</li>
-<li><strong>scale independence</strong>: same code works for 10 or 10,000 devices</li>
-<li><strong>robustness hooks</strong>: self-organization + self-stabilization patterns</li>
+<li><strong>scale independence</strong>: same code (if well designed) works for 10 or 10,000 devices</li>
+<li><strong>robustness</strong>: self-organization + self-stabilization patterns</li>
 <li><strong>platform separation</strong>: networking/sensors/actuators stay “under the hood”</li>
 </ul>
 </div>
@@ -1239,31 +1239,101 @@ the min-selection will keep pulling the value back down</li>
 <p>you write <em>what global behavior you want</em>, not <em>who talks to whom</em>.</p>
 </blockquote>
 </section><section>
-<h2 id="how-fields-connect-to-the-core-primitives">How fields connect to the core primitives</h2>
-<p>To compute on fields you need:</p>
+<h2 id="operationally-computing-in-rounds">Operationally: computing in rounds</h2>
+<p>Devices compute in <strong>asynchronous</strong> rounds.</p>
+<p>There are two main models:</p>
 <ul>
-<li><strong>time evolution</strong>: keep state across rounds (<code>rep</code>)</li>
-<li><strong>neighbor observation</strong>: access neighbor values (<code>nbr</code>)</li>
-<li><strong>domain segmentation</strong>: branches that preserve alignment (<code>if</code>)</li>
-<li>plus: ordinary <strong>function application</strong> (composition)</li>
+<li>All devices compute at a <em>similar</em> pace. Drift is possible, but not extreme. (<em>proactive</em> model)</li>
+<li>Devices compute when they receive a message or read an event. (<em>reactive</em> model, see <a href="https://doi.org/10.1109/ACSOS58161.2023.00026">This paper</a>)</li>
 </ul>
-<p>Next slides introduce these primitives one by one.</p>
-<h3 id="programming-by-fields-1">Programming by fields</h3>
-<p>Stub: fields as abstractions, a variation of FP</p>
-<p>Stub: Why is practical for cas</p>
+<p>At every round, each device:</p>
+<ul>
+<li><strong>gathers</strong> <em>messages</em> received from neighbors, reads <em>sensors</em>, and retrieves its <em>previous local state</em></li>
+<li><strong>computes</strong> its aggregate program (pure function), producing a result, a new local state, and messages to send to neighbors</li>
+<li><strong>emits</strong> the messages to its neighbors</li>
+<li>sleeps until the next round</li>
+</ul>
 </section><section>
-<h2 id="evolve-in-time-rep-aka-repeat-aka-evolve">Evolve in time: <code>rep</code> (aka <code>repeat</code>, aka <code>evolve</code>)</h2>
-<p><img src="https://danysk.github.io/Slides-2019-OYM/img/ing-rep.pdf.png" alt=""></p>
+<h2 id="function-application-on-fields">Function application on fields</h2>
+<p>If you can compute with ordinary functions locally, you can <strong>lift</strong> the same structure to fields.</p>
+<ul>
+<li>It is an <em>extension</em> to a distributed machine of the usual function application</li>
+</ul>
+<p><img src="https://danysk.github.io/Slides-2019-OYM/img/ing-mix5.pdf.png" alt=""></p>
 </section><section>
 <h2 id="observe-space-nbr-aka-neighboring">Observe space: <code>nbr</code> (aka <code>neighboring</code>)</h2>
+<p><code>nbr(e)</code> lets a device observe <strong>the most recent value</strong> of expression <code>e</code> computed by its neighbors.</p>
 <p><img src="https://danysk.github.io/Slides-2019-OYM/img/ing-nbr.pdf.png" alt=""></p>
+<h3 id="understanding-the-global-and-local-views">Understanding the global and local views</h3>
+<p>Result type (conceptually): a <strong>neighboring field</strong></p>
+<ul>
+<li>Local view: a map <em>NeighborID → Value</em>
+<ul>
+<li>it will be reduced to a single value at some point in the computation</li>
+</ul>
+</li>
+<li>Global view: a field of neighboring fields (one per device)</li>
+</ul>
 </section><section>
+<h2 id="neighboring-minimal-examples"><code>neighboring</code>, minimal examples</h2>
+<p>Shape:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Shared</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">local</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Shared</span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Shared</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#8f5902;font-style:italic">// Definition
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">someField</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myValye</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// Usage
+</span></span></span></code></pre></div><p>Neighbor minimum (building block for gradients):</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myValue</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">all</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">values</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">min</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#8f5902;font-style:italic">// get the minimum value including the local device
+</span></span></span><span style="display:flex;"><span><span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myValue</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">neighbors</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">values</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">min</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#8f5902;font-style:italic">// get the minimum value among neighbors only
+</span></span></span></code></pre></div><todo add="" more="" examples="">
+</todo></section><section>
+<h2 id="evolve-in-time-rep-aka-repeat-aka-evolve">Evolve in time: <code>rep</code> (aka <code>repeat</code>, aka <code>evolve</code>)</h2>
+<p><code>rep</code> gives each device a <strong>private state cell</strong> that persists across rounds.</p>
+<p><img src="https://danysk.github.io/Slides-2019-OYM/img/ing-rep.pdf.png" alt=""></p>
+</section><section>
+<h2 id="evolve-minimal-examples"><code>evolve</code>, minimal examples</h2>
+<p>Shape:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Stored</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">evolve</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">initial</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Stored</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">transform</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">Stored</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">Stored</span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">Stored</span> <span style="color:#8f5902;font-style:italic">// Definition
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">evolve</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">initial</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">old</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">transform</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">old</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">}</span> <span style="color:#8f5902;font-style:italic">// Usage
+</span></span></span></code></pre></div><ul>
+<li>first round: <code>old = initial</code></li>
+<li>next rounds: <code>old</code> is the previously computed value</li>
+</ul>
+<h3 id="global-and-local-view">Global and local view</h3>
+<ul>
+<li>From the <strong>global</strong> standpoint, everything is always a field, thus <code>Stored</code> is still a <em>field</em> (one value per device, evolving over time)</li>
+<li>From the <strong>local</strong> standpoint, <code>Stored</code> is a <em>scalar</em> value
+*</li>
+</ul>
+<h3 id="minimal-examples">Minimal examples</h3>
+<p>(local) Round Counter:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">evolve</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">x</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">x</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">1</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>Exponential moving average (filter sensor noise):</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">movingAverage</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">alpha</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">sense</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">Double</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">evolve</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">sense</span><span style="color:#000;font-weight:bold">())</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">avg</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">alpha</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000">sense</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">1</span> <span style="color:#000;font-weight:bold">-</span> <span style="color:#000">alpha</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#000">avg</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
 <h2 id="domain-segmentation-if-aka-branch">Domain segmentation: <code>if</code> (aka <code>branch</code>)</h2>
 <p><img src="https://danysk.github.io/Slides-2019-OYM/img/ing-if2.pdf.png" alt=""></p>
 </section><section>
-<h2 id="function-application">Function application</h2>
-<p><img src="https://danysk.github.io/Slides-2019-OYM/img/ing-mix5.pdf.png" alt=""></p>
+<h2 id="if-domain-segmentation-intuition"><code>if</code>: domain segmentation (intuition)</h2>
+<p>In aggregate programming, <code>if</code> is not just local branching.
+It creates <strong>sub-networks</strong>:</p>
+<ul>
+<li>devices taking the same branch remain <strong>aligned</strong></li>
+<li>devices in different branches become <strong>disaligned</strong></li>
+<li>values computed <em>inside a branch</em> are only meaningful within that branch’s domain</li>
+</ul>
+<p><em>highlight</em>: branching controls <strong>who can communicate about what</strong>.</p>
+<p>&lt;TODO add example in Collektive and explain that it also applies for <code>when</code>&gt;</p>
+<p>&lt;TODO explain field projection: a field declared out of an if block gets projected into the branches, so domains are always same-sized (even though in the most recent exchange semantics, they can be misaligned)&gt;</p>
 </section><section>
+<h2 id="if-why-it-matters-example"><code>if</code>: why it matters (example)</h2>
+<p>Gradient sketch:</p>
+<todo gradient="" in="" collektive="">
+<ul>
+<li><code>if (source)</code> splits the system into <strong>source devices</strong> and <strong>non-source devices</strong></li>
+<li>only non-source devices run the neighbor-min update</li>
+<li>the semantics guarantees consistent alignment of the <code>nbr(d)</code> exchanges</li>
+</ul>
+</todo></section><section>
 <h2 id="mit-proto-2006">MIT Proto, 2006</h2>
 <p><img src="https://raw.githubusercontent.com/jakebeal/MIT-Proto/refs/heads/master/webproto/figures/protorunning.png" alt="MIT Proto"></p>
 <p>The precursor of aggregate programming,
@@ -2238,12 +2308,12 @@ Autoresize specifying
 
 <div style="">
 <div style="width: 100%;height: 300px; display: block;">
-    <canvas id="cc8d8cecec1cd58bc4f445d6da2fa4bf"></canvas>
+    <canvas id="cfc5a2c5e4bcae468d4bcf48dd8f1cdc"></canvas>
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.js"></script>
 <script type="text/javascript">
-    var ctx = document.getElementById('cc8d8cecec1cd58bc4f445d6da2fa4bf').getContext('2d');
+    var ctx = document.getElementById('cfc5a2c5e4bcae468d4bcf48dd8f1cdc').getContext('2d');
     var options = 
 {
     type: 'bar',
