@@ -1390,8 +1390,8 @@ Formally (intuition):
 Field abstraction gives you, by construction:
 - **composability**: build complex behaviors by composing functions
 - **modularity**: encapsulate coordination patterns into reusable blocks
-- **scale independence**: same code works for 10 or 10,000 devices
-- **robustness hooks**: self-organization + self-stabilization patterns
+- **scale independence**: same code (if well designed) works for 10 or 10,000 devices
+- **robustness**: self-organization + self-stabilization patterns
 - **platform separation**: networking/sensors/actuators stay “under the hood”
 
 {{% /col %}}
@@ -1402,33 +1402,104 @@ Practical effect:
 
 ---
 
-## How fields connect to the core primitives
+## Operationally: computing in rounds
 
-To compute on fields you need:
-- **time evolution**: keep state across rounds (`rep`)
-- **neighbor observation**: access neighbor values (`nbr`)
-- **domain segmentation**: branches that preserve alignment (`if`)
-- plus: ordinary **function application** (composition)
+Devices compute in **asynchronous** rounds.
 
-Next slides introduce these primitives one by one.
+There are two main models:
+* All devices compute at a *similar* pace. Drift is possible, but not extreme. (*proactive* model)
+* Devices compute when they receive a message or read an event. (*reactive* model, see [This paper](https://doi.org/10.1109/ACSOS58161.2023.00026))
 
-### Programming by fields
-
-Stub: fields as abstractions, a variation of FP
-
-Stub: Why is practical for cas
+At every round, each device:
+- **gathers** *messages* received from neighbors, reads *sensors*, and retrieves its *previous local state*
+- **computes** its aggregate program (pure function), producing a result, a new local state, and messages to send to neighbors
+- **emits** the messages to its neighbors
+- sleeps until the next round
 
 ---
 
-## Evolve in time: `rep` (aka `repeat`, aka `evolve`)
+## Function application on fields
 
-![](https://danysk.github.io/Slides-2019-OYM/img/ing-rep.pdf.png)
+If you can compute with ordinary functions locally, you can **lift** the same structure to fields.
+* It is an *extension* to a distributed machine of the usual function application
+
+![](https://danysk.github.io/Slides-2019-OYM/img/ing-mix5.pdf.png)
 
 ---
 
 ## Observe space: `nbr` (aka `neighboring`)
 
+`nbr(e)` lets a device observe **the most recent value** of expression `e` computed by its neighbors.
+
 ![](https://danysk.github.io/Slides-2019-OYM/img/ing-nbr.pdf.png)
+
+### Understanding the global and local views
+
+Result type (conceptually): a **neighboring field**
+* Local view: a map *NeighborID → Value*
+    * it will be reduced to a single value at some point in the computation
+* Global view: a field of neighboring fields (one per device)
+
+---
+
+## `neighboring`, minimal examples
+
+Shape:
+```kotlin
+fun <ID : Any, Shared> Aggregate<ID>.neighboring(local: Shared): Field<ID, Shared> // Definition
+
+val someField = neighboring(myValye) // Usage
+```
+
+Neighbor minimum (building block for gradients):
+
+```kotlin
+neighboring(myValue).all.values.min() // get the minimum value including the local device
+neighboring(myValue).neighbors.values.min() // get the minimum value among neighbors only
+```
+
+<TODO add more examples>
+
+---
+
+## Evolve in time: `rep` (aka `repeat`, aka `evolve`)
+
+`rep` gives each device a **private state cell** that persists across rounds.
+
+![](https://danysk.github.io/Slides-2019-OYM/img/ing-rep.pdf.png)
+
+---
+
+## `evolve`, minimal examples
+
+Shape:
+```kotlin
+fun <Stored> evolve(initial: Stored, transform: (Stored) -> Stored): Stored // Definition
+
+evolve(initial) { old -> transform(old) } // Usage
+```
+
+* first round: `old = initial`
+* next rounds: `old` is the previously computed value
+
+### Global and local view
+* From the **global** standpoint, everything is always a field, thus `Stored` is still a *field* (one value per device, evolving over time)
+* From the **local** standpoint, `Stored` is a *scalar* value
+   * 
+
+### Minimal examples
+
+(local) Round Counter:
+
+```kotlin
+evolve(0) { x -> x + 1 }
+```
+
+Exponential moving average (filter sensor noise):
+
+```kotlin
+fun movingAverage(alpha: Double, sense: () -> Double): Double = evolve(sense()) { avg -> alpha * sense() + (1 - alpha) * avg }
+```
 
 ---
 
@@ -1438,9 +1509,32 @@ Stub: Why is practical for cas
 
 ---
 
-## Function application
+## `if`: domain segmentation (intuition)
 
-![](https://danysk.github.io/Slides-2019-OYM/img/ing-mix5.pdf.png)
+In aggregate programming, `if` is not just local branching.
+It creates **sub-networks**:
+
+* devices taking the same branch remain **aligned**
+* devices in different branches become **disaligned**
+* values computed *inside a branch* are only meaningful within that branch’s domain
+
+*highlight*: branching controls **who can communicate about what**.
+
+<TODO add example in Collektive and explain that it also applies for `when`>
+
+<TODO explain field projection: a field declared out of an if block gets projected into the branches, so domains are always same-sized (even though in the most recent exchange semantics, they can be misaligned)>
+
+---
+
+## `if`: why it matters (example)
+
+Gradient sketch:
+
+<TODO Gradient in Collektive>
+
+* `if (source)` splits the system into **source devices** and **non-source devices**
+* only non-source devices run the neighbor-min update
+* the semantics guarantees consistent alignment of the `nbr(d)` exchanges
 
 ---
 
