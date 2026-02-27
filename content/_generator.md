@@ -1437,6 +1437,7 @@ If you can compute with ordinary functions locally, you can **lift** the same st
 
 Result type (conceptually): a **neighboring field**
 * Local view: a map *NeighborID → Value*
+    * the local device is *always* included in the field
     * it will be reduced to a single value at some point in the computation
 * Global view: a field of neighboring fields (one per device)
 
@@ -1444,21 +1445,35 @@ Result type (conceptually): a **neighboring field**
 
 ## `neighboring`, minimal examples
 
-Shape:
+**Shape:**
 ```kotlin
-fun <ID : Any, Shared> Aggregate<ID>.neighboring(local: Shared): Field<ID, Shared> // Definition
+fun <ID : Any, Shared> Aggregate<ID>.neighboring(local: Shared): Field<ID, Shared> // Definition, returns a neighboring field
 
 val someField = neighboring(myValye) // Usage
 ```
 
-Neighbor minimum (building block for gradients):
+### Reducing (collapsing) neighboring fields
+
+* Neighboring fields can be manipulated functionally, producing new neighboring fields,
+modelling *computations that happen in the local neighborhood*.
+* At some point in the computation, the field must be reduced (or *folded*, or *collapsed*) to a **scalar** (local)
+value.
+* Field collapses may or may not include the local device
+
+### Canonical examples
+
+**Neighbor minimum:** (assuming myValue is numeric)
 
 ```kotlin
 neighboring(myValue).all.values.min() // get the minimum value including the local device
 neighboring(myValue).neighbors.values.min() // get the minimum value among neighbors only
 ```
 
-<TODO add more examples>
+**Closest Device:** (assuming `position()` returns the device position and `distance` computes distance between positions)
+
+```kotlin
+neighboring(myPosition).neighbors.idOfMinBy { (_, pos) -> distance(pos, myPosition) } // null if there are no neighbors
+```
 
 ---
 
@@ -1484,8 +1499,10 @@ evolve(initial) { old -> transform(old) } // Usage
 
 ### Global and local view
 * From the **global** standpoint, everything is always a field, thus `Stored` is still a *field* (one value per device, evolving over time)
-* From the **local** standpoint, `Stored` is a *scalar* value
-   * 
+* From the **local** standpoint, `Stored` is a *scalar* value:
+  * it is **private local memory**, updated once per round
+  * it is **not shared**
+  * it **cannot** be a neighboring field (some of the aggregate computing semantics prohibit this)
 
 ### Minimal examples
 
@@ -1520,21 +1537,87 @@ It creates **sub-networks**:
 
 *highlight*: branching controls **who can communicate about what**.
 
-<TODO add example in Collektive and explain that it also applies for `when`>
+### If and other branching constructs
+Domain segmentation applies in principle to **all branching constructs** used in aggregate code,
+which may vary across languages: `if`, `when`, `branch`, `switch`, ...
+* But also short-circuiting operators like `&&` and `||`!
 
-<TODO explain field projection: a field declared out of an if block gets projected into the branches, so domains are always same-sized (even though in the most recent exchange semantics, they can be misaligned)>
+---
+
+## Field projection (what happens to a `Field` across branches)
+
+A `Field` created **outside** a branch is **projected** when used **inside** a branch:
+- inside a branch you can only “see” neighbors that are **aligned** with that branch
+- the projection happens automatically (no manual filtering)
+
+Practical consequence:
+- `someField.neighbors.size` can **change** depending on the current branch
+
+Minimal sketch:
+```kotlin
+val outerField = neighboring(localId.toDouble()) //  assume it is φ{ 0→0.0; 1→1.0, 2→2.0, 3→3.0 }
+if (localId % 2 == 0) {
+  neighboring(1) + outerField            // the result is φ{ 0→0.0; 2→2.0 }
+  outerField.neighbors.values.min()      // 2.0
+} else { // device 0 does not execute this branch
+  // ...
+}
+```
 
 ---
 
 ## `if`: why it matters (example)
 
-Gradient sketch:
+### Hop distance from the closest device where some condition is `true`:
 
-<TODO Gradient in Collektive>
+#### Working version
+
+```kotlin
+fun Aggregate<Int>.hopDistanceTo(source: Boolean): Double = evolve(Double.POSITIVE_INFINITY) { distance ->
+  val throughNeighbor = neighboring(distance + 1.0).neighbors.values.min()
+  if (source) 0.0 else throughNeighbor
+}
+```
+
+#### Non-working version
+
+```kotlin
+fun Aggregate<Int>.hopDistanceTo(source: Boolean): Double = evolve(Double.POSITIVE_INFINITY) { distance ->
+  if (source) 0.0 else neighboring(distance + 1.0).neighbors.values.min()
+}
+```
 
 * `if (source)` splits the system into **source devices** and **non-source devices**
-* only non-source devices run the neighbor-min update
-* the semantics guarantees consistent alignment of the `nbr(d)` exchanges
+* non-source devices never see the sources!
+* the underlying mechanism is called **alignment**: devices are *aligned* if they execute the same code and can communicate
+
+---
+
+## Alignment, in short
+
+![](https://danysk.github.io/slides-2025-unito-progmob-collektive/align.svg)
+
+structurally-equal programs *can communicate*
+
+---
+
+## Alignment, in short
+
+![](https://danysk.github.io/slides-2025-unito-progmob-collektive/dealign.svg)
+
+branching must break alignment
+
+---
+
+## Stateful interaction: `share`
+
+TODO: explain that the `evolve`/`neighboring` pattern always costs two rounds to stabilize,
+as nodes share the **stored** value, instead of the one computed after field reduction.
+
+
+---
+
+# A brief history of aggregate programming languages
 
 ---
 
@@ -1687,22 +1770,6 @@ but they also have some critical issues:
 * Their *syntax is restricted* to valid fragments in the host language
 * Language-level mechanisms, such as **alignment**, may "boil" up to the surface, making the language unpleasant
   * and *violating information hiding*
-
----
-
-## Alignment, in short
-
-![](align.svg)
-
-structurally-equal programs *can communicate*
-
----
-
-## Alignment, in short
-
-![](dealign.svg)
-
-branching must break alignment
 
 ---
 
@@ -2139,418 +2206,11 @@ kotlin {
     }
 }
 ```
----
-
-## Collektivize
-
-<img src="https://github.com/Collektive/collektive/raw/master/site/static/img/collektivize-logo.svg" width="300px">
-
-Collektivize (logo is temporary) is a Gradle plugin that *generates "fielded" methods* automatically.
-
-When using aggregate programming,
-we would like to manipulate fields and other data structures as if they were "scalars".
-
-```kotlin
-val x: Field<*, Double> = TODO()
-val y: Field<*, Double> = TODO()
-x.alignedMapValues(y) { a, b -> a + b } // Verbose!
-x + y // Shorter and more readable!
-x.mapValues { it * 3 } // Verbose!
-x * 3 // Shorter and more readable!
-neighboring(File(TODO()).readText()).map { it.lines().first() } // Verbose!
-neighboring(File(TODO()).readText()).first()
-```
-
-Collektivize runs through existing Kotlin code and generates the "fielded" methods automatically.
-The project is still experimental, but we currently use it to generate fielded methods for primitives.
 
 ---
 
-
-
-
-
-<!--
-
-
-### Lecture 2 (2h) — Simulation paradigms and modeling choices
-
-**Time budget (120’)**
-
-* 15’ Why simulation for CAS: testing hypotheses, safety, scalability
-* 30’ Simulation semantics: discrete vs continuous time; time-driven vs event-driven; synchronous vs asynchronous; stochasticity/reproducibility
-* 20’ Monte Carlo framing: simulation as one run inside an exploration/estimation pipeline (parameter sweeps, uncertainty, confidence)
-* 25’ Alchemist positioning: why it as reference simulator; conceptual model (nodes, environment, reactions, time)
-* 25’ Deploying devices + configuring connections: neighborhoods, network models, dynamics
-* 25’ Environments: obstacles/maps; loading spatial data; effects on connectivity and behavior
-* 15’ Wrap-up: typical modeling pitfalls + what will be built next (hook to Lecture 3)
-
----
-
-## Engineering self-organisation
-
-* Self-organisation is **very hard to engineer**
-* The system properties are built **bottom-up** from **local interactions**
-* Even worse, even when a self-organizing system has been built and verified,
-  it is extremely hard to **reuse** it in a different context
-
-### Where is the *engineering*?
-
-There are properties that we cannot renounce:
-* *Top-down design*
-* *Modularity*
-* *Reusability*
-* *Composability*
-* *Scalability*
-* *Maintainability*
-
----
-
-### Lecture 3 (2h) — Bottom-up emergence and its limitations
-
-**Time budget (120’)**
-
-* 10’ Goal and framing: bottom-up emergence as an engineering technique; where it breaks
-* 20’ Coordination as a first-class tool: interaction through shared abstractions vs direct messaging
-* 20’ Tuple spaces / computing in the medium: intuition + compositionality via multiple spaces/centers
-* 25’ Worked example: distributed dodgeball (or equivalent) as a bottom-up emergent system
-* 20’ Distributed information spreading: gradient as a recurring “macro pattern”
-* 15’ Slow-rising problem (Beal): why it happens; bottom-up fixes/patches
-* 10’ Limits: reusability/modularity issues; transition motivation to aggregate computing (hook to Lecture 4)
-
----
-
-### Lecture 4 (2h) — Engineering emergence with aggregate computing
-
-**Time budget (120’)**
-
-* 10’ Motivation: higher abstraction, modular reuse of collective behavior; contrast with Lecture 3 limits
-* 15’ Core idea: fields over space/time; language-based approach to collective behavior
-* 15’ Core constructs: neighboring, evolution, domain segmentation (what each enables)
-* 10’ Core semantics: exchange vs share (why this matters for reasoning and composition)
-* 10’ Short history: aggregate programming languages (positioning, not a survey)
-* 25’ Collektive model + building blocks: gradient, collection, leader election (concept + how you use them)
-* 20’ Patterns: gradient, channel, network centre, bull’s eye (guided mini-designs / mapping to blocks)
-* 15’ Advanced examples: VMC, Kiel channel, robot coordination; synthesis and closure
-
-
----
-
-# Headers
-
-# H1
-## H2
-### H3
-#### H4
-
----
-
-# Text
-
-normal text
-
-`inline code`
-
-*italic*
-
-**bold**
-
-**_emphasized_**
-
-*__emphasized alternative__*
-
-~~strikethrough~~
-
-[link](http://www.google.com)
-
----
-
-# Lists and enums
-
-1. First ordered list item
-1. Another item
-    * Unordered sub-list.
-    * with two items
-        * another sublist
-            1. With a sub-enum
-            1. yay!
-1. Actual numbers don't matter, just that it's a number
-  1. Ordered sub-list
-1. And another item.
-
----
-
-# Inline images
-
-![Alternative text](https://upload.wikimedia.org/wikipedia/commons/6/6c/Scavolino_innevata.jpg)
-
----
-
-## Fallback to shortcodes for resizing
-
-Autoresize specifying
-
-* `max-w` (percent of parent element width) and/or `max-h` (percent of viewport height) as max sizes , and
-* `width` and/or `height` as *exact* sizes (as percent of viewport size)
-
-{{< figure src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Scavolino_innevata.jpg" height="20">}}
-
----
-
-## Multi-column slide
-
-{{% multicol %}}{{% col %}}
-Column 1
-{{% /col %}}{{% col %}}
-Column 2
-{{% /col %}}{{% /multicol %}}
-
-{{% multicol %}}
-{{% col class="col-8" %}}
-Larger columns using bootstrap
-{{% /col %}}
-{{% col %}}
-[Link to bootstrap grid system](https://getbootstrap.com/docs/4.0/layout/grid/)
-{{% /col %}}
-{{% /multicol %}}
-
-
----
-
-## Tick and Cross
-
-* {{% tick %}} This is something good
-* {{% cross %}} This is something bad
-
----
-
-## Chart.js
-
-{{< chart >}}
-{
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: 'Bar Chart',
-            data: [12, 19, 18, 16, 13, 14],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        maintainAspectRatio: false,
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-}
-{{< /chart >}}
-
----
-
-## FontAwesome
-
-<i class="fa-solid fa-mug-hot"></i>
-<i class="fa-solid fa-lemon"></i>
-<i class="fa-solid fa-flask"></i>
-<i class="fa-solid fa-apple-whole"></i>
-<i class="fa-solid fa-bacon"></i>
-<i class="fa-solid fa-beer-mug-empty"></i>
-<i class="fa-solid fa-pepper-hot"></i>
-
----
-
-## Bootstrap 1
-
-<div class="card w-100" >
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/View_of_Cesena_from_the_Abbey.jpg/1920px-View_of_Cesena_from_the_Abbey.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-
----
-
-## Bootstrap 2
-
-<button type="button" class="btn btn-primary">Primary</button>
-<button type="button" class="btn btn-secondary">Secondary</button>
-<button type="button" class="btn btn-success">Success</button>
-<button type="button" class="btn btn-danger">Danger</button>
-<button type="button" class="btn btn-warning">Warning</button>
-<button type="button" class="btn btn-info">Info</button>
-<button type="button" class="btn btn-light">Light</button>
-<button type="button" class="btn btn-dark">Dark</button>
-
-<button type="button" class="btn btn-link">Link</button>
-
----
-
-## Low res, plain markdown
-
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Scavolino_innevata.jpg/260px-Scavolino_innevata.jpg)
-
----
-
-## Hi res, plain markdown
-
-![](https://upload.wikimedia.org/wikipedia/commons/6/6c/Scavolino_innevata.jpg)
-
----
-
-{{< slide background-image="https://upload.wikimedia.org/wikipedia/commons/6/6c/Scavolino_innevata.jpg" >}}
-
-# Large images as background
-## (May affect printing)
-
----
-
-
-{{< slide background-video="https://github.com/DanySK/slides-2024-acsos-imageonomics/raw/master/content/nonnadir.mkv" background-video-loop="true" background-video-muted="true" background-opacity="0.95">}}
-
-# Video background
-
----
-
-# $$\LaTeX{}$$
-
-
-Inline equations like $E=mc^2$
-
-$$\frac{n!}{k!(n-k)!} = \binom{n}{k}$$
-
----
-
-# Code snippets
-
-
-```kotlin
-val x = pippo
-```
-
-```go
-package main
-
-import "fmt"
-
-func main() {
-    fmt.Println("Hello world!")
-}
-```
-
----
-
-# Tables
-
-Colons can be used to align columns.
-
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
-There must be at least 3 dashes separating each header cell.
-The outer pipes (|) are optional, and you don't need to make the
-raw Markdown line up prettily. You can also use inline Markdown.
-
----
-
-# Quotes
-
-> Multiple
-> lines
-> of
-> a
-> single
-> quote
-> get
-> joined
-
-> Very long one liners of Markdown text automatically get broken into a multiline quotation, which is then rendered in the slides.
-
----
-
-# Fragments
-
-* {{< frag c="pluto" >}}
-* {{< frag c="pluto" >}}
-* {{< frag c="pluto" >}}
-
----
-
-# Stacking images with Fragments
-{{% multicol %}}
-{{% col %}}
-<p class="fragment" data-fragment-index="0">Pippo</p>
-<p class="fragment" data-fragment-index="1">Pluto</p>
-<p class="fragment" data-fragment-index="2">Paperino</p>
-{{%/ col %}}
-
-{{% col %}}
-<div class="r-stack">
-  <img
-    class="fragment current-visible"
-    data-fragment-index="0"
-    src="https://www.topolino.it/wp-content/uploads/2019/12/pippointera.png"
-    width="450"
-    height="300"
-  />
-  <img
-    class="fragment current-visible"
-    data-fragment-index="1"
-    src="https://www.topolino.it/wp-content/uploads/2019/12/plutointera.png"
-    width="300"
-    height="450"
-  />
-  <img
-    class="fragment current-visible"
-    data-fragment-index="2"
-    src="https://it.wikifur.com/w/images/thumb/6/6f/Donald_Duck.png/362px-Donald_Duck.png"
-    width="400"
-    height="400"
-  />
-</div>
-{{%/ col %}}
-
-{{%/ multicol %}}
-
-
----
-
-# Keystrokes
-
-<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Del</kbd>
-
----
-
-# QR code
-
-{{% qrcode data="https://www.google.com" %}}
-
----
-
--->
-
+## Play with Collektive!
+
+* Use the Collektive exercise repository at: https://github.com/DanySK/collektive-exercises
+  * Exercises in the `master` branch
+  * Solutions in the `solutions` branch
