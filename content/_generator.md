@@ -2114,12 +2114,10 @@ fun <ID : Any> Aggregate<ID>.distanceTo(source: Boolean, metric: Field<ID, Doubl
     }
 ```
 
-* It is a valid but *inefficient* implementation of Bellman-Ford (can you tell why?)
-* The compiler plugin can *detect the suboptimal pattern* and provide hints:
+* It is a valid but *inefficient* implementation of Bellman-Ford (can you tell why?), the compiler plugin can *provide hints*:
 
-![](idea-pre-warning.png)
-
-![](idea-warning.png)
+![](https://danysk.github.io/slides-2025-unito-progmob-collektive/idea-pre-warning.png)
+![](https://danysk.github.io/slides-2025-unito-progmob-collektive/idea-warning.png)
 
 ---
 
