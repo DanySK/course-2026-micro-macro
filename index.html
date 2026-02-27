@@ -2114,11 +2114,10 @@ so that the designer can write in “normal Kotlin”, letting the magic happen 
 </span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000">throughNeighbor</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
 </span></span></code></pre></div><ul>
-<li>It is a valid but <em>inefficient</em> implementation of Bellman-Ford (can you tell why?)</li>
-<li>The compiler plugin can <em>detect the suboptimal pattern</em> and provide hints:</li>
+<li>It is a valid but <em>inefficient</em> implementation of Bellman-Ford (can you tell why?), the compiler plugin can <em>provide hints</em>:</li>
 </ul>
-<p><img src="idea-pre-warning.png" alt=""></p>
-<p><img src="idea-warning.png" alt=""></p>
+<p><img src="https://danysk.github.io/slides-2025-unito-progmob-collektive/idea-pre-warning.png" alt="">
+<img src="https://danysk.github.io/slides-2025-unito-progmob-collektive/idea-warning.png" alt=""></p>
 </section><section>
 <h2 id="applying-the-compiler-plugin">Applying the compiler plugin</h2>
 <p>Kotlin is typically compiled with <a href="https://gradle.org/">Gradle</a>, a build system that supports Kotlin natively.</p>
