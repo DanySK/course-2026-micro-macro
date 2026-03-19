@@ -26,7 +26,7 @@
 
     <section><h1 id="micro-macro-computational-models-theory-applications-and-emergent-properties">MICRO-MACRO COMPUTATIONAL MODELS: THEORY, APPLICATIONS AND EMERGENT PROPERTIES</h1>
 <h2 id="module-2">Module 2</h2>
-<h2 id="danilo-pianini---2026-03-18"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini</a> - 2026-03-18</h2>
+<h2 id="danilo-pianini---2026-03-19"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini</a> - 2026-03-19</h2>
 </section><section>
 <h1 id="part-1-nature-inspired-systems-and-emergence">Part 1: Nature-inspired systems and emergence</h1>
 </section>
@@ -1390,9 +1390,37 @@ which may vary across languages: <code>if</code>, <code>when</code>, <code>branc
 <p>branching must break alignment</p>
 </section><section>
 <h2 id="stateful-interaction-share">Stateful interaction: <code>share</code></h2>
-<p>TODO: explain that the <code>evolve</code>/<code>neighboring</code> pattern always costs two rounds to stabilize,
-as nodes share the <strong>stored</strong> value, instead of the one computed after field reduction.</p>
-</section><section>
+<p>The <code>evolve</code>/<code>neighboring</code> pattern has a subtle inefficiency:</p>
+<ul>
+<li>inside the body, <code>neighboring(stored)</code> shares the <strong>stored</strong> value (the old state from last round)</li>
+<li>the value computed by the body is stored for <strong>next</strong> round, but shared with neighbors one round later</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Round T:   source becomes active; stored=INFINITY → neighboring sends INFINITY; body returns 0.0; stores 0.0
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Round T+1: stored=0.0 → neighboring sends 0.0 → neighbors receive 0.0 and compute 1.0
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Two rounds are consumed: one to compute, one to broadcast the stored result
+</span></span></span><span style="display:flex;"><span><span style="color:#000">evolve</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">stored</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stored</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">minValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">1.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000">throughNeighbor</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h2 id="share-combined-evolution-and-interaction"><code>share</code>: combined evolution and interaction</h2>
+<p><code>share</code> solves the issue by <strong>sharing the body’s return value</strong> directly, not the stored value:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Stored</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">initial</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Stored</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">body</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Stored</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">Stored</span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">Stored</span> <span style="color:#8f5902;font-style:italic">// Definition
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">initial</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">received</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">transform</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">received</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">}</span> <span style="color:#8f5902;font-style:italic">// Usage
+</span></span></span></code></pre></div><ul>
+<li>first round: <code>received</code> is a field where every device contributes <code>initial</code></li>
+<li>next rounds: <code>received</code> is a field of each device’s <strong>body return value</strong> from the previous round</li>
+<li>the return value is both <strong>stored</strong> and <strong>sent</strong> to neighbors — there is no phase lag</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Round T:   source becomes active; body returns 0.0 and immediately sends 0.0 to neighbors
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Round T+1: neighbors receive 0.0 and compute min(0.0, …) + 1.0 = 1.0
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// One round is enough: compute and broadcast happen in the same step
+</span></span></span><span style="display:flex;"><span><span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">received</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">received</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">minValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">1.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000">throughNeighbor</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
 <h1 id="a-brief-history-of-aggregate-programming-languages">A brief history of aggregate programming languages</h1>
 </section><section>
 <h2 id="mit-proto-2006">MIT Proto, 2006</h2>
