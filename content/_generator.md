@@ -1611,9 +1611,45 @@ branching must break alignment
 
 ## Stateful interaction: `share`
 
-TODO: explain that the `evolve`/`neighboring` pattern always costs two rounds to stabilize,
-as nodes share the **stored** value, instead of the one computed after field reduction.
+The `evolve`/`neighboring` pattern has a subtle inefficiency:
+* inside the body, `neighboring(stored)` shares the **stored** value (the old state from last round)
+* the value computed by the body is stored for **next** round, but shared with neighbors one round later
 
+```kotlin
+// Round T:   source becomes active; stored=INFINITY → neighboring sends INFINITY; body returns 0.0; stores 0.0
+// Round T+1: stored=0.0 → neighboring sends 0.0 → neighbors receive 0.0 and compute 1.0
+// Two rounds are consumed: one to compute, one to broadcast the stored result
+evolve(Double.POSITIVE_INFINITY) { stored ->
+    val throughNeighbor = neighboring(stored).minValue(Double.POSITIVE_INFINITY) + 1.0
+    if (source) 0.0 else throughNeighbor
+}
+```
+
+---
+
+## `share`: combined evolution and interaction
+
+`share` solves the issue by **sharing the body's return value** directly, not the stored value:
+
+```kotlin
+fun <Stored> share(initial: Stored, body: (Field<ID, Stored>) -> Stored): Stored // Definition
+
+share(initial) { received -> transform(received) } // Usage
+```
+
+* first round: `received` is a field where every device contributes `initial`
+* next rounds: `received` is a field of each device's **body return value** from the previous round
+* the return value is both **stored** and **sent** to neighbors — there is no phase lag
+
+```kotlin
+// Round T:   source becomes active; body returns 0.0 and immediately sends 0.0 to neighbors
+// Round T+1: neighbors receive 0.0 and compute min(0.0, …) + 1.0 = 1.0
+// One round is enough: compute and broadcast happen in the same step
+share(Double.POSITIVE_INFINITY) { received ->
+    val throughNeighbor = received.minValue(Double.POSITIVE_INFINITY) + 1.0
+    if (source) 0.0 else throughNeighbor
+}
+```
 
 ---
 
